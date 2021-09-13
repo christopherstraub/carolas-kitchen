@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-hello-world",
+  "name": "food-blog",
   "private": true,
-  "description": "A simplified bare-bones starter for Gatsby",
+  "description": "Food blog",
   "version": "0.1.0",
-  "license": "0BSD",
+  "author": "Christopher Straub (https://christopherstraub.me/)",
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
@@ -19,13 +19,21 @@
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "eslint-webpack-plugin": "^3.0.1",
+    "gatsby-plugin-eslint": "^4.0.0",
     "prettier": "2.3.2"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-hello-world"
+    "url": "https://github.com/christopherstraub/food-blog.git"
   },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/christopherstraub/food-blog/issues"
   }
 }
