@@ -12,6 +12,7 @@ const gatsbyRequiredRules = path.join(
 module.exports = {
   plugins: [
     'gatsby-plugin-sass',
+    'gatsby-plugin-netlify-cms',
     {
       resolve: 'gatsby-plugin-eslint',
       options: {
