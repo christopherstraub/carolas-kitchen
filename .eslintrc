@@ -1,6 +1,8 @@
 {
   "extends": "airbnb",
   "rules": {
+    "react/prop-types": "off",
+    "react/no-danger": "off",
     "no-anonymous-exports-page-templates": "warn",
     "limited-exports-page-templates": "warn"
   },
