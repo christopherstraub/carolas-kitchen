@@ -1,5 +1,5 @@
 {
-  "name": "food-blog",
+  "name": "carolas-kitchen",
   "private": true,
   "description": "Food blog",
   "version": "0.1.0",
@@ -34,9 +34,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/christopherstraub/food-blog.git"
+    "url": "https://github.com/christopherstraub/carolas-kitchen.git"
   },
   "bugs": {
-    "url": "https://github.com/christopherstraub/food-blog/issues"
+    "url": "https://github.com/christopherstraub/carolas-kitchen/issues"
   }
 }
