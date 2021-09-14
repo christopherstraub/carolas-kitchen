@@ -12,6 +12,14 @@ const gatsbyRequiredRules = path.join(
 module.exports = {
   plugins: [
     'gatsby-plugin-sass',
+    'gatsby-transformer-remark',
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'posts',
+        path: `${__dirname}/content/posts`,
+      },
+    },
     {
       resolve: 'gatsby-plugin-eslint',
       options: {
