@@ -1,1 +1,1 @@
-import './src/styles/normalize.css';
+import './src/sass/main.scss';
