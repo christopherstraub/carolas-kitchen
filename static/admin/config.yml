@@ -1,5 +1,6 @@
 backend:
-  name: test-repo
+  name: git-gateway
+  branch: netlify
 
 media_folder: static/uploads
 
@@ -12,37 +13,35 @@ publish_mode: editorial_workflow
 
 locale: es
 i18n:
-  structure: multiple_folders
+  structure: multiple_files
   locales: [es, en]
 
 collections:
   - name: recipes
     label: Recetas
     label_singular: Receta
-    folder: recipes
+    folder: content/blog/recipes
     create: true
     i18n: true
     fields:
+      - name: date
+        label: Fecha
+        widget: datetime
+        hint: La fecha de publicación de la receta.
+        i18n: duplicate
       - name: image
         label: Imagen
         widget: image
         choose_url: false
         hint: La imagen principal de la receta.
         i18n: duplicate
-      - name: date
-        label: Fecha
-        widget: datetime
-        hint: La fecha de publicación de la receta.
-        i18n: duplicate
       - name: title
         label: Título
         i18n: true
       - name: servings
         label: Porciones
-        widget: number
-        value_type: int
-        step: 2
-        i18n: duplicate
+        widget: string
+        i18n: true
       - name: ingredients
         label: Ingredientes
         label_singular: Ingrediente
@@ -63,7 +62,7 @@ collections:
         hint: >
           Aquí van los ingredientes de la receta que usted quiere que sean
           buscables, separados por una coma ','. Por ejemplo, podría poner
-          'albahaca, espinaca, aceitunas, cúrcuma', omitiendo 'sal'.
+          'albahaca,espinaca,aceitunas,cúrcuma', omitiendo 'sal'.
         i18n: true
       - name: directions
         label: Pasos
@@ -85,18 +84,19 @@ collections:
         required: false
         i18n: duplicate
       - name: course
-        label: Curso
+        label: Tiempo
         widget: select
         options:
-          - { label: Aperativos, value: appetizers }
-          - { label: Sopas, value: soups }
+          - { label: Entradas, value: entrees }
           - { label: Ensaladas, value: salads }
-          - { label: Salsas, value: sauces }
-          - { label: Postres, value: desserts }
+          - { label: Aperativos, value: appetizers }
           - { label: Sándwiches, value: sandwiches }
-          - { label: Platos Principales, value: main dishes }
-          - { label: Bocadillos, value: snacks }
-          - { label: Recetas al Horno, value: baking }
+          - { label: Sopas, value: soups }
+          - { label: Postres, value: desserts }
+          - { label: Recetas al Horno, value: baked goods }
+          - { label: Desayunos, value: breakfasts }
+          - { label: Dressings y Salsas, value: dressings and sauces }
+          - { label: Bebidas, value: drinks }
         required: false
         i18n: duplicate
       - name: season
@@ -134,13 +134,15 @@ collections:
         label: Nutrición Archivo JSON
         widget: file
         choose_url: false
+        hint:
+          Este archivo permitirá crear una etiqueta nutricional para la receta.
         required: false
         i18n: duplicate
 
   - name: pages
     label: Páginas
     label_singular: Página
-    folder: pages
+    folder: content/pages
     fields:
       - name: date
         label: Date
