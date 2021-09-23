@@ -135,8 +135,7 @@ collections:
         label: Nutrición Archivo JSON
         widget: file
         choose_url: false
-        media_library:
-          media_folder: another
+        media_folder: another
         hint:
           Este archivo permitirá crear una etiqueta nutricional para la receta.
         required: false
