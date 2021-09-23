@@ -35,7 +35,7 @@ collections:
         choose_url: false
         hint: La imagen principal de la receta.
         media_library:
-          media_folder: test
+          media_folder:
         i18n: duplicate
       - name: title
         label: Título
