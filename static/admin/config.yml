@@ -34,8 +34,7 @@ collections:
         widget: image
         choose_url: false
         hint: La imagen principal de la receta.
-        media_library:
-          media_folder: test
+        media_folder: test
         i18n: duplicate
       - name: title
         label: Título
@@ -136,6 +135,8 @@ collections:
         label: Nutrición Archivo JSON
         widget: file
         choose_url: false
+        media_library:
+          media_folder: another
         hint:
           Este archivo permitirá crear una etiqueta nutricional para la receta.
         required: false
