@@ -13,14 +13,14 @@ publish_mode: editorial_workflow
 
 locale: es
 i18n:
-  structure: multiple_files
-  locales: [esp, en]
+  structure: multiple_folders
+  locales: [es, en]
 
 collections:
   - name: recipes
     label: Recetas
     label_singular: Receta
-    folder: content/blog/recipes
+    folder: recipes
     create: true
     i18n: true
     fields:
@@ -142,7 +142,7 @@ collections:
   - name: pages
     label: Páginas
     label_singular: Página
-    folder: content/pages
+    folder: pages
     fields:
       - name: date
         label: Date
