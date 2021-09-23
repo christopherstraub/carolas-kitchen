@@ -1,7 +1,7 @@
 ---
 date: 2021-09-23T22:16:46.435Z
 image: /static/uploads/image.jpg
-title: Chimichurri1
+title: Chimichurri
 servings: 2 tazas
 ingredients:
   - 3 tazas de perejil y cilantro fresco, lavado y secado
