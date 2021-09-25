@@ -14,7 +14,7 @@ ingredients:
   - 1 tablespoon sweet smoked paprika
   - 1/4 teaspoon cumin
   - 1 teaspoon ground red chili
-  - 1 teaspoon of Himalayan salt
+  - 1 **teaspoon** of Himalayan salt
 ingredient_tags:
   - parsley
   - cilantro
@@ -23,7 +23,7 @@ directions:
     pepper flakes, smoked paprika, cumin, red chili and salt.
   - Mix in shallots and garlic.
   - Store in refrigerator for up to 2 days.
-color: '#1e540f'
+color: "#1e540f"
 course: dressings and sauces
 diet_tags:
   - vegan
@@ -35,3 +35,4 @@ diet_tags:
   - sugar-free
 nutrition_json: /content/blog/recipes/nutrition-data/chimichurri.json
 ---
+Este es *el* `cuerpo`

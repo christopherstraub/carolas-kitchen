@@ -23,7 +23,7 @@ directions:
     pepper flakes, smoked paprika, cumin, red chili and salt.
   - Mix in shallots and garlic.
   - Store in refrigerator for up to 2 days.
-color: '#1e540f'
+color: "#1e540f"
 course: dressings and sauces
 diet_tags:
   - vegan
