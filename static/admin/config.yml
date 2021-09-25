@@ -1,0 +1,154 @@
+backend:
+  name: git-gateway
+  branch: netlify
+
+media_folder: static/uploads
+
+# site_url:
+
+editor:
+  preview: false
+
+publish_mode: editorial_workflow
+
+locale: es
+i18n:
+  structure: multiple_files
+  locales: [es, en]
+
+collections:
+  - name: recipes
+    label: Recetas
+    label_singular: Receta
+    folder: content/blog/recipes
+    create: true
+    i18n: true
+    fields:
+      - name: date
+        label: Fecha
+        widget: datetime
+        hint: La fecha de publicación de la receta.
+        i18n: duplicate
+      - name: image
+        label: Imagen
+        widget: image
+        choose_url: false
+        hint: La imagen principal de la receta.
+        i18n: duplicate
+      - name: title
+        label: Título
+        i18n: true
+      - name: servings
+        label: Porciones
+        widget: string
+        i18n: true
+      - name: ingredients
+        label: Ingredientes
+        label_singular: Ingrediente
+        widget: list
+        summary: '{{fields.ingredient}}'
+        field:
+          {
+            name: ingredient,
+            label: Ingrediente,
+            widget: markdown,
+            minimal: true,
+          }
+        i18n: true
+      - name: ingredient_tags
+        label: Ingredientes Principales
+        label_singular: Ingrediente Principal
+        widget: list
+        hint: >
+          Aquí van los ingredientes de la receta que usted quiere que sean
+          buscables, separados por una coma ','. Por ejemplo, podría poner
+          'albahaca,espinaca,aceitunas,cúrcuma', omitiendo 'sal'.
+        i18n: true
+      - name: directions
+        label: Pasos
+        label_singular: Paso
+        widget: list
+        summary: '{{fields.step}}'
+        field: { name: step, label: Paso, widget: markdown, minimal: true }
+        i18n: true
+      - name: description
+        label: Descripción
+        widget: text
+        hint: Una descripción corta para acompañar al título.
+        required: false
+        i18n: true
+      - name: color
+        label: Color
+        widget: color
+        hint: Un color que describe la receta.
+        required: false
+        i18n: duplicate
+      - name: course
+        label: Tiempo
+        widget: select
+        options:
+          - { label: Entradas, value: entrees }
+          - { label: Ensaladas, value: salads }
+          - { label: Aperativos, value: appetizers }
+          - { label: Sándwiches, value: sandwiches }
+          - { label: Sopas, value: soups }
+          - { label: Postres, value: desserts }
+          - { label: Recetas al Horno, value: baked goods }
+          - { label: Desayunos, value: breakfasts }
+          - { label: Dressings y Salsas, value: dressings and sauces }
+          - { label: Bebidas, value: drinks }
+        required: false
+        i18n: duplicate
+      - name: season
+        label: Estación
+        widget: select
+        options:
+          - { label: Primavera, value: spring }
+          - { label: Verano, value: summer }
+          - { label: Otoño, value: fall }
+          - { label: Invierno, value: winter }
+        required: false
+        i18n: duplicate
+      - name: diet_tags
+        label: Dieta
+        widget: select
+        multiple: true
+        options:
+          [
+            vegan,
+            vegetarian,
+            dairy-free,
+            gluten-free,
+            egg-free,
+            nut-free,
+            sugar-free,
+          ]
+        required: false
+        i18n: duplicate
+      - name: body
+        label: Cuerpo
+        widget: markdown
+        required: false
+        i18n: true
+      - name: nutrition_json
+        label: Nutrición Archivo JSON
+        widget: file
+        choose_url: false
+        hint:
+          Este archivo permitirá crear una etiqueta nutricional para la receta.
+        required: false
+        i18n: duplicate
+
+  - name: pages
+    label: Páginas
+    label_singular: Página
+    folder: content/pages
+    fields:
+      - name: date
+        label: Date
+        widget: datetime
+      - name: title
+        label: Title
+      - name: body
+        label: Body
+        widget: markdown
