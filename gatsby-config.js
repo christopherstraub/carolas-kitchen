@@ -15,6 +15,7 @@ module.exports = {
     'gatsby-transformer-remark',
     'gatsby-plugin-slug',
     'gatsby-plugin-netlify-cms',
+    'gatsby-transformer-json',
     {
       resolve: 'gatsby-source-filesystem',
       options: {

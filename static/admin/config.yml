@@ -133,6 +133,7 @@ collections:
       - name: nutrition_json
         label: Nutrición Archivo JSON
         widget: file
+        media_folder: nutrition-data
         choose_url: false
         hint:
           Este archivo permitirá crear una etiqueta nutricional para la receta.
