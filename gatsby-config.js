@@ -2,34 +2,27 @@ require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
 });
 
-const contentfulConfig = {
-  spaceId: process.env.CONTENTFUL_SPACE_ID,
-  accessToken:
-    process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN ??
-    process.env.CONTENTFUL_ACCESS_TOKEN,
-  host: process.env.CONTENTFUL_HOST ?? 'cdn.contentful.com',
-  useNameForId: false,
-};
-
-const { spaceId, accessToken } = contentfulConfig;
-
-if (!spaceId || !accessToken) {
-  throw Error('Contentful space ID and access token must be provided.');
-}
-
 module.exports = {
   siteMetadata: {
-    siteUrl: 'http://localhost:8000/',
+    siteUrl: 'https://carolaskitchen.com/',
   },
   plugins: [
-    {
-      resolve: 'gatsby-source-contentful',
-      options: contentfulConfig,
-    },
     'gatsby-plugin-sass',
+    'gatsby-transformer-remark',
     'gatsby-plugin-image',
+    'gatsby-plugin-sharp',
+    'gatsby-transformer-sharp',
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-sitemap',
+    {
+      resolve: 'gatsby-source-contentful',
+      options: {
+        spaceId: process.env.CONTENTFUL_SPACE_ID,
+        accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+        host: process.env.CONTENTFUL_HOST,
+        useNameForId: false,
+      },
+    },
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
@@ -42,9 +35,6 @@ module.exports = {
         display: 'standalone',
       },
     },
-    'gatsby-transformer-remark',
-    'gatsby-plugin-sharp',
-    'gatsby-transformer-sharp',
     {
       resolve: 'gatsby-source-filesystem',
       options: {
@@ -60,6 +50,15 @@ module.exports = {
         path: './src/pages/',
       },
       __key: 'pages',
+    },
+    {
+      resolve: 'gatsby-plugin-google-gtag',
+      options: {
+        trackingIds: [process.env.GOOGLE_ANALYTICS_TRACKING_ID],
+        pluginConfig: {
+          head: true,
+        },
+      },
     },
   ],
 };
