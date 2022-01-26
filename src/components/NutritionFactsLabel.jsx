@@ -1,5 +1,7 @@
 import React from 'react';
 
-const NutritionFactsLabel = () => <div>Nutrition Facts</div>;
+function NutritionFactsLabel() {
+  return <div>Nutrition Facts</div>;
+}
 
 export default NutritionFactsLabel;
