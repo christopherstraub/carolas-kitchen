@@ -1,7 +1,5 @@
 import React from 'react';
 
-function NutritionFactsLabel() {
+export default function NutritionFactsLabel() {
   return <div>Nutrition Facts</div>;
 }
-
-export default NutritionFactsLabel;
