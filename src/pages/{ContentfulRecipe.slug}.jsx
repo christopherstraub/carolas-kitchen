@@ -14,7 +14,7 @@ export default function RecipePage({ data }) {
     courseTags,
     heroImage,
     ingredients,
-    directions,
+    preparation,
     nutritionFacts,
     seasonTags,
   } = data.allContentfulRecipe.edges[0].node;
@@ -63,10 +63,10 @@ export default function RecipePage({ data }) {
           />
         </section>
         <section>
-          <h2>Directions</h2>
+          <h2>Preparation</h2>
           <div
             dangerouslySetInnerHTML={{
-              __html: directions.childMarkdownRemark.html,
+              __html: preparation.childMarkdownRemark.html,
             }}
           />
         </section>
@@ -107,7 +107,7 @@ export const query = graphql`
               html
             }
           }
-          directions {
+          preparation {
             childMarkdownRemark {
               html
             }
