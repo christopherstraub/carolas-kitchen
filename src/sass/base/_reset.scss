@@ -1,0 +1,9 @@
+// Use more intuitive cursor for <summary>
+details summary {
+  cursor: pointer;
+}
+
+// Display elements within <summary> on the same line as the expand/collapse arrow.
+details summary > * {
+  display: inline;
+}

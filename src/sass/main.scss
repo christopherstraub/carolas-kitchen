@@ -1,1 +1,3 @@
-@use './vendors/normalize';
+@use './vendors/reset';
+
+@use './base/reset' as *;
