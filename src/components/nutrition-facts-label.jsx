@@ -226,7 +226,7 @@ export default function NutritionFactsLabel({ nutritionFacts, servingsLocal }) {
         <p className={`${styles.fontBlackMd} ${styles.alignSelfEnd}`}>
           Calories
         </p>
-        <p className={`${styles.fontBlackXl} ${styles.textRight}`}>
+        <p className={`${styles.fontBlackLg} ${styles.textRight}`}>
           {calories.amount}
         </p>
       </div>
