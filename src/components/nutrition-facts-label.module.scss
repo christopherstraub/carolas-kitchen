@@ -1,0 +1,89 @@
+$indent-1: 16px;
+$indent-2: 32px;
+
+.label {
+  border: 1px solid black;
+  width: 270px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  padding: 5px;
+  margin: 5px;
+  line-height: 1;
+}
+
+.font-sm {
+  font-size: 11px;
+}
+
+.font-md {
+  font-size: 16px;
+}
+
+.font-black {
+  font-family: 'Arial Black', 'Helvetica Black', 'Arial-BoldMT';
+  font-weight: normal;
+}
+
+.font-black-md {
+  composes: font-black;
+  font-size: 28px;
+}
+
+.font-black-lg {
+  composes: font-black;
+  font-size: 31px;
+}
+
+.font-black-xl {
+  composes: font-black;
+  font-size: 34px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.row-indent-1 {
+  composes: row;
+  padding-left: $indent-1;
+}
+
+.row-indent-2 {
+  composes: row;
+  padding-left: $indent-2;
+}
+
+.line {
+  height: 1px;
+  background-color: black;
+  margin-block: 3px;
+}
+
+.line-indent {
+  composes: line;
+  margin-left: $indent-2;
+}
+
+.line-thick {
+  composes: line;
+  margin-block: 5px;
+  height: 7px;
+}
+
+.line-thicker {
+  composes: line-thick;
+  height: 14px;
+}
+
+.align-self-end {
+  align-self: flex-end;
+}
+
+.margin-left {
+  margin-left: 5px;
+}
+
+.text-right {
+  text-align: right;
+}
