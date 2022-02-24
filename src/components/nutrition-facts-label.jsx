@@ -30,13 +30,13 @@ const NUTRIENTS = {
     NAME: 'totalFat',
     ID: 204,
     UNIT: 'g',
-    DAILY_VALUES_KEY: 'TOTAL_FAT',
+    DAILY_VALUE_KEY: 'TOTAL_FAT',
   },
   SATURATED_FAT: {
     NAME: 'saturatedFat',
     ID: 606,
     UNIT: 'g',
-    DAILY_VALUES_KEY: 'SATURATED_FAT',
+    DAILY_VALUE_KEY: 'SATURATED_FAT',
   },
   TRANS_FAT: {
     NAME: 'transFat',
@@ -47,25 +47,25 @@ const NUTRIENTS = {
     NAME: 'cholesterol',
     ID: 601,
     UNIT: 'mg',
-    DAILY_VALUES_KEY: 'CHOLESTEROL',
+    DAILY_VALUE_KEY: 'CHOLESTEROL',
   },
   SODIUM: {
     NAME: 'sodium',
     ID: 307,
     UNIT: 'mg',
-    DAILY_VALUES_KEY: 'SODIUM',
+    DAILY_VALUE_KEY: 'SODIUM',
   },
   TOTAL_CARBOHYDRATE: {
     NAME: 'totalCarbohydrate',
     ID: 205,
     UNIT: 'g',
-    DAILY_VALUES_KEY: 'TOTAL_CARBOHYDRATE',
+    DAILY_VALUE_KEY: 'TOTAL_CARBOHYDRATE',
   },
   DIETARY_FIBER: {
     NAME: 'dietaryFiber',
     ID: 291,
     UNIT: 'g',
-    DAILY_VALUES_KEY: 'DIETARY_FIBER',
+    DAILY_VALUE_KEY: 'DIETARY_FIBER',
   },
   TOTAL_SUGARS: {
     NAME: 'totalSugars',
@@ -76,7 +76,7 @@ const NUTRIENTS = {
     NAME: 'addedSugars',
     ID: 10009,
     UNIT: 'g',
-    DAILY_VALUES_KEY: 'ADDED_SUGARS',
+    DAILY_VALUE_KEY: 'ADDED_SUGARS',
   },
   PROTEIN: {
     NAME: 'protein',
@@ -93,25 +93,25 @@ const NUTRIENTS = {
     NAME: 'vitaminD',
     CONVERSION_FACTOR: 0.025,
     UNIT: 'mcg',
-    DAILY_VALUES_KEY: 'VITAMIN_D',
+    DAILY_VALUE_KEY: 'VITAMIN_D',
   },
   CALCIUM: {
     ID: 301,
     NAME: 'calcium',
     UNIT: 'mg',
-    DAILY_VALUES_KEY: 'CALCIUM',
+    DAILY_VALUE_KEY: 'CALCIUM',
   },
   IRON: {
     ID: 303,
     NAME: 'iron',
     UNIT: 'mg',
-    DAILY_VALUES_KEY: 'IRON',
+    DAILY_VALUE_KEY: 'IRON',
   },
   POTASSIUM: {
     ID: 306,
     NAME: 'potassium',
     UNIT: 'mg',
-    DAILY_VALUES_KEY: 'POTASSIUM',
+    DAILY_VALUE_KEY: 'POTASSIUM',
   },
 };
 
@@ -142,15 +142,15 @@ function getNutrientValue(id, conversionFactor, nutrients, servings) {
 
 /**
  *
- * @param {string} DAILY_VALUES_KEY The DAILY_VALUES key that corresponds
+ * @param {string} DAILY_VALUE_KEY The DAILY_VALUES key that corresponds
  * to the nutrient.
  * @param {number} nutrientValue The value of the nutrient.
  * @returns The daily value percentage string or null if the nutrient should
  * not specify a daily value percentage.
  */
-function getNutrientDailyValue(DAILY_VALUES_KEY, nutrientValue) {
-  return DAILY_VALUES[DAILY_VALUES_KEY]
-    ? round((nutrientValue / DAILY_VALUES[DAILY_VALUES_KEY]) * 100, 0)
+function getNutrientDailyValue(DAILY_VALUE_KEY, nutrientValue) {
+  return DAILY_VALUES[DAILY_VALUE_KEY]
+    ? round((nutrientValue / DAILY_VALUES[DAILY_VALUE_KEY]) * 100, 0)
         .toString()
         .concat('%')
     : null;
@@ -179,7 +179,7 @@ function getNutrients(nutrients, servings) {
             .toString()
             .concat(NUTRIENT.UNIT ?? ''),
           dailyValue: getNutrientDailyValue(
-            NUTRIENT.DAILY_VALUES_KEY,
+            NUTRIENT.DAILY_VALUE_KEY,
             nutrientValue
           ),
         },
