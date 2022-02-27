@@ -1,4 +1,5 @@
 import React from 'react';
+import round from '../utils/numbers';
 import * as styles from './nutrition-facts-label.module.scss';
 
 /**
@@ -116,15 +117,6 @@ const NUTRIENTS = {
 };
 
 /**
- * @param {number} value - The number to round.
- * @param {precision} value - The number of decimal places to round to.
- */
-function round(value, precision = 1) {
-  const multiplier = 10 ** precision;
-  return Math.round(value * multiplier) / multiplier;
-}
-
-/**
  *
  * @param {number} id The id of the nutrient to get.
  * @param {number} conversionFactor The conversion factor (if the unit of the
@@ -148,7 +140,7 @@ function getNutrientValue(id, conversionFactor, nutrients, servings) {
  * @returns The daily value percentage string or null if the nutrient should
  * not specify a daily value percentage.
  */
-function getNutrientDailyValue(DAILY_VALUE_KEY, nutrientValue) {
+function getNutrientDailyValuePct(DAILY_VALUE_KEY, nutrientValue) {
   return DAILY_VALUES[DAILY_VALUE_KEY]
     ? round((nutrientValue / DAILY_VALUES[DAILY_VALUE_KEY]) * 100, 0)
         .toString()
@@ -178,7 +170,7 @@ function getNutrients(nutrients, servings) {
           amount: round(nutrientValue)
             .toString()
             .concat(NUTRIENT.UNIT ?? ''),
-          dailyValue: getNutrientDailyValue(
+          dailyValuePct: getNutrientDailyValuePct(
             NUTRIENT.DAILY_VALUE_KEY,
             nutrientValue
           ),
@@ -188,15 +180,11 @@ function getNutrients(nutrients, servings) {
   );
 }
 
-function getServings(measures, defaultMeasureId) {
-  return measures.find((measure) => measure.id === defaultMeasureId).value;
-}
-
-export default function NutritionFactsLabel({ nutritionFacts, servingsLocal }) {
-  const { nutrients, measures, defaultMeasureId } = nutritionFacts;
-
-  const servings = servingsLocal ?? getServings(measures, defaultMeasureId);
-
+export default function NutritionFactsLabel({
+  nutrients,
+  initialServingsValue,
+  servingsValue,
+}) {
   const {
     calories,
     totalFat,
@@ -213,13 +201,13 @@ export default function NutritionFactsLabel({ nutritionFacts, servingsLocal }) {
     calcium,
     iron,
     potassium,
-  } = getNutrients(nutrients, servings);
+  } = getNutrients(nutrients, initialServingsValue);
 
   return (
     <section className={styles.label}>
       <h3 className={styles.fontBlackLg}>Nutrition Facts</h3>
       <div className={styles.line} />
-      <p className={styles.fontMd}>8 servings</p>
+      <p className={styles.fontMd}>{servingsValue} servings per recipe</p>
       <div className={styles.lineThicker} />
       <p className={styles.fontBlack}>Amount per serving</p>
       <div className={styles.row}>
@@ -239,12 +227,12 @@ export default function NutritionFactsLabel({ nutritionFacts, servingsLocal }) {
         <p>
           <span className={styles.fontBlack}>Total Fat</span> {totalFat.amount}
         </p>
-        <p className={styles.textRight}>{totalFat.dailyValue}</p>
+        <p className={styles.textRight}>{totalFat.dailyValuePct}</p>
       </div>
       <div className={styles.line} />
       <div className={styles.rowIndent1}>
         <p>Saturated Fat {saturatedFat.amount}</p>
-        <p className={styles.textRight}>{saturatedFat.dailyValue}</p>
+        <p className={styles.textRight}>{saturatedFat.dailyValuePct}</p>
       </div>
       <div className={styles.line} />
       <div className={styles.rowIndent1}>
@@ -256,14 +244,14 @@ export default function NutritionFactsLabel({ nutritionFacts, servingsLocal }) {
           <span className={styles.fontBlack}>Cholesterol</span>{' '}
           {cholesterol.amount}
         </p>
-        <p className={styles.textRight}>{cholesterol.dailyValue}</p>
+        <p className={styles.textRight}>{cholesterol.dailyValuePct}</p>
       </div>
       <div className={styles.line} />
       <div className={styles.row}>
         <p>
           <span className={styles.fontBlack}>Sodium</span> {sodium.amount}
         </p>
-        <p className={styles.textRight}>{sodium.dailyValue}</p>
+        <p className={styles.textRight}>{sodium.dailyValuePct}</p>
       </div>
       <div className={styles.line} />
       <div className={styles.row}>
@@ -271,12 +259,12 @@ export default function NutritionFactsLabel({ nutritionFacts, servingsLocal }) {
           <span className={styles.fontBlack}>Total Carbohydrate</span>{' '}
           {totalCarbohydrate.amount}
         </p>
-        <p className={styles.textRight}>{totalCarbohydrate.dailyValue}</p>
+        <p className={styles.textRight}>{totalCarbohydrate.dailyValuePct}</p>
       </div>
       <div className={styles.line} />
       <div className={styles.rowIndent1}>
         <p>Dietary Fiber {dietaryFiber.amount}</p>
-        <p className={styles.textRight}>{dietaryFiber.dailyValue}</p>
+        <p className={styles.textRight}>{dietaryFiber.dailyValuePct}</p>
       </div>
       <div className={styles.line} />
       <div className={styles.rowIndent1}>
@@ -285,7 +273,7 @@ export default function NutritionFactsLabel({ nutritionFacts, servingsLocal }) {
       <div className={styles.lineIndent} />
       <div className={styles.rowIndent2}>
         <p>Includes {addedSugars.amount} Added Sugars</p>
-        <p>{addedSugars.dailyValue}</p>
+        <p>{addedSugars.dailyValuePct}</p>
       </div>
       <div className={styles.line} />
       <div>
@@ -296,22 +284,22 @@ export default function NutritionFactsLabel({ nutritionFacts, servingsLocal }) {
       <div className={styles.lineThicker} />
       <div className={styles.row}>
         <p>Vitamin D {vitaminD.amount}</p>
-        <p className={styles.textRight}>{vitaminD.dailyValue}</p>
+        <p className={styles.textRight}>{vitaminD.dailyValuePct}</p>
       </div>
       <div className={styles.line} />
       <div className={styles.row}>
         <p>Calcium {calcium.amount}</p>
-        <p className={styles.textRight}>{calcium.dailyValue}</p>
+        <p className={styles.textRight}>{calcium.dailyValuePct}</p>
       </div>
       <div className={styles.line} />
       <div className={styles.row}>
         <p>Iron {iron.amount}</p>
-        <p className={styles.textRight}>{iron.dailyValue}</p>
+        <p className={styles.textRight}>{iron.dailyValuePct}</p>
       </div>
       <div className={styles.line} />
       <div className={styles.row}>
         <p>Potassium {potassium.amount}</p>
-        <p className={styles.textRight}>{potassium.dailyValue}</p>
+        <p className={styles.textRight}>{potassium.dailyValuePct}</p>
       </div>
       <div className={styles.lineThick} />
       <div className={`${styles.row} ${styles.fontSm}`}>

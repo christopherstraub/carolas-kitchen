@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { graphql, Link } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import useSiteMetadata from '../hooks/use-site-metadata';
 import Layout from '../components/layout';
+import Ingredients from '../components/ingredients';
+import Preparation from '../components/preparation';
 import NutritionFactsLabel from '../components/nutrition-facts-label';
+
+const getServingsValue = (servings) => {
+  /**
+   * Regular expression capturing groups:
+   * [1] First value in a hyphenated range if a range is supplied.
+   * [2] Second value in a hyphenated range if a range is supplied,
+   * else the single value.
+   */
+  const servingsRegex = /^(?:(\d+)-)?(\d+)$/;
+
+  // The second group is always the one we want.
+  return Number(servings.match(servingsRegex)[2]);
+};
 
 export default function RecipePage({ data }) {
   const {
@@ -13,6 +28,7 @@ export default function RecipePage({ data }) {
     date,
     courseTags,
     heroImage,
+    servings,
     ingredients,
     preparation,
     nutritionFacts,
@@ -26,6 +42,9 @@ export default function RecipePage({ data }) {
   });
 
   const image = heroImage?.gatsbyImageData;
+
+  const initialServingsValue = getServingsValue(servings);
+  const [servingsValue, setServingsValue] = useState(initialServingsValue);
 
   return (
     <Layout>
@@ -54,22 +73,14 @@ export default function RecipePage({ data }) {
         </li>
       </ul>
       <main>
-        <section>
-          <h2>Ingredients</h2>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: ingredients.childMarkdownRemark.html,
-            }}
-          />
-        </section>
-        <section>
-          <h2>Preparation</h2>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: preparation.childMarkdownRemark.html,
-            }}
-          />
-        </section>
+        <Ingredients
+          servings={servings}
+          initialServingsValue={initialServingsValue}
+          servingsValue={servingsValue}
+          setServingsValue={setServingsValue}
+          ingredientsHtml={ingredients.childMarkdownRemark.html}
+        />
+        <Preparation preparationHtml={preparation.childMarkdownRemark.html} />
       </main>
       {nutritionFacts && (
         <details>
@@ -77,8 +88,9 @@ export default function RecipePage({ data }) {
             <h2>Nutrition Facts</h2>
           </summary>
           <NutritionFactsLabel
-            nutritionFacts={nutritionFacts}
-            servingsLocal={null}
+            nutrients={nutritionFacts.nutrients}
+            initialServingsValue={initialServingsValue}
+            servingsValue={servingsValue}
           />
         </details>
       )}
@@ -102,6 +114,7 @@ export const query = graphql`
           heroImage {
             gatsbyImageData(placeholder: BLURRED, layout: FULL_WIDTH)
           }
+          servings
           ingredients {
             childMarkdownRemark {
               html
