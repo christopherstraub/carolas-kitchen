@@ -49,11 +49,14 @@ export default function RecipePage({ data }) {
   return (
     <Layout>
       <header>
-        {courseTags.map((tag) => (
-          <span key={tag.slug}>
-            <Link to={`/courses/${tag.slug}`}>{tag.title}</Link>
-          </span>
-        ))}
+        <ul>
+          {courseTags.map((tag) => (
+            <li key={tag.slug}>
+              <Link to={`/${tag.slug}`}>{tag.title}</Link>
+            </li>
+          ))}
+        </ul>
+
         <h1>{title}</h1>
         <time dateTime={date}>{dateString}</time>
         {image && <GatsbyImage image={image} alt={title} />}
