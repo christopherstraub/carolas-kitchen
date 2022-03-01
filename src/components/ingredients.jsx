@@ -31,14 +31,15 @@ function getScaledIngredientsHtml(ingredientsHtml, scaleFactor) {
   const fractionSymbolsRegex = /(?:(\d+) ?)?([½⅓⅔¼¾⅛⅜⅝⅞])/g;
 
   /**
-   * Matches a whole number. Does not succeed nor precede a "/", which might
+   * Regular expression capturing groups:
+   * [1] A whole number. Does not succeed nor precede a "/", which might
    * indicate it is the denominator and numerator, respectively, of a fraction
-   * string. It is not necessary to match "^" and "$" in the positive
-   * lookbehind and lookahead, respectively, since the string will start and
-   * end in HTML opening and closing tags respectively.
-   * E.g., matches "2" and "3" in "<li>2-3 1/4</li>".
+   * string. It is not necessary to match a "^" and "$" before and after the
+   * string, respectively, since it will start and end in HTML opening and
+   * closing tags respectively.
+   * E.g., "2" and "3" in "<li>2-3 1/4</li>".
    */
-  const wholeNumbersRegex = /(?<=[^/])\d+(?=[^/])/g;
+  const wholeNumbersRegex = /[^/](\d+)(?=[^/])/g;
 
   /**
    * Regular expression capturing groups:
@@ -59,7 +60,10 @@ function getScaledIngredientsHtml(ingredientsHtml, scaleFactor) {
         ? FRACTIONS_STRINGS[fractionSymbol]
         : `${wholeNum} ${FRACTIONS_STRINGS[fractionSymbol]}`
     )
-    .replaceAll(wholeNumbersRegex, '$&/1')
+    .replaceAll(
+      wholeNumbersRegex,
+      (match, wholeNumber) => `${match[0]}${wholeNumber}/1`
+    )
     .replaceAll(
       fractionsRegex,
       (match, numerator1, denominator1, numerator2, denominator2) =>
