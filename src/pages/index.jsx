@@ -40,7 +40,7 @@ export default function HomePage({ data }) {
 
 export const query = graphql`
   query HomePageQuery {
-    englishCourses: allContentfulRecipeMealCourse(
+    englishCourses: allContentfulRecipeCourse(
       filter: { node_locale: { eq: "en-US" } }
     ) {
       nodes {
@@ -48,7 +48,7 @@ export const query = graphql`
         slug
       }
     }
-    spanishCourses: allContentfulRecipeMealCourse(
+    spanishCourses: allContentfulRecipeCourse(
       filter: { node_locale: { eq: "es" } }
     ) {
       nodes {

@@ -2,8 +2,8 @@ import React from 'react';
 import { graphql, Link } from 'gatsby';
 import Layout from '../components/layout';
 
-export default function RecipeMealCoursePage({ data }) {
-  const { title, slug } = data.allContentfulRecipeMealCourse.nodes[0];
+export default function RecipeCoursePage({ data }) {
+  const { title, slug } = data.allContentfulRecipeCourse.nodes[0];
 
   const recipes = data.allContentfulRecipe.nodes;
 
@@ -23,7 +23,7 @@ export default function RecipeMealCoursePage({ data }) {
 
 export const query = graphql`
   query RecipeMealCourseQuery($id: String) {
-    allContentfulRecipeMealCourse(filter: { id: { eq: $id } }) {
+    allContentfulRecipeCourse(filter: { id: { eq: $id } }) {
       nodes {
         title
         slug
