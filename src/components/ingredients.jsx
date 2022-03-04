@@ -147,14 +147,6 @@ function getScaledIngredientsHtml(
     );
 }
 
-function handleChange(setServingsValue) {
-  return function (e) {
-    const { value, min } = e.target;
-    if (value === '') return;
-    setServingsValue(Number(value) < Number(min) ? Number(min) : Number(value));
-  };
-}
-
 export default function Ingredients({
   servings,
   initialServingsValue,
@@ -175,17 +167,6 @@ export default function Ingredients({
     <section>
       <h2>Ingredients</h2>
       <h3>{servings} servings</h3>
-      <label htmlFor="servings">
-        Change servings
-        <input
-          type="number"
-          id="servings"
-          min={2}
-          step={2}
-          value={servingsValue}
-          onChange={handleChange(setServingsValue)}
-        />
-      </label>
       <ol>
         <li>
           <button
