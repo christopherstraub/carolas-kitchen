@@ -10,9 +10,10 @@ import NutritionFactsLabel from '../components/nutrition-facts-label';
 const getServingsValue = (servings) => {
   /**
    * Regular expression capturing groups:
-   * [1] First value in a hyphenated range if a range is supplied.
-   * [2] Second value in a hyphenated range if a range is supplied,
-   * else the single value.
+   * [0] A whole number or a hyphenated range of whole numbers.
+   * [1] First value of the range if a range is supplied.
+   * [2] Second value of the range if a range is supplied,
+   * or the single value otherwise.
    */
   const servingsRegex = /^(?:(\d+)-)?(\d+)$/;
 
@@ -33,7 +34,7 @@ export default function RecipePage({ data }) {
     preparation,
     nutritionFacts,
     seasonTags,
-  } = data.allContentfulRecipe.edges[0].node;
+  } = data.allContentfulRecipe.nodes[0];
 
   const dateString = new Date(date).toLocaleDateString(nodeLocale, {
     year: 'numeric',
@@ -104,46 +105,44 @@ export default function RecipePage({ data }) {
 export const query = graphql`
   query RecipeQuery($id: String) {
     allContentfulRecipe(filter: { id: { eq: $id } }) {
-      edges {
-        node {
+      nodes {
+        title
+        slug
+        node_locale
+        date
+        courseTags {
           title
           slug
-          node_locale
-          date
-          courseTags {
-            title
-            slug
+        }
+        heroImage {
+          gatsbyImageData(placeholder: BLURRED, layout: FULL_WIDTH)
+        }
+        servings
+        ingredients {
+          childMarkdownRemark {
+            html
           }
-          heroImage {
-            gatsbyImageData(placeholder: BLURRED, layout: FULL_WIDTH)
+        }
+        preparation {
+          childMarkdownRemark {
+            html
           }
-          servings
-          ingredients {
-            childMarkdownRemark {
-              html
-            }
+        }
+        nutritionFacts {
+          measures {
+            name
+            value
+            id
           }
-          preparation {
-            childMarkdownRemark {
-              html
-            }
+          defaultMeasureId
+          nutrients {
+            amount
+            id
           }
-          nutritionFacts {
-            measures {
-              name
-              value
-              id
-            }
-            defaultMeasureId
-            nutrients {
-              amount
-              id
-            }
-          }
-          seasonTags {
-            title
-            slug
-          }
+        }
+        seasonTags {
+          title
+          slug
         }
       }
     }
