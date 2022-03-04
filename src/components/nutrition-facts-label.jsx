@@ -140,12 +140,10 @@ function getNutrientValue(id, conversionFactor, nutrients, servings) {
  * @returns The daily value percentage string or null if the nutrient should
  * not specify a daily value percentage.
  */
-function getNutrientDailyValuePct(DAILY_VALUE_KEY, nutrientValue) {
-  return DAILY_VALUES[DAILY_VALUE_KEY]
-    ? round((nutrientValue / DAILY_VALUES[DAILY_VALUE_KEY]) * 100, 0)
-        .toString()
-        .concat('%')
-    : null;
+function getNutrientDailyValuePct(nutrientValue, DAILY_VALUE) {
+  return round((nutrientValue / DAILY_VALUE) * 100, 0)
+    .toString()
+    .concat('%');
 }
 
 /**
@@ -170,10 +168,13 @@ function getNutrients(nutrients, servings) {
           amount: round(nutrientValue)
             .toString()
             .concat(NUTRIENT.UNIT ?? ''),
-          dailyValuePct: getNutrientDailyValuePct(
-            NUTRIENT.DAILY_VALUE_KEY,
-            nutrientValue
-          ),
+          dailyValuePct:
+            NUTRIENT.DAILY_VALUE_KEY !== undefined
+              ? getNutrientDailyValuePct(
+                  nutrientValue,
+                  DAILY_VALUES[NUTRIENT.DAILY_VALUE_KEY]
+                )
+              : null,
         },
       ];
     })
