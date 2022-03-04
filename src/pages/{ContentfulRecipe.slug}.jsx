@@ -83,6 +83,7 @@ export default function RecipePage({ data }) {
           servingsValue={servingsValue}
           setServingsValue={setServingsValue}
           ingredientsHtml={ingredients.childMarkdownRemark.html}
+          nodeLocale={nodeLocale}
         />
         <Preparation preparationHtml={preparation.childMarkdownRemark.html} />
       </main>

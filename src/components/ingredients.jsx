@@ -1,5 +1,7 @@
 import React from 'react';
+import { StaticQuery, graphql } from 'gatsby';
 import fmtQty from 'format-quantity';
+import useRecipeIngredientsStringWhitelists from '../hooks/use-recipe-ingredient-string-whitelists';
 import round from '../utils/numbers';
 
 const FRACTIONS_STRINGS = {
@@ -20,45 +22,88 @@ function formatQuantity(summand1, summand2, scaleFactor) {
     : round(Number(fmtQty((summand1 + summand2) * scaleFactor)));
 }
 
-function getScaledIngredientsHtml(ingredientsHtml, scaleFactor) {
+function shouldBePluralized(wholeNumber, fraction) {
+  return (
+    Number(wholeNumber) >= 2 ||
+    (Number(wholeNumber) === 1 && fraction !== undefined)
+  );
+}
+
+function pluralize(string) {
+  return !string.endsWith('s') ? `${string}s` : string;
+}
+
+function singularize(string) {
+  return string.endsWith('s') ? string.slice(0, -1) : string;
+}
+
+function getScaledIngredientsHtml(
+  ingredientsHtml,
+  scaleFactor,
+  stringWhitelists
+) {
   /**
    * Regular expression capturing groups:
+   * [0] A fraction or mixed fraction using fraction symbols.
+   * E.g., "¾", "2¾", or "2 ¾".
    * [1] Whole number if supplied a mixed fraction.
    * E.g., "2" from either "2¾" or "2 ¾".
    * [2] Fraction symbol.
-   * E.g., "¾" from either "¾" or "2¾" or "2 ¾".
+   * E.g., "¾" from either "¾", "2¾", or "2 ¾".
    */
   const fractionSymbolsRegex = /(?:(\d+) ?)?([½⅓⅔¼¾⅛⅜⅝⅞])/g;
 
   /**
    * Regular expression capturing groups:
-   * [1] A whole number. Does not succeed nor precede a "/", which might
-   * indicate it is the denominator and numerator, respectively, of a fraction
-   * string. It is not necessary to match a "^" and "$" before and after the
-   * string, respectively, since it will start and end in HTML opening and
-   * closing tags respectively.
-   * E.g., "2" and "3" in "<li>2-3 1/4</li>".
+   * [0] A whole number (and the character it succeeds) that does not succeed
+   * nor precede a "/", which might indicate it is the denominator and
+   * numerator, respectively, of a fraction string. It is not necessary to
+   * match a "^" and "$" before and after the string, respectively, since it
+   * will start and end in HTML opening and closing tags respectively.
+   * E.g., ">2" and "-3" in "<li>2-3 1/4</li>".
+   * [1] Whole number.
+   * E.g., "2" and "3" in ">2" and "-3" respectively.
    */
   const wholeNumbersRegex = /[^/](\d+)(?=[^/])/g;
 
   /**
    * Regular expression capturing groups:
-   * [1] Numerator of first or single fraction string.
+   * [0] One or two fractions using a "/" between the numerator and denominator.
+   * E.g., "1/2" or "2/1 3/4"
+   * [1] Numerator of first fraction.
    * E.g., "1" in "1/2".
-   * [2] Denominator of first or single fraction string.
+   * [2] Denominator of first fraction.
    * E.g., "2" in "1/2".
-   * [3] Numerator of second fraction string, if supplied.
+   * [3] Numerator of second fraction, if supplied.
    * E.g., "3" in "2/1 3/4".
-   * [4] Denominator of second fraction string, if supplied.
+   * [4] Denominator of second fraction, if supplied.
    * E.g., "4" in "2/1 3/4".
    */
   const fractionsRegex = /(\d+)\/(\d+)(?: (\d+)\/(\d+))?/g;
 
+  /**
+   * Regular expression capturing groups:
+   * [0] A mixed fraction, decimal numeral, or fraction preceding one or two
+   * words. Only matches fractions using fraction symbols.
+   * E.g., "2 cups", "2½ cups", "1.3 tablespoons", or "¼ teaspoon".
+   * [1] Whole number either alone or as part of a mixed fraction, or
+   * decimal numeral.
+   * E.g., "2" in either "2 teaspoons", "2½ teaspoons", or "2.3 teaspoons".
+   * [2] Fraction symbol in mixed fraction or decimal.
+   * E.g., "½" in "2½ teaspoons" or ".3" in "2.3 teaspoons".
+   * [3] Two words.
+   * E.g., "Medjool dates" in "6 Medjool dates".
+   * [4] Word.
+   * E.g., "cup" in "½ cup".
+   */
+  const ingredientMeasurementsRegex =
+    /(?:(?:(\d+)([½⅓⅔¼¾⅛⅜⅝⅞⅕⅖⅗⅘]|\.\d)?)|[½⅓⅔¼¾⅛⅜⅝⅞⅕⅖⅗⅘]) ((([A-zÀ-ú-]+)(?: [A-zÀ-ú-]+)?)(?: [A-zÀ-ú-]+)?)/g;
+
   return ingredientsHtml
-    .replaceAll(fractionSymbolsRegex, (match, wholeNum, fractionSymbol) =>
-      wholeNum === undefined
+    .replaceAll(fractionSymbolsRegex, (match, wholeNumber, fractionSymbol) =>
+      wholeNumber === undefined
         ? FRACTIONS_STRINGS[fractionSymbol]
-        : `${wholeNum} ${FRACTIONS_STRINGS[fractionSymbol]}`
+        : `${wholeNumber} ${FRACTIONS_STRINGS[fractionSymbol]}`
     )
     .replaceAll(
       wholeNumbersRegex,
@@ -78,6 +123,27 @@ function getScaledIngredientsHtml(ingredientsHtml, scaleFactor) {
               Number(numerator2) / Number(denominator2),
               scaleFactor
             )
+    )
+    .replaceAll(
+      ingredientMeasurementsRegex,
+      (match, wholeNumber, fraction, threeWords, twoWords, word) => {
+        if (stringWhitelists.threeWords.join().includes(threeWords))
+          return shouldBePluralized(wholeNumber, fraction)
+            ? match.replace(threeWords, pluralize(threeWords))
+            : match.replace(threeWords, singularize(threeWords));
+
+        if (stringWhitelists.twoWords.join().includes(twoWords))
+          return shouldBePluralized(wholeNumber, fraction)
+            ? match.replace(twoWords, pluralize(twoWords))
+            : match.replace(twoWords, singularize(twoWords));
+
+        if (stringWhitelists.oneWord.join().includes(word))
+          return shouldBePluralized(wholeNumber, fraction)
+            ? match.replace(word, pluralize(word))
+            : match.replace(word, singularize(word));
+
+        return match;
+      }
     );
 }
 
@@ -95,10 +161,14 @@ export default function Ingredients({
   servingsValue,
   setServingsValue,
   ingredientsHtml,
+  nodeLocale,
 }) {
+  const stringWhitelists = useRecipeIngredientsStringWhitelists()[nodeLocale];
+
   const html = getScaledIngredientsHtml(
     ingredientsHtml,
-    servingsValue / initialServingsValue
+    servingsValue / initialServingsValue,
+    stringWhitelists
   );
 
   return (
