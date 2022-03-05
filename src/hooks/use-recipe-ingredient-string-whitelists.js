@@ -9,7 +9,6 @@ export default function UseRecipeIngredientsStringWhitelists() {
         ) {
           nodes {
             key
-            node_locale
             string
           }
         }
@@ -18,7 +17,6 @@ export default function UseRecipeIngredientsStringWhitelists() {
         ) {
           nodes {
             key
-            node_locale
             string
           }
         }
