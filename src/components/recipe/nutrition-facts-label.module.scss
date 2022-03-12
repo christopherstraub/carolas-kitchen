@@ -1,5 +1,5 @@
 $indent-1: 16px;
-$indent-2: 32px;
+$indent-2: $indent-1 * 2;
 
 .label {
   border: 1px solid black;

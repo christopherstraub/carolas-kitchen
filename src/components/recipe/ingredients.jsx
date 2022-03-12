@@ -1,8 +1,7 @@
 import React from 'react';
-import { StaticQuery, graphql } from 'gatsby';
 import fmtQty from 'format-quantity';
-import useRecipeIngredientsStringWhitelists from '../hooks/use-recipe-ingredient-string-whitelists';
-import round from '../utils/numbers';
+import useRecipeIngredientsStringWhitelists from '../../hooks/use-static-query/use-recipe-ingredient-string-whitelists';
+import round from '../../utils/numbers';
 
 const FRACTIONS_STRINGS = {
   '½': '1/2',
@@ -19,7 +18,7 @@ const FRACTIONS_STRINGS = {
 function formatQuantity(summand1, summand2, scaleFactor) {
   return fmtQty((summand1 + summand2) * scaleFactor).includes('/')
     ? fmtQty((summand1 + summand2) * scaleFactor, true)
-    : round(Number(fmtQty((summand1 + summand2) * scaleFactor)));
+    : round(Number(fmtQty((summand1 + summand2) * scaleFactor)), 1);
 }
 
 function shouldBePluralized(wholeNumber, fraction) {

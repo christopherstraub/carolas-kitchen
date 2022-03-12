@@ -3,7 +3,7 @@ import { useStaticQuery, graphql } from 'gatsby';
 export default function UseRecipeIngredientsStringWhitelists() {
   const { englishWhitelists, spanishWhitelists } = useStaticQuery(
     graphql`
-      query RecipeIngredientStringWhitelistQuery {
+      query RecipeIngredientStringWhitelists {
         englishWhitelists: allContentfulRecipeIngredientsStringWhitelist(
           filter: { node_locale: { eq: "en-US" } }
         ) {

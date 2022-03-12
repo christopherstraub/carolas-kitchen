@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql, Link } from 'gatsby';
-import useSiteMetadata from '../hooks/use-site-metadata';
+import useSiteMetadata from '../hooks/use-static-query/use-site-metadata';
 import Layout from '../components/layout';
 
 export default function HomePage({ data }) {
@@ -39,8 +39,8 @@ export default function HomePage({ data }) {
 }
 
 export const query = graphql`
-  query HomePageQuery {
-    englishCourses: allContentfulRecipeCourse(
+  query HomePage {
+    englishCourses: allContentfulRecipeCourseTags(
       filter: { node_locale: { eq: "en-US" } }
     ) {
       nodes {
@@ -48,7 +48,7 @@ export const query = graphql`
         slug
       }
     }
-    spanishCourses: allContentfulRecipeCourse(
+    spanishCourses: allContentfulRecipeCourseTags(
       filter: { node_locale: { eq: "es" } }
     ) {
       nodes {

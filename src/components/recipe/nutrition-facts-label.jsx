@@ -1,5 +1,5 @@
 import React from 'react';
-import round from '../utils/numbers';
+import round from '../../utils/numbers';
 import * as styles from './nutrition-facts-label.module.scss';
 
 /**
@@ -165,7 +165,7 @@ function getNutrients(nutrients, servings) {
       return [
         NUTRIENT.NAME,
         {
-          amount: round(nutrientValue)
+          amount: round(nutrientValue, 1)
             .toString()
             .concat(NUTRIENT.UNIT ?? ''),
           dailyValuePct:

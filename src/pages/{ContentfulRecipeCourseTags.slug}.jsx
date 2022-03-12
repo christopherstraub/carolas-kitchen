@@ -3,7 +3,7 @@ import { graphql, Link } from 'gatsby';
 import Layout from '../components/layout';
 
 export default function RecipeCoursePage({ data }) {
-  const { title, slug } = data.allContentfulRecipeCourse.nodes[0];
+  const { title, slug } = data.allContentfulRecipeCourseTags.nodes[0];
 
   const recipes = data.allContentfulRecipe.nodes;
 
@@ -22,8 +22,8 @@ export default function RecipeCoursePage({ data }) {
 }
 
 export const query = graphql`
-  query RecipeMealCourseQuery($id: String) {
-    allContentfulRecipeCourse(filter: { id: { eq: $id } }) {
+  query RecipeMealCourseTag($id: String) {
+    allContentfulRecipeCourseTags(filter: { id: { eq: $id } }) {
       nodes {
         title
         slug
