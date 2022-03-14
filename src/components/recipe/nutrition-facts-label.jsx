@@ -206,104 +206,88 @@ export default function NutritionFactsLabel({
 
   return (
     <section className={styles.label}>
-      <h3 className={styles.fontBlackLg}>Nutrition Facts</h3>
-      <div className={styles.line} />
-      <p className={styles.fontMd}>{servingsValue} servings per recipe</p>
-      <div className={styles.lineThicker} />
-      <p className={styles.fontBlack}>Amount per serving</p>
-      <div className={styles.row}>
-        <p className={`${styles.fontBlackMd} ${styles.alignSelfEnd}`}>
-          Calories
-        </p>
-        <p className={`${styles.fontBlackLg} ${styles.textRight}`}>
-          {calories.amount}
-        </p>
+      <div className={styles.rowBorderBottom}>
+        <h3 className={styles.fontBlackLg}>Nutrition Facts</h3>
       </div>
-      <div className={styles.lineThick} />
-      <p className={`${styles.fontBlack} ${styles.textRight}`}>
-        % Daily Value*
-      </p>
-      <div className={styles.line} />
-      <div className={styles.row}>
+      <div className={styles.rowBorderBottomThicker}>
+        <p className={styles.fontMd}>{servingsValue} servings per recipe</p>
+      </div>
+      <div className={`${styles.row} ${styles.paddingBottom0}`}>
+        <p className={styles.fontBlack}>Amount per serving</p>
+      </div>
+      <div className={`${styles.rowBorderBottomThick} ${styles.paddingTop0}`}>
+        <p className={styles.fontBlackMd}>Calories</p>
+        <p className={styles.fontBlackLg}>{calories.amount}</p>
+      </div>
+      <div className={styles.rowJustifyEndBorderBottom}>
+        <p className={styles.fontBlack}>% Daily Value*</p>
+      </div>
+      <div className={styles.rowBorderBottom}>
         <p>
           <span className={styles.fontBlack}>Total Fat</span> {totalFat.amount}
         </p>
-        <p className={styles.textRight}>{totalFat.dailyValuePct}</p>
+        <p className={styles.fontBlack}>{totalFat.dailyValuePct}</p>
       </div>
-      <div className={styles.line} />
-      <div className={styles.rowIndent1}>
+      <div className={`${styles.rowBorderBottom} ${styles.indent1}`}>
         <p>Saturated Fat {saturatedFat.amount}</p>
-        <p className={styles.textRight}>{saturatedFat.dailyValuePct}</p>
+        <p className={styles.fontBlack}>{saturatedFat.dailyValuePct}</p>
       </div>
-      <div className={styles.line} />
-      <div className={styles.rowIndent1}>
+      <div className={`${styles.rowBorderBottom} ${styles.indent1}`}>
         <p>Trans Fat {transFat.amount}</p>
       </div>
-      <div className={styles.line} />
-      <div className={styles.row}>
+      <div className={styles.rowBorderBottom}>
         <p>
           <span className={styles.fontBlack}>Cholesterol</span>{' '}
           {cholesterol.amount}
         </p>
-        <p className={styles.textRight}>{cholesterol.dailyValuePct}</p>
+        <p className={styles.fontBlack}>{cholesterol.dailyValuePct}</p>
       </div>
-      <div className={styles.line} />
-      <div className={styles.row}>
+      <div className={styles.rowBorderBottom}>
         <p>
           <span className={styles.fontBlack}>Sodium</span> {sodium.amount}
         </p>
-        <p className={styles.textRight}>{sodium.dailyValuePct}</p>
+        <p className={styles.fontBlack}>{sodium.dailyValuePct}</p>
       </div>
-      <div className={styles.line} />
-      <div className={styles.row}>
+      <div className={styles.rowBorderBottom}>
         <p>
           <span className={styles.fontBlack}>Total Carbohydrate</span>{' '}
           {totalCarbohydrate.amount}
         </p>
-        <p className={styles.textRight}>{totalCarbohydrate.dailyValuePct}</p>
+        <p className={styles.fontBlack}>{totalCarbohydrate.dailyValuePct}</p>
       </div>
-      <div className={styles.line} />
-      <div className={styles.rowIndent1}>
+      <div className={`${styles.rowBorderBottom} ${styles.indent1}`}>
         <p>Dietary Fiber {dietaryFiber.amount}</p>
-        <p className={styles.textRight}>{dietaryFiber.dailyValuePct}</p>
+        <p className={styles.fontBlack}>{dietaryFiber.dailyValuePct}</p>
       </div>
-      <div className={styles.line} />
-      <div className={styles.rowIndent1}>
-        <p>Total Sugars {totalSugars.amount}</p>
+      <div className={`${styles.rowBorderBottom} ${styles.marginIndent2}`}>
+        <p className={styles.totalSugars}>Total Sugars {totalSugars.amount}</p>
       </div>
-      <div className={styles.lineIndent} />
-      <div className={styles.rowIndent2}>
+      <div className={`${styles.rowBorderBottom} ${styles.indent2}`}>
         <p>Includes {addedSugars.amount} Added Sugars</p>
-        <p>{addedSugars.dailyValuePct}</p>
+        <p className={styles.fontBlack}>{addedSugars.dailyValuePct}</p>
       </div>
-      <div className={styles.line} />
-      <div>
+      <div className={styles.rowBorderBottomThicker}>
         <p>
           <span className={styles.fontBlack}>Protein</span> {protein.amount}
         </p>
       </div>
-      <div className={styles.lineThicker} />
-      <div className={styles.row}>
+      <div className={styles.rowBorderBottom}>
         <p>Vitamin D {vitaminD.amount}</p>
-        <p className={styles.textRight}>{vitaminD.dailyValuePct}</p>
+        <p>{vitaminD.dailyValuePct}</p>
       </div>
-      <div className={styles.line} />
-      <div className={styles.row}>
+      <div className={styles.rowBorderBottom}>
         <p>Calcium {calcium.amount}</p>
-        <p className={styles.textRight}>{calcium.dailyValuePct}</p>
+        <p>{calcium.dailyValuePct}</p>
       </div>
-      <div className={styles.line} />
-      <div className={styles.row}>
+      <div className={styles.rowBorderBottom}>
         <p>Iron {iron.amount}</p>
-        <p className={styles.textRight}>{iron.dailyValuePct}</p>
+        <p>{iron.dailyValuePct}</p>
       </div>
-      <div className={styles.line} />
-      <div className={styles.row}>
+      <div className={styles.rowBorderBottomThick}>
         <p>Potassium {potassium.amount}</p>
-        <p className={styles.textRight}>{potassium.dailyValuePct}</p>
+        <p>{potassium.dailyValuePct}</p>
       </div>
-      <div className={styles.lineThick} />
-      <div className={`${styles.row} ${styles.fontSm}`}>
+      <div className={styles.dailyValueFootnote}>
         <p>*</p>
         <p className={styles.marginLeft}>
           The % Daily Value (DV) tells you how much a nutrient in a serving of

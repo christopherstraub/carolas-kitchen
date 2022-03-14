@@ -6,29 +6,22 @@ $indent-2: $indent-1 * 2;
   width: 270px;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
-  padding: 5px;
+  padding-inline: 5px;
   margin: 5px;
   line-height: 1;
-}
-
-.font-sm {
-  font-size: 11px;
 }
 
 .font-md {
   font-size: 16px;
 }
-
 .font-black {
   font-family: 'Arial Black', 'Helvetica Black', 'Arial-BoldMT';
   font-weight: normal;
 }
-
 .font-black-md {
   composes: font-black;
   font-size: 28px;
 }
-
 .font-black-lg {
   composes: font-black;
   font-size: 31px;
@@ -37,48 +30,51 @@ $indent-2: $indent-1 * 2;
 .row {
   display: flex;
   justify-content: space-between;
+  padding-block: 5px;
+}
+.row-border-bottom {
+  composes: row;
+  border-bottom: 1px solid black;
+}
+.row-border-bottom-thick {
+  composes: row-border-bottom;
+  border-width: 7px;
+}
+.row-border-bottom-thicker {
+  composes: row-border-bottom;
+  border-width: 14px;
+}
+.row-justify-end {
+  composes: row;
+  justify-content: flex-end;
+}
+.row-justify-end-border-bottom {
+  composes: row-justify-end;
+  border-bottom: 1px solid black;
+}
+.daily-value-footnote {
+  composes: row;
+  font-size: 11px;
 }
 
-.row-indent-1 {
-  composes: row;
+.indent-1 {
   padding-left: $indent-1;
 }
-
-.row-indent-2 {
-  composes: row;
+.indent-2 {
   padding-left: $indent-2;
 }
-
-.line {
-  height: 1px;
-  background-color: black;
-  margin-block: 3px;
-}
-
-.line-indent {
-  composes: line;
+.margin-indent-2 {
   margin-left: $indent-2;
 }
-
-.line-thick {
-  composes: line;
-  margin-block: 5px;
-  height: 7px;
+.total-sugars {
+  margin-left: -$indent-1;
 }
-
-.line-thicker {
-  composes: line-thick;
-  height: 14px;
-}
-
-.align-self-end {
-  align-self: flex-end;
-}
-
 .margin-left {
   margin-left: 3px;
 }
-
-.text-right {
-  text-align: right;
+.padding-top-0 {
+  padding-top: 0;
+}
+.padding-bottom-0 {
+  padding-bottom: 0;
 }
