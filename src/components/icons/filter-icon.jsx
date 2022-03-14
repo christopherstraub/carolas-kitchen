@@ -3,7 +3,12 @@ import * as styles from './filter-icon.module.scss';
 
 export default function FilterIcon() {
   return (
-    <svg viewBox="0 0 20 12" width="20" height="12">
+    <svg
+      viewBox="0 0 20 12"
+      width="20"
+      height="12"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <line
         x1="1"
         y1="2"

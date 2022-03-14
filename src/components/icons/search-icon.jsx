@@ -8,6 +8,7 @@ export default function SearchIcon({ light }) {
       width="20"
       height="20"
       className={light && styles.light}
+      xmlns="http://www.w3.org/2000/svg"
     >
       <circle cx="7" cy="7" r="7" className={styles.frame} />
       <circle cx="7" cy="7" r="6" className={styles.lens} />

@@ -3,7 +3,12 @@ import * as styles from './burger-menu-icon.module.scss';
 
 export default function BurgerMenuIcon() {
   return (
-    <svg viewBox="0 0 20 10" width="20" height="10">
+    <svg
+      viewBox="0 0 20 10"
+      width="20"
+      height="10"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <line
         x1="1"
         y1="1"
