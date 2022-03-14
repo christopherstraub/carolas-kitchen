@@ -1,5 +1,5 @@
 import React from 'react';
-import round from '../../utils/numbers';
+import round from '../utils/numbers';
 import * as styles from './nutrition-facts-label.module.scss';
 
 /**

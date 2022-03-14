@@ -3,9 +3,9 @@ import { graphql, Link } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import useSiteMetadata from '../hooks/use-static-query/use-site-metadata';
 import Layout from '../components/layout';
-import Ingredients from '../components/recipe/ingredients';
-import Preparation from '../components/recipe/preparation';
-import NutritionFactsLabel from '../components/recipe/nutrition-facts-label';
+import Ingredients from '../components/ingredients';
+import Preparation from '../components/preparation';
+import NutritionFactsLabel from '../components/nutrition-facts-label';
 
 const getServingsValue = (servings) => {
   /**

@@ -1,7 +1,7 @@
 import React from 'react';
 import fmtQty from 'format-quantity';
-import useRecipeIngredientsStringWhitelists from '../../hooks/use-static-query/use-recipe-ingredient-string-whitelists';
-import round from '../../utils/numbers';
+import useRecipeIngredientsStringWhitelists from '../hooks/use-static-query/use-recipe-ingredient-string-whitelists';
+import round from '../utils/numbers';
 
 const FRACTIONS_STRINGS = {
   '½': '1/2',

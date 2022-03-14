@@ -1,5 +1,5 @@
 import React from 'react';
-import useRecipeTags from '../../hooks/use-static-query/use-recipe-tags';
+import useRecipeTags from '../hooks/use-static-query/use-recipe-tags';
 import FilterTagGroup from './filter-tag-group';
 import CloseIcon from '../icons/close-icon';
 

@@ -4,9 +4,9 @@ import useToggle from '../hooks/use-toggle';
 import useFilterTags from '../hooks/use-filter-tags';
 import useRecipes from '../hooks/use-static-query/use-recipes';
 import Layout from '../components/layout';
-import FilterModal from '../components/search/filter-modal';
-import SearchIcon from '../components/icons/search-icon';
-import FilterIcon from '../components/icons/filter-icon';
+import FilterModal from '../components/filter-modal';
+import SearchIcon from '../icons/search-icon';
+import FilterIcon from '../icons/filter-icon';
 
 /**
  * Filtered recipes should contain every 'specialConsideration' and 'season'
