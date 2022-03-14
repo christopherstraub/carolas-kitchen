@@ -1,14 +1,13 @@
 import React from 'react';
 import { graphql, Link } from 'gatsby';
-import Layout from '../components/layout';
 
 export default function RecipeCoursePage({ data }) {
-  const { title, slug } = data.allContentfulRecipeCourseTags.nodes[0];
+  const { title } = data.allContentfulRecipeCourseTags.nodes[0];
 
   const recipes = data.allContentfulRecipe.nodes;
 
   return (
-    <Layout>
+    <main>
       <h1>{title}</h1>
       <ul>
         {recipes.map((recipe) => (
@@ -17,7 +16,7 @@ export default function RecipeCoursePage({ data }) {
           </li>
         ))}
       </ul>
-    </Layout>
+    </main>
   );
 }
 

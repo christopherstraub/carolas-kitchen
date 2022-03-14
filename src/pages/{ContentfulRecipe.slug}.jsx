@@ -48,7 +48,7 @@ export default function RecipePage({ data }) {
   const [servingsValue, setServingsValue] = useState(initialServingsValue);
 
   return (
-    <Layout>
+    <main>
       <header>
         <ul>
           {courseTags.map((tag) => (
@@ -76,17 +76,15 @@ export default function RecipePage({ data }) {
           <a href="#">pinterest</a>
         </li>
       </ul>
-      <main>
-        <Ingredients
-          servings={servings}
-          initialServingsValue={initialServingsValue}
-          servingsValue={servingsValue}
-          setServingsValue={setServingsValue}
-          ingredientsHtml={ingredients.childMarkdownRemark.html}
-          nodeLocale={nodeLocale}
-        />
-        <Preparation preparationHtml={preparation.childMarkdownRemark.html} />
-      </main>
+      <Ingredients
+        servings={servings}
+        initialServingsValue={initialServingsValue}
+        servingsValue={servingsValue}
+        setServingsValue={setServingsValue}
+        ingredientsHtml={ingredients.childMarkdownRemark.html}
+        nodeLocale={nodeLocale}
+      />
+      <Preparation preparationHtml={preparation.childMarkdownRemark.html} />
       {nutritionFacts && (
         <details>
           <summary>
@@ -99,7 +97,7 @@ export default function RecipePage({ data }) {
           />
         </details>
       )}
-    </Layout>
+    </main>
   );
 }
 
