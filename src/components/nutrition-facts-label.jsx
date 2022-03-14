@@ -215,7 +215,9 @@ export default function NutritionFactsLabel({
       <div className={`${styles.row} ${styles.paddingBottom0}`}>
         <p className={styles.fontBlack}>Amount per serving</p>
       </div>
-      <div className={`${styles.rowBorderBottomThick} ${styles.paddingTop0}`}>
+      <div
+        className={`${styles.rowAlignEndBorderBottomThick} ${styles.paddingTop0}`}
+      >
         <p className={styles.fontBlackMd}>Calories</p>
         <p className={styles.fontBlackLg}>{calories.amount}</p>
       </div>

@@ -44,13 +44,14 @@ $indent-2: $indent-1 * 2;
   composes: row-border-bottom;
   border-width: 14px;
 }
-.row-justify-end {
+.row-justify-end-border-bottom {
   composes: row;
   justify-content: flex-end;
-}
-.row-justify-end-border-bottom {
-  composes: row-justify-end;
   border-bottom: 1px solid black;
+}
+.row-align-end-border-bottom-thick {
+  composes: row-border-bottom-thick;
+  align-items: flex-end;
 }
 .daily-value-footnote {
   composes: row;
