@@ -7,6 +7,7 @@ export default function BurgerMenuIcon() {
       viewBox="0 0 20 10"
       width="20"
       height="10"
+      className={styles.icon}
       xmlns="http://www.w3.org/2000/svg"
     >
       <line
@@ -16,7 +17,6 @@ export default function BurgerMenuIcon() {
         y2="1"
         strokeWidth="2"
         strokeLinecap="round"
-        className={styles.line}
       />
       <line
         x1="1"
@@ -25,7 +25,6 @@ export default function BurgerMenuIcon() {
         y2="5"
         strokeWidth="2"
         strokeLinecap="round"
-        className={styles.line}
       />
       <line
         x1="1"
@@ -34,7 +33,6 @@ export default function BurgerMenuIcon() {
         y2="9"
         strokeWidth="2"
         strokeLinecap="round"
-        className={styles.line}
       />
     </svg>
   );

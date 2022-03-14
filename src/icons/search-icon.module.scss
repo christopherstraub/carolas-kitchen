@@ -1,23 +1,9 @@
 @use '../sass/abstracts/colors' as *;
 
-.handle {
+.normal {
   stroke: $dark-gray;
 }
-.frame {
-  fill: $dark-gray;
-}
-.lens {
-  fill: white;
-}
 
-.light > {
-  .handle {
-    stroke: white;
-  }
-  .frame {
-    fill: white;
-  }
-  .lens {
-    fill: black;
-  }
+.light {
+  stroke: white;
 }
