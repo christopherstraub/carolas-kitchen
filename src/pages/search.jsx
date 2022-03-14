@@ -56,7 +56,7 @@ export default function SearchPage() {
     <Layout>
       <input type="text" />
       <button type="button" id="search">
-        <SearchIcon light />
+        <SearchIcon />
       </button>
       <button type="button" id="filter" onClick={toggleShowFilterModal}>
         <FilterIcon />
