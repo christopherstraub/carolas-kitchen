@@ -30,6 +30,7 @@ export default function RecipePage({ data }) {
     courseTags,
     heroImage,
     servings,
+    yieldAmount,
     ingredients,
     preparation,
     nutritionFacts,
@@ -78,6 +79,7 @@ export default function RecipePage({ data }) {
       </ul>
       <Ingredients
         servings={servings}
+        yieldAmount={yieldAmount}
         initialServingsValue={initialServingsValue}
         servingsValue={servingsValue}
         setServingsValue={setServingsValue}
@@ -117,6 +119,7 @@ export const query = graphql`
           gatsbyImageData(placeholder: BLURRED, layout: FULL_WIDTH)
         }
         servings
+        yieldAmount
         ingredients {
           childMarkdownRemark {
             html

@@ -148,6 +148,7 @@ function getScaledIngredientsHtml(
 
 export default function Ingredients({
   servings,
+  yieldAmount,
   initialServingsValue,
   servingsValue,
   setServingsValue,
@@ -165,7 +166,11 @@ export default function Ingredients({
   return (
     <section>
       <h2>Ingredients</h2>
-      <h3>{servings} servings</h3>
+      <h3>
+        {yieldAmount
+          ? `Makes ${yieldAmount}`
+          : `${servings.replace('-', ' to ')} servings`}
+      </h3>
       <ol>
         <li>
           <button
