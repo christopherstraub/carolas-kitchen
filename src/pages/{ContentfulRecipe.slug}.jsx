@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { graphql, Link } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import useSiteMetadata from '../hooks/use-static-query/use-site-metadata';
-import Layout from '../components/layout';
 import Ingredients from '../components/ingredients';
 import Preparation from '../components/preparation';
 import NutritionFactsLabel from '../components/nutrition-facts-label';
@@ -26,7 +25,7 @@ export default function RecipePage({ data }) {
     title,
     slug,
     node_locale: nodeLocale,
-    date,
+    publishDate,
     courseTags,
     heroImage,
     servings,
@@ -37,7 +36,7 @@ export default function RecipePage({ data }) {
     seasonTags,
   } = data.allContentfulRecipe.nodes[0];
 
-  const dateString = new Date(date).toLocaleDateString(nodeLocale, {
+  const dateString = new Date(publishDate).toLocaleDateString(nodeLocale, {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -60,7 +59,7 @@ export default function RecipePage({ data }) {
         </ul>
 
         <h1>{title}</h1>
-        <time dateTime={date}>{dateString}</time>
+        <time dateTime={publishDate}>{dateString}</time>
         {image && <GatsbyImage image={image} alt={title} />}
       </header>
       <ul>
@@ -110,7 +109,7 @@ export const query = graphql`
         title
         slug
         node_locale
-        date
+        publishDate
         courseTags {
           title
           slug

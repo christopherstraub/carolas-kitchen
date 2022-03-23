@@ -12,7 +12,7 @@ export default function useRecipes() {
             title
             slug
             id
-            date
+            publishDate
             heroImage {
               gatsbyImageData(placeholder: BLURRED, layout: FULL_WIDTH)
             }
@@ -38,7 +38,7 @@ export default function useRecipes() {
             title
             slug
             id
-            date
+            publishDate
             heroImage {
               gatsbyImageData(placeholder: BLURRED, layout: FULL_WIDTH)
             }
