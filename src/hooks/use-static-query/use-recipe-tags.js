@@ -84,13 +84,13 @@ export default function useRecipeTags() {
     ...new Set(
       englishIngredientTags.nodes.flatMap((node) => node.ingredientTags)
     ),
-  ].filter((tag) => tag);
+  ].filter((tag) => tag !== null);
 
   const uniqueSpanishIngredientTags = [
     ...new Set(
       spanishIngredientTags.nodes.flatMap((node) => node.ingredientTags)
     ),
-  ].filter((tag) => tag);
+  ].filter((tag) => tag !== null);
 
   return {
     'en-US': [
