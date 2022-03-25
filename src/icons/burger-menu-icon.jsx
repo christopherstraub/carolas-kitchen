@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function BurgerMenuIcon() {
+export default function BurgerMenuIcon({ title = 'Menu' }) {
   return (
     <svg
       viewBox="0 0 20 10"
@@ -8,6 +8,7 @@ export default function BurgerMenuIcon() {
       height="10"
       xmlns="http://www.w3.org/2000/svg"
     >
+      {title && <title>{title}</title>}
       <line
         x1="1"
         y1="1"

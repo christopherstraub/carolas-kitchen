@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function SearchIcon() {
+export default function SearchIcon({ title = 'Search' }) {
   return (
     <svg
       viewBox="0 0 16 16"
@@ -8,6 +8,7 @@ export default function SearchIcon() {
       height="16"
       xmlns="http://www.w3.org/2000/svg"
     >
+      {title && <title>{title}</title>}
       <circle cx="6" cy="6" r="5" fill="none" stroke="currentColor" />
       <line
         x1="10"

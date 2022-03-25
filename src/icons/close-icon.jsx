@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function CloseIcon() {
+export default function CloseIcon({ title = 'Close' }) {
   return (
     <svg
       viewBox="0 0 20 20"
@@ -8,6 +8,7 @@ export default function CloseIcon() {
       height="20"
       xmlns="http://www.w3.org/2000/svg"
     >
+      {title && <title>{title}</title>}
       <line
         x1="1"
         y1="1"

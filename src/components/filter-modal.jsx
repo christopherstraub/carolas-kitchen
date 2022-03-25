@@ -26,7 +26,7 @@ export default function FilterModal({
           <li key={filter.id}>
             <span> {filter.title}</span>
             <button type="button" onClick={() => removeFilterTag(filter.id)}>
-              <CloseIcon />
+              <CloseIcon title="Remove filter" />
             </button>
           </li>
         ))}
