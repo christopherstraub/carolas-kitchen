@@ -11,7 +11,7 @@ export default function FilterModal({
   addFilterTag,
   removeFilterTag,
 }) {
-  const recipeTags = useRecipeTags()[nodeLocale];
+  const tags = useRecipeTags()[nodeLocale];
 
   return (
     <div>
@@ -36,16 +36,34 @@ export default function FilterModal({
           clear all
         </button>
       )}
-      {recipeTags.map((tag) => (
-        <FilterTagGroup
-          key={tag.title}
-          title={tag.title}
-          options={tag.options}
-          filterTags={filterTags}
-          addFilterTag={addFilterTag}
-          removeFilterTag={removeFilterTag}
-        />
-      ))}
+      <FilterTagGroup
+        title={tags.course.title}
+        options={tags.course.options}
+        filterTags={filterTags}
+        addFilterTag={addFilterTag}
+        removeFilterTag={removeFilterTag}
+      />
+      <FilterTagGroup
+        title={tags.specialConsideration.title}
+        options={tags.specialConsideration.options}
+        filterTags={filterTags}
+        addFilterTag={addFilterTag}
+        removeFilterTag={removeFilterTag}
+      />
+      <FilterTagGroup
+        title={tags.season.title}
+        options={tags.season.options}
+        filterTags={filterTags}
+        addFilterTag={addFilterTag}
+        removeFilterTag={removeFilterTag}
+      />
+      <FilterTagGroup
+        title={tags.ingredient.title}
+        options={tags.ingredient.options}
+        filterTags={filterTags}
+        addFilterTag={addFilterTag}
+        removeFilterTag={removeFilterTag}
+      />
     </div>
   );
 }

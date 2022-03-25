@@ -8,7 +8,7 @@ import SearchIcon from '../icons/search-icon';
 import FilterIcon from '../icons/filter-icon';
 
 /**
- * Filtered recipes should contain every 'specialConsideration' and 'season'
+ * Filtered recipes will contain every 'specialConsideration' and 'season'
  * tag selected, and any of the 'course' and 'ingredient' tags selected.
  */
 function getFilteredRecipes(recipes, filterTags) {
@@ -40,7 +40,7 @@ function getFilteredRecipes(recipes, filterTags) {
 }
 
 export default function SearchPage() {
-  const [showFilterModal, toggleShowFilterModal] = useToggle(true);
+  const [showFilterModal, toggleShowFilterModal] = useToggle();
   const [filterTags, setFilterTags, addFilterTag, removeFilterTag] =
     useFilterTags();
 
@@ -61,6 +61,16 @@ export default function SearchPage() {
         <FilterIcon />
         FILTER
       </button>
+      {showFilterModal && (
+        <FilterModal
+          nodeLocale="en-US"
+          toggleShowFilterModal={toggleShowFilterModal}
+          filterTags={filterTags}
+          setFilterTags={setFilterTags}
+          addFilterTag={addFilterTag}
+          removeFilterTag={removeFilterTag}
+        />
+      )}
       <div>
         <span>{filteredRecipes.length} results</span>
         <div>
@@ -80,16 +90,6 @@ export default function SearchPage() {
           </li>
         ))}
       </ul>
-      {showFilterModal && (
-        <FilterModal
-          nodeLocale="en-US"
-          toggleShowFilterModal={toggleShowFilterModal}
-          filterTags={filterTags}
-          setFilterTags={setFilterTags}
-          addFilterTag={addFilterTag}
-          removeFilterTag={removeFilterTag}
-        />
-      )}
     </main>
   );
 }

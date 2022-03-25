@@ -1,5 +1,4 @@
 import { useStaticQuery, graphql } from 'gatsby';
-import capitalize from '../../utils/strings';
 
 export default function useRecipes() {
   const { englishRecipes, spanishRecipes } = useStaticQuery(
@@ -19,16 +18,23 @@ export default function useRecipes() {
             courseTags {
               title
               id
+              type
             }
             specialConsiderationTags {
               title
               id
+              type
             }
             seasonTags {
               title
               id
+              type
             }
-            ingredientTags
+            ingredientTags {
+              title
+              id
+              type
+            }
           }
         }
         spanishRecipes: allContentfulRecipe(
@@ -45,16 +51,23 @@ export default function useRecipes() {
             courseTags {
               title
               id
+              type
             }
             specialConsiderationTags {
               title
               id
+              type
             }
             seasonTags {
               title
               id
+              type
             }
-            ingredientTags
+            ingredientTags {
+              title
+              id
+              type
+            }
           }
         }
       }
@@ -62,43 +75,37 @@ export default function useRecipes() {
   );
 
   return {
-    'en-US': englishRecipes.nodes.map((node) => ({
-      ...node,
-      tags: [].concat(
-        node.courseTags?.map((tag) => ({ ...tag, type: 'course' })) ?? [],
-        node.specialConsiderationTags?.map((tag) => ({
-          ...tag,
-          type: 'specialConsideration',
-        })) ?? [],
-        node.seasonTags?.map((tag) => ({
-          ...tag,
-          type: 'season',
-        })) ?? [],
-        node.ingredientTags?.map((tag) => ({
-          title: capitalize(tag),
-          id: tag,
-          type: 'ingredient',
-        })) ?? []
-      ),
-    })),
-    es: spanishRecipes.nodes.map((node) => ({
-      ...node,
-      tags: [].concat(
-        node.courseTags?.map((tag) => ({ ...tag, type: 'course' })) ?? [],
-        node.specialConsiderationTags?.map((tag) => ({
-          ...tag,
-          type: 'specialConsideration',
-        })) ?? [],
-        node.seasonTags?.map((tag) => ({
-          ...tag,
-          type: 'season',
-        })) ?? [],
-        node.ingredientTags?.map((tag) => ({
-          title: capitalize(tag),
-          id: tag,
-          type: 'ingredient',
-        })) ?? []
-      ),
-    })),
+    'en-US': englishRecipes.nodes.map((node) => {
+      const courseTags = node.courseTags ?? [];
+      const specialConsiderationTags = node.specialConsiderationTags ?? [];
+      const seasonTags = node.seasonTags ?? [];
+      const ingredientTags = node.ingredientTags ?? [];
+
+      return {
+        ...node,
+        tags: [
+          ...courseTags,
+          ...specialConsiderationTags,
+          ...seasonTags,
+          ...ingredientTags,
+        ],
+      };
+    }),
+    es: spanishRecipes.nodes.map((node) => {
+      const courseTags = node.courseTags ?? [];
+      const specialConsiderationTags = node.specialConsiderationTags ?? [];
+      const seasonTags = node.seasonTags ?? [];
+      const ingredientTags = node.ingredientTags ?? [];
+
+      return {
+        ...node,
+        tags: [
+          ...courseTags,
+          ...specialConsiderationTags,
+          ...seasonTags,
+          ...ingredientTags,
+        ],
+      };
+    }),
   };
 }

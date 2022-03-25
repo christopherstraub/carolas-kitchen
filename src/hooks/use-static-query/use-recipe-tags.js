@@ -1,5 +1,4 @@
 import { useStaticQuery, graphql } from 'gatsby';
-import capitalize from '../../utils/strings';
 
 export default function useRecipeTags() {
   const {
@@ -20,6 +19,7 @@ export default function useRecipeTags() {
           nodes {
             title
             id
+            type
           }
         }
         englishSpecialConsiderationTags: allContentfulRecipeSpecialConsiderationTags(
@@ -28,6 +28,7 @@ export default function useRecipeTags() {
           nodes {
             title
             id
+            type
           }
         }
         englishSeasonTags: allContentfulRecipeSeasonTags(
@@ -36,14 +37,15 @@ export default function useRecipeTags() {
           nodes {
             title
             id
+            type
           }
         }
-        englishIngredientTags: allContentfulRecipe(
-          filter: { node_locale: { eq: "en-US" } }
+        englishIngredientTags: allContentfulRecipeIngredientTags(
+          node_locale: "en-US"
         ) {
-          nodes {
-            ingredientTags
-          }
+          title
+          id
+          type
         }
         spanishCourseTags: allContentfulRecipeCourseTags(
           filter: { node_locale: { eq: "es" } }
@@ -51,6 +53,7 @@ export default function useRecipeTags() {
           nodes {
             title
             id
+            type
           }
         }
         spanishSpecialConsiderationTags: allContentfulRecipeSpecialConsiderationTags(
@@ -59,6 +62,7 @@ export default function useRecipeTags() {
           nodes {
             title
             id
+            type
           }
         }
         spanishSeasonTags: allContentfulRecipeSeasonTags(
@@ -67,94 +71,56 @@ export default function useRecipeTags() {
           nodes {
             title
             id
+            type
           }
         }
-        spanishIngredientTags: allContentfulRecipe(
-          filter: { node_locale: { eq: "es" } }
+        spanishIngredientTags: allContentfulRecipeIngredientTags(
+          node_locale: "es"
         ) {
-          nodes {
-            ingredientTags
-          }
+          title
+          id
+          type
         }
       }
     `
   );
 
-  const uniqueEnglishIngredientTags = [
-    ...new Set(
-      englishIngredientTags.nodes.flatMap((node) => node.ingredientTags)
-    ),
-  ].filter((tag) => tag !== null);
-
-  const uniqueSpanishIngredientTags = [
-    ...new Set(
-      spanishIngredientTags.nodes.flatMap((node) => node.ingredientTags)
-    ),
-  ].filter((tag) => tag !== null);
-
   return {
-    'en-US': [
-      {
+    'en-US': {
+      course: {
         title: 'Course',
-        options: englishCourseTags.nodes.map((node) => ({
-          ...node,
-          type: 'course',
-        })),
+        options: englishCourseTags.nodes,
       },
-      {
+      specialConsideration: {
         title: 'Special Consideration',
-        options: englishSpecialConsiderationTags.nodes.map((node) => ({
-          ...node,
-          type: 'specialConsideration',
-        })),
+        options: englishSpecialConsiderationTags.nodes,
       },
-      {
+      season: {
         title: 'Season',
-        options: englishSeasonTags.nodes.map((node) => ({
-          ...node,
-          type: 'season',
-        })),
+        options: englishSeasonTags.nodes,
       },
-      {
+      ingredient: {
         title: 'Ingredient',
-        options: uniqueEnglishIngredientTags.map((tag) => ({
-          title: capitalize(tag),
-          id: tag,
-          type: 'ingredient',
-        })),
+        options: englishIngredientTags,
       },
-    ],
-
-    es: [
-      {
+    },
+    es: {
+      course: {
         title: 'Curso',
-        options: spanishCourseTags.nodes.map((node) => ({
-          ...node,
-          type: 'course',
-        })),
+        options: spanishCourseTags.nodes,
       },
-      {
+      specialConsideration: {
         title: 'Consideración Especial',
-        options: spanishSpecialConsiderationTags.nodes.map((node) => ({
-          ...node,
-          type: 'specialConsideration',
-        })),
+        options: spanishSpecialConsiderationTags.nodes,
       },
-      {
+      season: {
         title: 'Temporada',
-        options: spanishSeasonTags.nodes.map((node) => ({
-          ...node,
-          type: 'season',
-        })),
+        options: spanishSeasonTags.nodes,
       },
-      {
+      ingredient: {
         title: 'Ingrediente',
-        options: uniqueSpanishIngredientTags.map((tag) => ({
-          title: capitalize(tag),
-          id: tag,
-          type: 'ingredient',
-        })),
+        options: spanishIngredientTags,
       },
-    ],
+    },
   };
 }

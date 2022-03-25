@@ -33,7 +33,6 @@ export default function RecipePage({ data }) {
     ingredients,
     preparation,
     nutritionFacts,
-    seasonTags,
   } = data.allContentfulRecipe.nodes[0];
 
   const dateString = new Date(publishDate).toLocaleDateString(nodeLocale, {
@@ -77,13 +76,12 @@ export default function RecipePage({ data }) {
         </li>
       </ul>
       <Ingredients
+        ingredients={ingredients}
         servings={servings}
         yieldAmount={yieldAmount}
         initialServingsValue={initialServingsValue}
         servingsValue={servingsValue}
         setServingsValue={setServingsValue}
-        ingredientsHtml={ingredients.childMarkdownRemark.html}
-        nodeLocale={nodeLocale}
       />
       <Preparation preparationHtml={preparation.childMarkdownRemark.html} />
       {nutritionFacts && (
@@ -123,6 +121,10 @@ export const query = graphql`
           childMarkdownRemark {
             html
           }
+          scaleWhitelists {
+            key
+            whitelist
+          }
         }
         preparation {
           childMarkdownRemark {
@@ -140,10 +142,6 @@ export const query = graphql`
             amount
             id
           }
-        }
-        seasonTags {
-          title
-          slug
         }
       }
     }

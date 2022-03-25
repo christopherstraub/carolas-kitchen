@@ -1,6 +1,5 @@
 import React from 'react';
 import fmtQty from 'format-quantity';
-import useRecipeIngredientsStringWhitelists from '../hooks/use-static-query/use-recipe-ingredient-string-whitelists';
 import round from '../utils/numbers';
 
 const FRACTIONS_STRINGS = {
@@ -39,7 +38,7 @@ function singularize(string) {
 function getScaledIngredientsHtml(
   ingredientsHtml,
   scaleFactor,
-  stringWhitelists
+  scaleWhitelists
 ) {
   /**
    * Regular expression capturing groups:
@@ -126,17 +125,17 @@ function getScaledIngredientsHtml(
     .replaceAll(
       ingredientMeasurementsRegex,
       (match, wholeNumber, fraction, threeWords, twoWords, word) => {
-        if (stringWhitelists.threeWords.join().includes(threeWords))
+        if (scaleWhitelists.threeWords.join().includes(threeWords))
           return shouldBePluralized(wholeNumber, fraction)
             ? match.replace(threeWords, pluralize(threeWords))
             : match.replace(threeWords, singularize(threeWords));
 
-        if (stringWhitelists.twoWords.join().includes(twoWords))
+        if (scaleWhitelists.twoWords.join().includes(twoWords))
           return shouldBePluralized(wholeNumber, fraction)
             ? match.replace(twoWords, pluralize(twoWords))
             : match.replace(twoWords, singularize(twoWords));
 
-        if (stringWhitelists.oneWord.join().includes(word))
+        if (scaleWhitelists.oneWord.join().includes(word))
           return shouldBePluralized(wholeNumber, fraction)
             ? match.replace(word, pluralize(word))
             : match.replace(word, singularize(word));
@@ -147,20 +146,24 @@ function getScaledIngredientsHtml(
 }
 
 export default function Ingredients({
+  ingredients,
   servings,
   yieldAmount,
   initialServingsValue,
   servingsValue,
   setServingsValue,
-  ingredientsHtml,
-  nodeLocale,
 }) {
-  const stringWhitelists = useRecipeIngredientsStringWhitelists()[nodeLocale];
+  const scaleWhitelists = Object.fromEntries(
+    ingredients.scaleWhitelists.map((node) => [
+      [node.key],
+      node.whitelist ?? [],
+    ])
+  );
 
   const html = getScaledIngredientsHtml(
-    ingredientsHtml,
+    ingredients.childMarkdownRemark.html,
     servingsValue / initialServingsValue,
-    stringWhitelists
+    scaleWhitelists
   );
 
   return (
