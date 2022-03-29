@@ -1,24 +1,32 @@
 import React from 'react';
+import useAppTranslations from '../hooks/use-static-query/use-app-translations';
 import useRecipeTags from '../hooks/use-static-query/use-recipe-tags';
 import FilterTagGroup from './filter-tag-group';
 import CloseIcon from '../icons/close-icon';
 
 export default function FilterModal({
-  nodeLocale,
   toggleShowFilterModal,
   filterTags,
   setFilterTags,
   addFilterTag,
   removeFilterTag,
+  locale,
 }) {
-  const tags = useRecipeTags()[nodeLocale];
+  const tags = useRecipeTags(locale);
+
+  const {
+    filterModal: { filterBy: tFilterBy, clearAll: tClearAll },
+    icons: {
+      close: { removeFilter: tRemoveFilter },
+    },
+  } = useAppTranslations(locale);
 
   return (
     <div>
       <header>
-        <h2>filter by:</h2>
+        <h2>{tFilterBy}:</h2>
         <button type="button" onClick={toggleShowFilterModal}>
-          <CloseIcon />
+          <CloseIcon locale={locale} />
         </button>
       </header>
       <ul>
@@ -26,14 +34,14 @@ export default function FilterModal({
           <li key={filter.id}>
             <span> {filter.title}</span>
             <button type="button" onClick={() => removeFilterTag(filter.id)}>
-              <CloseIcon title="Remove filter" />
+              <CloseIcon locale={locale} title={tRemoveFilter} />
             </button>
           </li>
         ))}
       </ul>
       {filterTags.length >= 1 && (
         <button type="button" onClick={() => setFilterTags([])}>
-          clear all
+          {tClearAll}
         </button>
       )}
       <FilterTagGroup

@@ -1,5 +1,6 @@
 import React from 'react';
 import round from '../utils/numbers';
+import useAppTranslations from '../hooks/use-static-query/use-app-translations';
 import * as styles from './nutrition-facts-label.module.scss';
 
 /**
@@ -185,6 +186,7 @@ export default function NutritionFactsLabel({
   nutrients,
   initialServingsValue,
   servingsValue,
+  locale,
 }) {
   const {
     calories,
@@ -204,98 +206,139 @@ export default function NutritionFactsLabel({
     potassium,
   } = getNutrients(nutrients, initialServingsValue);
 
+  const {
+    title: tTitle,
+    servingsPerRecipe: tServingsPerRecipe,
+    amountPerServing: tAmountPerServing,
+    calories: tCalories,
+    dailyValue: tDailyValue,
+    totalFat: tTotalFat,
+    saturatedFat: tSaturatedFat,
+    transFat: tTransFat,
+    cholesterol: tCholesterol,
+    sodium: tSodium,
+    totalCarbohydrate: tTotalCarbohydrate,
+    dietaryFiber: tDietaryFiber,
+    totalSugars: tTotalSugars,
+    includes: tIncludes,
+    addedSugars: tAddedSugars,
+    protein: tProtein,
+    vitaminD: tVitaminD,
+    calcium: tCalcium,
+    iron: tIron,
+    potassium: tPotassium,
+    footnote: tFootnote,
+  } = useAppTranslations(locale).nutritionFacts;
+
   return (
     <section className={styles.label}>
       <div className={styles.rowBorderBottom}>
-        <h3 className={styles.fontBlackLg}>Nutrition Facts</h3>
+        <h3 className={styles.title}>{tTitle}</h3>
       </div>
       <div className={styles.rowBorderBottomThicker}>
-        <p className={styles.fontMd}>{servingsValue} servings per recipe</p>
+        <p className={styles.fontMd}>
+          {servingsValue} {tServingsPerRecipe}
+        </p>
       </div>
       <div className={`${styles.row} ${styles.paddingBottom0}`}>
-        <p className={styles.fontBlack}>Amount per serving</p>
+        <p className={styles.fontBlack}>{tAmountPerServing}</p>
       </div>
       <div
         className={`${styles.rowAlignEndBorderBottomThick} ${styles.paddingTop0}`}
       >
-        <p className={styles.fontBlackMd}>Calories</p>
+        <p className={styles.fontBlackMd}>{tCalories}</p>
         <p className={styles.fontBlackLg}>{calories.amount}</p>
       </div>
       <div className={styles.rowJustifyEndBorderBottom}>
-        <p className={styles.fontBlack}>% Daily Value*</p>
+        <p className={styles.fontBlack}>% {tDailyValue}*</p>
       </div>
       <div className={styles.rowBorderBottom}>
         <p>
-          <span className={styles.fontBlack}>Total Fat</span> {totalFat.amount}
+          <span className={styles.fontBlack}>{tTotalFat}</span>{' '}
+          {totalFat.amount}
         </p>
         <p className={styles.fontBlack}>{totalFat.dailyValuePct}</p>
       </div>
       <div className={`${styles.rowBorderBottom} ${styles.indent1}`}>
-        <p>Saturated Fat {saturatedFat.amount}</p>
+        <p>
+          {tSaturatedFat} {saturatedFat.amount}
+        </p>
         <p className={styles.fontBlack}>{saturatedFat.dailyValuePct}</p>
       </div>
       <div className={`${styles.rowBorderBottom} ${styles.indent1}`}>
-        <p>Trans Fat {transFat.amount}</p>
+        <p>
+          {tTransFat} {transFat.amount}
+        </p>
       </div>
       <div className={styles.rowBorderBottom}>
         <p>
-          <span className={styles.fontBlack}>Cholesterol</span>{' '}
+          <span className={styles.fontBlack}>{tCholesterol}</span>{' '}
           {cholesterol.amount}
         </p>
         <p className={styles.fontBlack}>{cholesterol.dailyValuePct}</p>
       </div>
       <div className={styles.rowBorderBottom}>
         <p>
-          <span className={styles.fontBlack}>Sodium</span> {sodium.amount}
+          <span className={styles.fontBlack}>{tSodium}</span> {sodium.amount}
         </p>
         <p className={styles.fontBlack}>{sodium.dailyValuePct}</p>
       </div>
       <div className={styles.rowBorderBottom}>
         <p>
-          <span className={styles.fontBlack}>Total Carbohydrate</span>{' '}
+          <span className={styles.fontBlack}>{tTotalCarbohydrate}</span>{' '}
           {totalCarbohydrate.amount}
         </p>
         <p className={styles.fontBlack}>{totalCarbohydrate.dailyValuePct}</p>
       </div>
       <div className={`${styles.rowBorderBottom} ${styles.indent1}`}>
-        <p>Dietary Fiber {dietaryFiber.amount}</p>
+        <p>
+          {tDietaryFiber} {dietaryFiber.amount}
+        </p>
         <p className={styles.fontBlack}>{dietaryFiber.dailyValuePct}</p>
       </div>
       <div className={`${styles.rowBorderBottom} ${styles.marginIndent2}`}>
-        <p className={styles.totalSugars}>Total Sugars {totalSugars.amount}</p>
+        <p className={styles.totalSugars}>
+          {tTotalSugars} {totalSugars.amount}
+        </p>
       </div>
       <div className={`${styles.rowBorderBottom} ${styles.indent2}`}>
-        <p>Includes {addedSugars.amount} Added Sugars</p>
+        <p>
+          {tIncludes} {addedSugars.amount} {tAddedSugars}
+        </p>
         <p className={styles.fontBlack}>{addedSugars.dailyValuePct}</p>
       </div>
       <div className={styles.rowBorderBottomThicker}>
         <p>
-          <span className={styles.fontBlack}>Protein</span> {protein.amount}
+          <span className={styles.fontBlack}>{tProtein}</span> {protein.amount}
         </p>
       </div>
       <div className={styles.rowBorderBottom}>
-        <p>Vitamin D {vitaminD.amount}</p>
+        <p>
+          {tVitaminD} {vitaminD.amount}
+        </p>
         <p>{vitaminD.dailyValuePct}</p>
       </div>
       <div className={styles.rowBorderBottom}>
-        <p>Calcium {calcium.amount}</p>
+        <p>
+          {tCalcium} {calcium.amount}
+        </p>
         <p>{calcium.dailyValuePct}</p>
       </div>
       <div className={styles.rowBorderBottom}>
-        <p>Iron {iron.amount}</p>
+        <p>
+          {tIron} {iron.amount}
+        </p>
         <p>{iron.dailyValuePct}</p>
       </div>
       <div className={styles.rowBorderBottomThick}>
-        <p>Potassium {potassium.amount}</p>
+        <p>
+          {tPotassium} {potassium.amount}
+        </p>
         <p>{potassium.dailyValuePct}</p>
       </div>
       <div className={styles.dailyValueFootnote}>
         <p>*</p>
-        <p className={styles.marginLeft}>
-          The % Daily Value (DV) tells you how much a nutrient in a serving of
-          food contributes to a daily diet. 2,000 calories a day is used for
-          general nutrition advice.
-        </p>
+        <p className={styles.marginLeft}>{tFootnote}</p>
       </div>
     </section>
   );

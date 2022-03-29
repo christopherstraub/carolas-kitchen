@@ -17,10 +17,12 @@
   },
   "plugins": ["react", "prettier"],
   "rules": {
-    "no-anonymous-exports-page-templates": "warn",
-    "limited-exports-page-templates": "warn",
     "react/prop-types": "off",
     "react/no-danger": "off",
-    "prettier/prettier": ["error", { "singleQuote": true }]
+    "dot-notation": "off",
+    "prettier/prettier": [
+      "error",
+      { "singleQuote": true, "quoteProps": "consistent" }
+    ]
   }
 }

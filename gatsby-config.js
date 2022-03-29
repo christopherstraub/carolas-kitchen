@@ -7,6 +7,8 @@ module.exports = {
     siteUrl: 'https://carolaskitchen.com/',
     title: "Carola's Kitchen",
   },
+  // In Gatsby v5 the default mode will be 'always'.
+  trailingSlash: 'always',
   plugins: [
     'gatsby-plugin-sass',
     'gatsby-transformer-remark',
@@ -40,17 +42,8 @@ module.exports = {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'images',
-        path: './src/images/',
+        path: `${__dirname}/src/images/`,
       },
-      __key: 'images',
-    },
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        name: 'pages',
-        path: './src/pages/',
-      },
-      __key: 'pages',
     },
     {
       resolve: 'gatsby-plugin-google-gtag',
