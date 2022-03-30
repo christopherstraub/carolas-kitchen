@@ -14,7 +14,6 @@ module.exports = {
     'gatsby-transformer-remark',
     'gatsby-plugin-image',
     'gatsby-plugin-sharp',
-    'gatsby-transformer-sharp',
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-sitemap',
     'gatsby-plugin-netlify',
@@ -36,13 +35,6 @@ module.exports = {
         background_color: '#fff',
         theme_color: '#fff',
         display: 'standalone',
-      },
-    },
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        name: 'images',
-        path: `${__dirname}/src/images/`,
       },
     },
     {
