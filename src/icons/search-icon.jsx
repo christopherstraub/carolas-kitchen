@@ -1,6 +1,9 @@
 import React from 'react';
+import useAppTranslations from '../hooks/use-static-query/use-app-translations';
 
-export default function SearchIcon({ title = 'Search' }) {
+export default function SearchIcon({ locale, title }) {
+  const { title: tTitle } = useAppTranslations(locale).icons.search;
+
   return (
     <svg
       viewBox="0 0 16 16"
@@ -8,7 +11,7 @@ export default function SearchIcon({ title = 'Search' }) {
       height="16"
       xmlns="http://www.w3.org/2000/svg"
     >
-      {title && <title>{title}</title>}
+      <title>{title ?? tTitle}</title>
       <circle cx="6" cy="6" r="5" fill="none" stroke="currentColor" />
       <line
         x1="10"

@@ -1,46 +1,16 @@
 import { useStaticQuery, graphql } from 'gatsby';
 
-export default function useRecipes() {
-  const { englishRecipes, spanishRecipes } = useStaticQuery(
+/**
+ * @param {('en-US'|'es')} locale
+ * @returns {Object} Recipes in specified locale.
+ */
+export default function useRecipes(locale) {
+  const { allContentfulRecipe } = useStaticQuery(
     graphql`
       query Recipes {
-        englishRecipes: allContentfulRecipe(
-          filter: { node_locale: { eq: "en-US" } }
-        ) {
+        allContentfulRecipe {
           nodes {
-            title
-            slug
-            id
-            publishDate
-            heroImage {
-              gatsbyImageData(placeholder: BLURRED, layout: FULL_WIDTH)
-            }
-            courseTags {
-              title
-              id
-              type
-            }
-            specialConsiderationTags {
-              title
-              id
-              type
-            }
-            seasonTags {
-              title
-              id
-              type
-            }
-            ingredientTags {
-              title
-              id
-              type
-            }
-          }
-        }
-        spanishRecipes: allContentfulRecipe(
-          filter: { node_locale: { eq: "es" } }
-        ) {
-          nodes {
+            node_locale
             title
             slug
             id
@@ -74,8 +44,9 @@ export default function useRecipes() {
     `
   );
 
-  return {
-    'en-US': englishRecipes.nodes.map((node) => {
+  return allContentfulRecipe.nodes
+    .filter((node) => node.node_locale === locale)
+    .map((node) => {
       const courseTags = node.courseTags ?? [];
       const specialConsiderationTags = node.specialConsiderationTags ?? [];
       const seasonTags = node.seasonTags ?? [];
@@ -90,22 +61,5 @@ export default function useRecipes() {
           ...ingredientTags,
         ],
       };
-    }),
-    es: spanishRecipes.nodes.map((node) => {
-      const courseTags = node.courseTags ?? [];
-      const specialConsiderationTags = node.specialConsiderationTags ?? [];
-      const seasonTags = node.seasonTags ?? [];
-      const ingredientTags = node.ingredientTags ?? [];
-
-      return {
-        ...node,
-        tags: [
-          ...courseTags,
-          ...specialConsiderationTags,
-          ...seasonTags,
-          ...ingredientTags,
-        ],
-      };
-    }),
-  };
+    });
 }

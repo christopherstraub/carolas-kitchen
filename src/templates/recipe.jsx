@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { graphql, Link } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
+import { getLocalizedPathFromSlug } from '../i18n';
+import useAppTranslations from '../hooks/use-static-query/use-app-translations';
 import useSiteMetadata from '../hooks/use-static-query/use-site-metadata';
 import Ingredients from '../components/ingredients';
 import Preparation from '../components/preparation';
@@ -20,11 +22,11 @@ const getServingsValue = (servings) => {
   return Number(servings.match(servingsRegex)[2]);
 };
 
-export default function RecipePage({ data }) {
+export default function RecipePageTemplate({ data }) {
   const {
     title,
     slug,
-    node_locale: nodeLocale,
+    node_locale: locale,
     publishDate,
     courseTags,
     heroImage,
@@ -33,9 +35,9 @@ export default function RecipePage({ data }) {
     ingredients,
     preparation,
     nutritionFacts,
-  } = data.allContentfulRecipe.nodes[0];
+  } = data.contentfulRecipe;
 
-  const dateString = new Date(publishDate).toLocaleDateString(nodeLocale, {
+  const dateString = new Date(publishDate).toLocaleDateString(locale, {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -46,13 +48,18 @@ export default function RecipePage({ data }) {
   const initialServingsValue = getServingsValue(servings);
   const [servingsValue, setServingsValue] = useState(initialServingsValue);
 
+  const { title: tNutritionFactsTitle } =
+    useAppTranslations(locale).nutritionFacts;
+
   return (
     <main>
       <header>
         <ul>
           {courseTags.map((tag) => (
             <li key={tag.slug}>
-              <Link to={`/${tag.slug}`}>{tag.title}</Link>
+              <Link to={getLocalizedPathFromSlug(tag.slug, locale)}>
+                {tag.title}
+              </Link>
             </li>
           ))}
         </ul>
@@ -82,17 +89,22 @@ export default function RecipePage({ data }) {
         initialServingsValue={initialServingsValue}
         servingsValue={servingsValue}
         setServingsValue={setServingsValue}
+        locale={locale}
       />
-      <Preparation preparationHtml={preparation.childMarkdownRemark.html} />
+      <Preparation
+        preparationHtml={preparation.childMarkdownRemark.html}
+        locale={locale}
+      />
       {nutritionFacts && (
         <details>
           <summary>
-            <h2>Nutrition Facts</h2>
+            <h2>{tNutritionFactsTitle}</h2>
           </summary>
           <NutritionFactsLabel
             nutrients={nutritionFacts.nutrients}
             initialServingsValue={initialServingsValue}
             servingsValue={servingsValue}
+            locale={locale}
           />
         </details>
       )}
@@ -101,47 +113,45 @@ export default function RecipePage({ data }) {
 }
 
 export const query = graphql`
-  query Recipe($id: String) {
-    allContentfulRecipe(filter: { id: { eq: $id } }) {
-      nodes {
+  query Recipe($id: String!) {
+    contentfulRecipe(id: { eq: $id }) {
+      title
+      slug
+      node_locale
+      publishDate
+      courseTags {
         title
         slug
-        node_locale
-        publishDate
-        courseTags {
-          title
-          slug
+      }
+      heroImage {
+        gatsbyImageData(placeholder: BLURRED, layout: FULL_WIDTH)
+      }
+      servings
+      yieldAmount
+      ingredients {
+        childMarkdownRemark {
+          html
         }
-        heroImage {
-          gatsbyImageData(placeholder: BLURRED, layout: FULL_WIDTH)
+        scaleWhitelists {
+          key
+          whitelist
         }
-        servings
-        yieldAmount
-        ingredients {
-          childMarkdownRemark {
-            html
-          }
-          scaleWhitelists {
-            key
-            whitelist
-          }
+      }
+      preparation {
+        childMarkdownRemark {
+          html
         }
-        preparation {
-          childMarkdownRemark {
-            html
-          }
+      }
+      nutritionFacts {
+        measures {
+          name
+          value
+          id
         }
-        nutritionFacts {
-          measures {
-            name
-            value
-            id
-          }
-          defaultMeasureId
-          nutrients {
-            amount
-            id
-          }
+        defaultMeasureId
+        nutrients {
+          amount
+          id
         }
       }
     }

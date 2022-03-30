@@ -7,12 +7,13 @@ module.exports = {
     siteUrl: 'https://carolaskitchen.com/',
     title: "Carola's Kitchen",
   },
+  // In Gatsby v5 the default mode will be 'always'.
+  trailingSlash: 'always',
   plugins: [
     'gatsby-plugin-sass',
     'gatsby-transformer-remark',
     'gatsby-plugin-image',
     'gatsby-plugin-sharp',
-    'gatsby-transformer-sharp',
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-sitemap',
     'gatsby-plugin-netlify',
@@ -35,22 +36,6 @@ module.exports = {
         theme_color: '#fff',
         display: 'standalone',
       },
-    },
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        name: 'images',
-        path: './src/images/',
-      },
-      __key: 'images',
-    },
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        name: 'pages',
-        path: './src/pages/',
-      },
-      __key: 'pages',
     },
     {
       resolve: 'gatsby-plugin-google-gtag',

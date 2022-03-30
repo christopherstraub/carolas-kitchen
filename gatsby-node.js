@@ -1,14 +1,150 @@
-function capitalize(string) {
-  return `${string[0].toUpperCase()}${string.slice(1)}`;
-}
+const path = require('path');
+const {
+  locales,
+  getLocalizedPath,
+  getLocalizedPathFromSlug,
+} = require('./src/i18n');
 
-exports.createPages = ({ actions: { createRedirect } }) => {
+exports.createPages = async ({ actions, graphql }) => {
+  const { createRedirect, createPage } = actions;
   createRedirect({
     fromPath: 'https://carolaskitchen.netlify.app/*',
     isPermanent: false,
     toPath: 'https://www.carolaskitchen.com/:splat',
     force: true,
   });
+
+  /**
+   *
+   * @param {Object.<string, string>} localePaths Object with locale keys and
+   * unprefixed path values.
+   * @param {string} template
+   */
+  function createLocalizedPagesFromPaths(localePaths, template) {
+    locales.forEach((locale) => {
+      const otherLocale = locales.find((l) => l !== locale);
+      createPage({
+        path: getLocalizedPath(localePaths[locale], locale),
+        component: template,
+        context: {
+          locale,
+          otherLocalePath: getLocalizedPath(
+            localePaths[otherLocale],
+            otherLocale
+          ),
+        },
+      });
+    });
+  }
+
+  const indexPagePaths = Object.fromEntries(
+    locales.map((locale) => [locale, '/'])
+  );
+  const indexPageTemplate = path.resolve('src/templates/index.jsx');
+  createLocalizedPagesFromPaths(indexPagePaths, indexPageTemplate);
+
+  const {
+    data: { allContentfulTranslations },
+  } = await graphql(`
+    query SearchSlugs {
+      allContentfulTranslations(filter: { for: { eq: "Application" } }) {
+        nodes {
+          node_locale
+          translations {
+            search {
+              slug
+            }
+          }
+        }
+      }
+    }
+  `);
+  const searchPagePaths = Object.fromEntries(
+    locales.map((locale) => [
+      locale,
+      `/${
+        allContentfulTranslations.nodes.find(
+          (node) => node.node_locale === locale
+        ).translations.search.slug
+      }/`,
+    ])
+  );
+  const searchPageTemplate = path.resolve('src/templates/search.jsx');
+  createLocalizedPagesFromPaths(searchPagePaths, searchPageTemplate);
+
+  /**
+   *
+   * @param {Object[]} nodes
+   * @param {string} nodes[].slug
+   * @param {string} nodes[].node_locale
+   * @param {string} nodes[].id
+   * @param {string} nodes[].contentful_id
+   * @param {string} template
+   */
+  function createLocalizedPagesFromNodes(nodes, template) {
+    nodes.forEach((node) => {
+      const {
+        slug,
+        node_locale: locale,
+        id,
+        contentful_id: contentfulId,
+      } = node;
+      const { node_locale: otherLocale, slug: otherLocaleSlug } = nodes.find(
+        (n) => n.node_locale !== locale && n.contentful_id === contentfulId
+      );
+
+      createPage({
+        path: getLocalizedPathFromSlug(slug, locale),
+        component: template,
+        context: {
+          id,
+          otherLocalePath: getLocalizedPathFromSlug(
+            otherLocaleSlug,
+            otherLocale
+          ),
+        },
+      });
+    });
+  }
+
+  const {
+    data: { allContentfulRecipe },
+  } = await graphql(`
+    query Recipes {
+      allContentfulRecipe {
+        nodes {
+          slug
+          node_locale
+          id
+          contentful_id
+        }
+      }
+    }
+  `);
+  const recipePageTemplate = path.resolve('src/templates/recipe.jsx');
+  createLocalizedPagesFromNodes(allContentfulRecipe.nodes, recipePageTemplate);
+
+  const {
+    data: { allContentfulRecipeCourseTags },
+  } = await graphql(`
+    query RecipeCourseTags {
+      allContentfulRecipeCourseTags {
+        nodes {
+          slug
+          node_locale
+          id
+          contentful_id
+        }
+      }
+    }
+  `);
+  const recipeCoursePageTemplate = path.resolve(
+    'src/templates/recipe-course.jsx'
+  );
+  createLocalizedPagesFromNodes(
+    allContentfulRecipeCourseTags.nodes,
+    recipeCoursePageTemplate
+  );
 };
 
 /**
@@ -25,6 +161,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     ingredientTags: [IngredientTag]
   }
   type IngredientTag {
+    node_locale: String!
     title: String!
     id: String!
     type: String!
@@ -34,6 +171,10 @@ exports.createSchemaCustomization = ({ actions }) => {
 };
 
 exports.createResolvers = ({ createResolvers }) => {
+  function capitalize(string) {
+    return `${string[0].toUpperCase()}${string.slice(1)}`;
+  }
+
   const resolvers = {
     /**
      * To each `contentfulRecipeIngredientsTextNode` object type
@@ -98,6 +239,7 @@ exports.createResolvers = ({ createResolvers }) => {
       ingredientTags: {
         resolve: (source) =>
           source.ingredientTags?.map((tag) => ({
+            node_locale: source.node_locale,
             title: capitalize(tag),
             id: tag,
             type: `ingredient`,
@@ -110,28 +252,48 @@ exports.createResolvers = ({ createResolvers }) => {
         type: `[IngredientTag]`,
         args: { node_locale: `String` },
         resolve: async (source, args, context) => {
-          const { node_locale: nodeLocale = 'en-US' } = args;
+          const { node_locale: nodeLocale } = args;
+
+          if (nodeLocale !== undefined) {
+            const { entries } = await context.nodeModel.findAll({
+              type: `ContentfulRecipe`,
+              query: {
+                filter: {
+                  node_locale: { eq: nodeLocale },
+                },
+              },
+            });
+
+            const recipes = [...entries];
+            const ingredientTags = recipes.flatMap(
+              (recipe) => recipe.ingredientTags ?? []
+            );
+            const uniqueIngredientTags = [...new Set(ingredientTags)];
+
+            return uniqueIngredientTags.map((tag) => ({
+              node_locale: nodeLocale,
+              title: capitalize(tag),
+              id: tag,
+              type: 'ingredient',
+            }));
+          }
 
           const { entries } = await context.nodeModel.findAll({
             type: `ContentfulRecipe`,
-            query: {
-              filter: {
-                node_locale: { eq: nodeLocale },
-              },
-            },
           });
 
-          const recipes = [...entries];
-          const ingredientTags = recipes.flatMap(
-            (recipe) => recipe.ingredientTags ?? []
-          );
-          const uniqueIngredientTags = [...new Set(ingredientTags)];
-
-          return uniqueIngredientTags.map((tag) => ({
-            title: capitalize(tag),
-            id: tag,
-            type: 'ingredient',
-          }));
+          return locales.flatMap((locale) => {
+            const ingredientTags = [...entries]
+              .filter((recipe) => recipe.node_locale === locale)
+              .flatMap((recipe) => recipe.ingredientTags ?? []);
+            const uniqueIngredientTags = [...new Set(ingredientTags)];
+            return uniqueIngredientTags.map((tag) => ({
+              node_locale: locale,
+              title: capitalize(tag),
+              id: tag,
+              type: 'ingredient',
+            }));
+          });
         },
       },
     },

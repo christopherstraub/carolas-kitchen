@@ -1,8 +1,9 @@
 import React from 'react';
 import { graphql, Link } from 'gatsby';
+import { getLocalizedPathFromSlug } from '../i18n';
 
 export default function RecipeCoursePage({ data }) {
-  const { title } = data.allContentfulRecipeCourseTags.nodes[0];
+  const { title, node_locale: locale } = data.contentfulRecipeCourseTags;
 
   const recipes = data.allContentfulRecipe.nodes;
 
@@ -12,7 +13,9 @@ export default function RecipeCoursePage({ data }) {
       <ul>
         {recipes.map((recipe) => (
           <li key={recipe.slug}>
-            <Link to={`/${recipe.slug}`}>{recipe.title}</Link>
+            <Link to={getLocalizedPathFromSlug(recipe.slug, locale)}>
+              {recipe.title}
+            </Link>
           </li>
         ))}
       </ul>
@@ -21,13 +24,11 @@ export default function RecipeCoursePage({ data }) {
 }
 
 export const query = graphql`
-  query RecipeMealCourseTag($id: String) {
-    allContentfulRecipeCourseTags(filter: { id: { eq: $id } }) {
-      nodes {
-        title
-        slug
-        node_locale
-      }
+  query RecipeCourseTagLinks($id: String!) {
+    contentfulRecipeCourseTags(id: { eq: $id }) {
+      title
+      slug
+      node_locale
     }
     allContentfulRecipe(
       filter: { courseTags: { elemMatch: { id: { eq: $id } } } }

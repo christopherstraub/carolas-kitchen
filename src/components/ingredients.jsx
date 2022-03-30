@@ -1,6 +1,7 @@
 import React from 'react';
 import fmtQty from 'format-quantity';
 import round from '../utils/numbers';
+import useAppTranslations from '../hooks/use-static-query/use-app-translations';
 
 const FRACTIONS_STRINGS = {
   '½': '1/2',
@@ -152,6 +153,7 @@ export default function Ingredients({
   initialServingsValue,
   servingsValue,
   setServingsValue,
+  locale,
 }) {
   const scaleWhitelists = Object.fromEntries(
     ingredients.scaleWhitelists.map((node) => [
@@ -166,13 +168,20 @@ export default function Ingredients({
     scaleWhitelists
   );
 
+  const {
+    title: tTitle,
+    makes: tMakes,
+    to: tTo,
+    servings: tServings,
+  } = useAppTranslations(locale).ingredients;
+
   return (
     <section>
-      <h2>Ingredients</h2>
+      <h2>{tTitle}</h2>
       <h3>
         {yieldAmount
-          ? `Makes ${yieldAmount}`
-          : `${servings.replace('-', ' to ')} servings`}
+          ? `${tMakes} ${yieldAmount.replace('-', ` ${tTo} `)}`
+          : `${servings.replace('-', ` ${tTo} `)} ${tServings}`}
       </h3>
       <ol>
         <li>

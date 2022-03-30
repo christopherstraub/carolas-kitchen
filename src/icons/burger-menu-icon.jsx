@@ -1,6 +1,9 @@
 import React from 'react';
+import useAppTranslations from '../hooks/use-static-query/use-app-translations';
 
-export default function BurgerMenuIcon({ title = 'Menu' }) {
+export default function BurgerMenuIcon({ locale, title }) {
+  const { title: tTitle } = useAppTranslations(locale).icons.burgerMenu;
+
   return (
     <svg
       viewBox="0 0 20 10"
@@ -8,7 +11,7 @@ export default function BurgerMenuIcon({ title = 'Menu' }) {
       height="10"
       xmlns="http://www.w3.org/2000/svg"
     >
-      {title && <title>{title}</title>}
+      <title>{title ?? tTitle}</title>
       <line
         x1="1"
         y1="1"

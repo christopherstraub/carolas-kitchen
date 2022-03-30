@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react';
 import { Link } from 'gatsby';
+import { getLocalizedPathFromSlug } from '../i18n';
+import useAppTranslations from '../hooks/use-static-query/use-app-translations';
 import useToggle from '../hooks/use-toggle';
 import useFilterTags from '../hooks/use-filter-tags';
 import useRecipes from '../hooks/use-static-query/use-recipes';
@@ -39,57 +41,77 @@ function getFilteredRecipes(recipes, filterTags) {
     );
 }
 
-export default function SearchPage() {
+export default function SearchPageTemplate({ pageContext }) {
+  const { locale } = pageContext;
+
   const [showFilterModal, toggleShowFilterModal] = useToggle();
   const [filterTags, setFilterTags, addFilterTag, removeFilterTag] =
     useFilterTags();
 
-  const recipes = useRecipes()['en-US'];
-
+  const recipes = useRecipes(locale);
   const filteredRecipes = useMemo(
     () => getFilteredRecipes(recipes, filterTags),
     [filterTags]
   );
 
+  const {
+    filter: tFilter,
+    results: tResults,
+    result: tResult,
+    sortBy: tSortBy,
+    newest: tNewest,
+    alphabetical: tAlphabetical,
+    noMatches: tNoMatches,
+  } = useAppTranslations(locale).search;
+
   return (
     <main>
       <input type="text" />
       <button type="button" id="search">
-        <SearchIcon />
+        <SearchIcon locale={locale} />
       </button>
       <button type="button" id="filter" onClick={toggleShowFilterModal}>
         <FilterIcon />
-        FILTER
+        {tFilter}
       </button>
       {showFilterModal && (
         <FilterModal
-          nodeLocale="en-US"
           toggleShowFilterModal={toggleShowFilterModal}
           filterTags={filterTags}
           setFilterTags={setFilterTags}
           addFilterTag={addFilterTag}
           removeFilterTag={removeFilterTag}
+          locale={locale}
         />
       )}
       <div>
-        <span>{filteredRecipes.length} results</span>
+        <span>
+          {filteredRecipes.length}{' '}
+          {filteredRecipes.length === 1 ? tResult : tResults}
+        </span>
         <div>
           <label htmlFor="sort-by">
-            Sort by:
+            {tSortBy}:
             <select id="sort-by">
-              <option value="newest">Newest</option>
-              <option value="alphabetical">Alphabetical</option>
+              <option value="newest">{tNewest}</option>
+              <option value="alphabetical">{tAlphabetical}</option>
             </select>
           </label>
         </div>
       </div>
-      <ul>
-        {filteredRecipes.map((recipe) => (
-          <li key={recipe.id}>
-            <Link to={`/${recipe.slug}`}>{recipe.title}</Link>
-          </li>
-        ))}
-      </ul>
+      {filteredRecipes.length ? (
+        <ul>
+          {filteredRecipes.map((recipe) => (
+            <li key={recipe.id}>
+              <Link to={getLocalizedPathFromSlug(recipe.slug, locale)}>
+                {recipe.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>{tNoMatches}</p>
+      )}
     </main>
   );
 }

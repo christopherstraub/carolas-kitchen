@@ -1,83 +1,46 @@
 import { useStaticQuery, graphql } from 'gatsby';
+import useAppTranslations from './use-app-translations';
 
-export default function useRecipeTags() {
+/**
+ * @param {('en-US'|'es')} locale
+ * @returns {Object} Recipe tags in specified locale.
+ */
+export default function useRecipeTags(locale) {
   const {
-    englishCourseTags,
-    englishSpecialConsiderationTags,
-    englishSeasonTags,
-    englishIngredientTags,
-    spanishCourseTags,
-    spanishSpecialConsiderationTags,
-    spanishSeasonTags,
-    spanishIngredientTags,
+    allContentfulRecipeCourseTags,
+    allContentfulRecipeSpecialConsiderationTags,
+    allContentfulRecipeSeasonTags,
+    allContentfulRecipeIngredientTags,
   } = useStaticQuery(
     graphql`
       query RecipeTags {
-        englishCourseTags: allContentfulRecipeCourseTags(
-          filter: { node_locale: { eq: "en-US" } }
-        ) {
+        allContentfulRecipeCourseTags {
           nodes {
             title
+            node_locale
             id
             type
           }
         }
-        englishSpecialConsiderationTags: allContentfulRecipeSpecialConsiderationTags(
-          filter: { node_locale: { eq: "en-US" } }
-        ) {
+        allContentfulRecipeSpecialConsiderationTags {
           nodes {
             title
+            node_locale
             id
             type
           }
         }
-        englishSeasonTags: allContentfulRecipeSeasonTags(
-          filter: { node_locale: { eq: "en-US" } }
-        ) {
+        allContentfulRecipeSeasonTags {
           nodes {
             title
+            node_locale
             id
             type
           }
         }
-        englishIngredientTags: allContentfulRecipeIngredientTags(
-          node_locale: "en-US"
-        ) {
+        allContentfulRecipeIngredientTags {
           title
-          id
-          type
-        }
-        spanishCourseTags: allContentfulRecipeCourseTags(
-          filter: { node_locale: { eq: "es" } }
-        ) {
-          nodes {
-            title
-            id
-            type
-          }
-        }
-        spanishSpecialConsiderationTags: allContentfulRecipeSpecialConsiderationTags(
-          filter: { node_locale: { eq: "es" } }
-        ) {
-          nodes {
-            title
-            id
-            type
-          }
-        }
-        spanishSeasonTags: allContentfulRecipeSeasonTags(
-          filter: { node_locale: { eq: "es" } }
-        ) {
-          nodes {
-            title
-            id
-            type
-          }
-        }
-        spanishIngredientTags: allContentfulRecipeIngredientTags(
-          node_locale: "es"
-        ) {
-          title
+          node_locale
           id
           type
         }
@@ -85,42 +48,43 @@ export default function useRecipeTags() {
     `
   );
 
+  const {
+    course: tCourse,
+    specialConsideration: tSpecialConsideration,
+    season: tSeason,
+    ingredient: tIngredient,
+  } = useAppTranslations(locale).recipeTags;
+
+  const courseTags = allContentfulRecipeCourseTags.nodes.filter(
+    (node) => node.node_locale === locale
+  );
+  const specialConsiderationTags =
+    allContentfulRecipeSpecialConsiderationTags.nodes.filter(
+      (node) => node.node_locale === locale
+    );
+  const seasonTags = allContentfulRecipeSeasonTags.nodes.filter(
+    (node) => node.node_locale === locale
+  );
+  const ingredientTags = allContentfulRecipeIngredientTags.filter(
+    (tag) => tag.node_locale === locale
+  );
+
   return {
-    'en-US': {
-      course: {
-        title: 'Course',
-        options: englishCourseTags.nodes,
-      },
-      specialConsideration: {
-        title: 'Special Consideration',
-        options: englishSpecialConsiderationTags.nodes,
-      },
-      season: {
-        title: 'Season',
-        options: englishSeasonTags.nodes,
-      },
-      ingredient: {
-        title: 'Ingredient',
-        options: englishIngredientTags,
-      },
+    course: {
+      title: tCourse,
+      options: courseTags,
     },
-    es: {
-      course: {
-        title: 'Curso',
-        options: spanishCourseTags.nodes,
-      },
-      specialConsideration: {
-        title: 'Consideración Especial',
-        options: spanishSpecialConsiderationTags.nodes,
-      },
-      season: {
-        title: 'Temporada',
-        options: spanishSeasonTags.nodes,
-      },
-      ingredient: {
-        title: 'Ingrediente',
-        options: spanishIngredientTags,
-      },
+    specialConsideration: {
+      title: tSpecialConsideration,
+      options: specialConsiderationTags,
+    },
+    season: {
+      title: tSeason,
+      options: seasonTags,
+    },
+    ingredient: {
+      title: tIngredient,
+      options: ingredientTags,
     },
   };
 }

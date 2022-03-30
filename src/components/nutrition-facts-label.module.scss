@@ -3,7 +3,7 @@ $indent-2: $indent-1 * 2;
 
 .label {
   border: 1px solid black;
-  width: 270px;
+  width: min-content;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   padding-inline: 5px;
@@ -25,6 +25,10 @@ $indent-2: $indent-1 * 2;
 .font-black-lg {
   composes: font-black;
   font-size: 31px;
+}
+.title {
+  composes: font-black-lg;
+  width: max-content;
 }
 
 .row {
