@@ -1,11 +1,9 @@
 const path = require('path');
 const {
-  localePathPrefixes,
+  locales,
   getLocalizedPath,
   getLocalizedPathFromSlug,
 } = require('./src/i18n');
-
-const locales = Object.keys(localePathPrefixes);
 
 exports.createPages = async ({ actions, graphql }) => {
   const { createRedirect, createPage } = actions;

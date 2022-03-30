@@ -2,6 +2,7 @@ const localePathPrefixes = {
   'en-US': '',
   'es': '/es',
 };
+const locales = Object.keys(localePathPrefixes);
 
 function getLocaleFromPath(path) {
   return path.startsWith(`${localePathPrefixes['es']}/`) ? 'es' : 'en-US';
@@ -16,7 +17,7 @@ function getLocalizedPathFromSlug(slug, locale) {
 }
 
 module.exports = {
-  localePathPrefixes,
+  locales,
   getLocaleFromPath,
   getLocalizedPath,
   getLocalizedPathFromSlug,
