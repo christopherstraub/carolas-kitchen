@@ -4,116 +4,102 @@ import useAppTranslations from '../hooks/use-static-query/use-app-translations';
 import * as styles from './nutrition-facts-label.module.scss';
 
 /**
- * Source: https://www.fda.gov/food/new-nutrition-facts-label/daily-value-new-nutrition-and-supplement-facts-labels
+ * Source of daily values:
+ * https://www.fda.gov/food/new-nutrition-facts-label/daily-value-new-nutrition-and-supplement-facts-labels
  * Current as of 2020-05-05.
  * Updated 2022-02-21.
  */
-const DAILY_VALUES = {
-  CALORIES: 2000,
-  TOTAL_FAT: 78,
-  SATURATED_FAT: 20,
-  CHOLESTEROL: 300,
-  SODIUM: 2300,
-  TOTAL_CARBOHYDRATE: 275,
-  DIETARY_FIBER: 28,
-  ADDED_SUGARS: 50,
-  VITAMIN_D: 20,
-  CALCIUM: 1300,
-  IRON: 18,
-  POTASSIUM: 4700,
-};
-
 const NUTRIENTS = {
   CALORIES: {
-    NAME: 'calories',
+    IDENTIFIER: 'calories',
     ID: 208,
+    DAILY_VALUE: 2000,
   },
   TOTAL_FAT: {
-    NAME: 'totalFat',
+    IDENTIFIER: 'totalFat',
     ID: 204,
     UNIT: 'g',
-    DAILY_VALUE_KEY: 'TOTAL_FAT',
+    DAILY_VALUE: 78,
   },
   SATURATED_FAT: {
-    NAME: 'saturatedFat',
+    IDENTIFIER: 'saturatedFat',
     ID: 606,
     UNIT: 'g',
-    DAILY_VALUE_KEY: 'SATURATED_FAT',
+    DAILY_VALUE: 20,
   },
   TRANS_FAT: {
-    NAME: 'transFat',
+    IDENTIFIER: 'transFat',
     ID: 605,
     UNIT: 'g',
   },
   CHOLESTEROL: {
-    NAME: 'cholesterol',
+    IDENTIFIER: 'cholesterol',
     ID: 601,
     UNIT: 'mg',
-    DAILY_VALUE_KEY: 'CHOLESTEROL',
+    DAILY_VALUE: 300,
   },
   SODIUM: {
-    NAME: 'sodium',
+    IDENTIFIER: 'sodium',
     ID: 307,
     UNIT: 'mg',
-    DAILY_VALUE_KEY: 'SODIUM',
+    DAILY_VALUE: 2300,
   },
   TOTAL_CARBOHYDRATE: {
-    NAME: 'totalCarbohydrate',
+    IDENTIFIER: 'totalCarbohydrate',
     ID: 205,
     UNIT: 'g',
-    DAILY_VALUE_KEY: 'TOTAL_CARBOHYDRATE',
+    DAILY_VALUE: 275,
   },
   DIETARY_FIBER: {
-    NAME: 'dietaryFiber',
+    IDENTIFIER: 'dietaryFiber',
     ID: 291,
     UNIT: 'g',
-    DAILY_VALUE_KEY: 'DIETARY_FIBER',
+    DAILY_VALUE: 28,
   },
   TOTAL_SUGARS: {
-    NAME: 'totalSugars',
+    IDENTIFIER: 'totalSugars',
     ID: 269,
     UNIT: 'g',
   },
   ADDED_SUGARS: {
-    NAME: 'addedSugars',
+    IDENTIFIER: 'addedSugars',
     ID: 10009,
     UNIT: 'g',
-    DAILY_VALUE_KEY: 'ADDED_SUGARS',
+    DAILY_VALUE: 50,
   },
   PROTEIN: {
-    NAME: 'protein',
+    IDENTIFIER: 'protein',
     ID: 203,
     UNIT: 'g',
   },
-
   /**
-   * Vitamin D is received in IU; this unit must be converted to mcg.
+   * Vitamin D is received in IU; this must be converted to mcg.
    * Conversion factor: 1 IU Vitamin D = 0.025 mcg Vitamin D.
    */
   VITAMIN_D: {
     ID: 324,
-    NAME: 'vitaminD',
+    IDENTIFIER: 'vitaminD',
     CONVERSION_FACTOR: 0.025,
     UNIT: 'mcg',
-    DAILY_VALUE_KEY: 'VITAMIN_D',
+    DAILY_VALUE: 20,
   },
   CALCIUM: {
     ID: 301,
-    NAME: 'calcium',
+    IDENTIFIER: 'calcium',
     UNIT: 'mg',
-    DAILY_VALUE_KEY: 'CALCIUM',
+    DAILY_VALUE: 1300,
   },
   IRON: {
     ID: 303,
-    NAME: 'iron',
+    IDENTIFIER: 'iron',
     UNIT: 'mg',
-    DAILY_VALUE_KEY: 'IRON',
+    DAILY_VALUE: 18,
   },
   POTASSIUM: {
     ID: 306,
-    NAME: 'potassium',
+    IDENTIFIER: 'potassium',
     UNIT: 'mg',
-    DAILY_VALUE_KEY: 'POTASSIUM',
+    DAILY_VALUE: 4700,
   },
 };
 
@@ -121,37 +107,36 @@ const NUTRIENTS = {
  *
  * @param {number} id The id of the nutrient to get.
  * @param {number} conversionFactor The conversion factor (if the unit of the
- * value received does not coincide with the unit specified in DAILY_VALUES).
- * @param {Array<Object>} nutrients The array of nutrient objects.
+ * value received does not coincide with the unit that should be displayed).
+ * @param {Object[]} nutrients The nutrient data being received.
  * @param {number} servings The servings per recipe.
  * @returns {number} The value of the nutrient.
  */
 function getNutrientValue(id, conversionFactor, nutrients, servings) {
   return (
     (nutrients.find((nutrient) => nutrient.id === id).amount / servings) *
-    (conversionFactor || 1)
+    (conversionFactor ?? 1)
   );
 }
 
 /**
  *
- * @param {string} DAILY_VALUE_KEY The DAILY_VALUES key that corresponds
- * to the nutrient.
  * @param {number} nutrientValue The value of the nutrient.
- * @returns The daily value percentage string or null if the nutrient should
- * not specify a daily value percentage.
+ * @param {number} dailyValue The daily value of the nutrient.
+ * @returns {string} The daily value percentage string.
  */
-function getNutrientDailyValuePct(nutrientValue, DAILY_VALUE) {
-  return round((nutrientValue / DAILY_VALUE) * 100, 0)
+function getNutrientDailyValuePct(nutrientValue, dailyValue) {
+  return round((nutrientValue / dailyValue) * 100, 0)
     .toString()
     .concat('%');
 }
 
 /**
  *
- * @param {Array<Object>} nutrients The array of nutrient objects.
+ * @param {Object[]} nutrients The nutrient data being received.
  * @param {number} servings The servings per recipe.
- * @returns {Object} The nutrient values to be displayed on the label.
+ * @returns {Object} The nutrient amounts and daily value percentages to be
+ * displayed on the label.
  */
 function getNutrients(nutrients, servings) {
   return Object.fromEntries(
@@ -164,17 +149,14 @@ function getNutrients(nutrients, servings) {
       );
 
       return [
-        NUTRIENT.NAME,
+        NUTRIENT.IDENTIFIER,
         {
           amount: round(nutrientValue, 1)
             .toString()
             .concat(NUTRIENT.UNIT ?? ''),
           dailyValuePct:
-            NUTRIENT.DAILY_VALUE_KEY !== undefined
-              ? getNutrientDailyValuePct(
-                  nutrientValue,
-                  DAILY_VALUES[NUTRIENT.DAILY_VALUE_KEY]
-                )
+            NUTRIENT.DAILY_VALUE !== undefined
+              ? getNutrientDailyValuePct(nutrientValue, NUTRIENT.DAILY_VALUE)
               : null,
         },
       ];
