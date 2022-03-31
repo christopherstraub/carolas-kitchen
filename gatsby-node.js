@@ -129,7 +129,7 @@ exports.createPages = async ({ actions, graphql }) => {
     data: { recipeCourseTags },
   } = await graphql(`
     query RecipeCourseTags {
-      recipeCourseTags: allContentfulRecipeCourseTags {
+      recipeCourseTags: allContentfulRecipeCourseTag {
         nodes {
           slug
           node_locale
@@ -210,19 +210,19 @@ exports.createResolvers = ({ createResolvers }) => {
      * Add a type field to each of the tag object types to assist in
      * differentiating between them in the application.
      */
-    ContentfulRecipeCourseTags: {
+    ContentfulRecipeCourseTag: {
       type: {
         type: `String!`,
         resolve: () => 'course',
       },
     },
-    ContentfulRecipeSpecialConsiderationTags: {
+    ContentfulRecipeSpecialConsiderationTag: {
       type: {
         type: `String!`,
         resolve: () => 'specialConsideration',
       },
     },
-    ContentfulRecipeSeasonTags: {
+    ContentfulRecipeSeasonTag: {
       type: {
         type: `String!`,
         resolve: () => 'season',
@@ -249,7 +249,7 @@ exports.createResolvers = ({ createResolvers }) => {
     },
 
     Query: {
-      allContentfulRecipeIngredientTags: {
+      allContentfulRecipeIngredientTag: {
         type: `[IngredientTag]`,
         args: { node_locale: `String` },
         resolve: async (source, args, context) => {

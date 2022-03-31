@@ -28,7 +28,7 @@ export default function IndexPageTemplate({ data, pageContext }) {
 
 export const query = graphql`
   query RecipeCourseTags($locale: String!) {
-    recipeCourseTags: allContentfulRecipeCourseTags(
+    recipeCourseTags: allContentfulRecipeCourseTag(
       filter: { node_locale: { eq: $locale } }
     ) {
       nodes {

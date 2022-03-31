@@ -25,7 +25,7 @@ export default function RecipeCoursePage({ data }) {
 
 export const query = graphql`
   query RecipeCourseTagLinks($id: String!) {
-    recipeCourseTag: contentfulRecipeCourseTags(id: { eq: $id }) {
+    recipeCourseTag: contentfulRecipeCourseTag(id: { eq: $id }) {
       title
       slug
       node_locale

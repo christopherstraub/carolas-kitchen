@@ -14,7 +14,7 @@ export default function useRecipeTags(locale) {
   } = useStaticQuery(
     graphql`
       query RecipeTags {
-        recipeCourseTags: allContentfulRecipeCourseTags {
+        recipeCourseTags: allContentfulRecipeCourseTag {
           nodes {
             title
             node_locale
@@ -22,7 +22,7 @@ export default function useRecipeTags(locale) {
             type
           }
         }
-        recipeSpecialConsiderationTags: allContentfulRecipeSpecialConsiderationTags {
+        recipeSpecialConsiderationTags: allContentfulRecipeSpecialConsiderationTag {
           nodes {
             title
             node_locale
@@ -30,7 +30,7 @@ export default function useRecipeTags(locale) {
             type
           }
         }
-        recipeSeasonTags: allContentfulRecipeSeasonTags {
+        recipeSeasonTags: allContentfulRecipeSeasonTag {
           nodes {
             title
             node_locale
@@ -38,7 +38,7 @@ export default function useRecipeTags(locale) {
             type
           }
         }
-        recipeIngredientTags: allContentfulRecipeIngredientTags {
+        recipeIngredientTags: allContentfulRecipeIngredientTag {
           title
           node_locale
           id
