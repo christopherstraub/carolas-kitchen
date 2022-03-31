@@ -10,5 +10,5 @@ const localeFlags = {
 export default function FlagIcon({ locale }) {
   const { src, title } = localeFlags[locale];
 
-  return <img src={src} alt={title} title={title} width="32" height="16" />;
+  return <img src={src} alt={title} title={title} width="38" height="20" />;
 }
