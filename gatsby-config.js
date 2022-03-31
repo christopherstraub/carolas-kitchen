@@ -28,12 +28,12 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        icon: 'src/images/icon.png',
+        icon: 'src/images/favicon.png',
         name: "Carola's Kitchen",
         short_name: "Carola's Kitchen",
         start_url: '/',
-        background_color: '#fff',
-        theme_color: '#fff',
+        background_color: 'white',
+        theme_color: '#009926',
         display: 'standalone',
       },
     },
