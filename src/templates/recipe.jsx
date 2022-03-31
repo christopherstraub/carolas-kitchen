@@ -35,7 +35,7 @@ export default function RecipePageTemplate({ data }) {
     ingredients,
     preparation,
     nutritionFacts,
-  } = data.contentfulRecipe;
+  } = data.recipe;
 
   const dateString = new Date(publishDate).toLocaleDateString(locale, {
     year: 'numeric',
@@ -114,7 +114,7 @@ export default function RecipePageTemplate({ data }) {
 
 export const query = graphql`
   query Recipe($id: String!) {
-    contentfulRecipe(id: { eq: $id }) {
+    recipe: contentfulRecipe(id: { eq: $id }) {
       title
       slug
       node_locale

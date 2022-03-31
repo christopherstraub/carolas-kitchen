@@ -4,7 +4,8 @@ import { getLocalizedPathFromSlug } from '../i18n';
 import useSiteMetadata from '../hooks/use-static-query/use-site-metadata';
 
 export default function IndexPageTemplate({ data, pageContext }) {
-  const courses = data.allContentfulRecipeCourseTags.nodes;
+  const courseTags = data.recipeCourseTags.nodes;
+
   const { locale } = pageContext;
 
   return (
@@ -13,10 +14,10 @@ export default function IndexPageTemplate({ data, pageContext }) {
         <h1>{useSiteMetadata().title}</h1>
       </header>
       <ul>
-        {courses.map((course) => (
-          <li key={course.slug}>
-            <Link to={getLocalizedPathFromSlug(course.slug, locale)}>
-              {course.title}
+        {courseTags.map((tag) => (
+          <li key={tag.slug}>
+            <Link to={getLocalizedPathFromSlug(tag.slug, locale)}>
+              {tag.title}
             </Link>
           </li>
         ))}
@@ -27,7 +28,9 @@ export default function IndexPageTemplate({ data, pageContext }) {
 
 export const query = graphql`
   query RecipeCourseTags($locale: String!) {
-    allContentfulRecipeCourseTags(filter: { node_locale: { eq: $locale } }) {
+    recipeCourseTags: allContentfulRecipeCourseTags(
+      filter: { node_locale: { eq: $locale } }
+    ) {
       nodes {
         title
         slug

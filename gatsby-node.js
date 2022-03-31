@@ -44,10 +44,12 @@ exports.createPages = async ({ actions, graphql }) => {
   createLocalizedPagesFromPaths(indexPagePaths, indexPageTemplate);
 
   const {
-    data: { allContentfulTranslations },
+    data: { translations },
   } = await graphql(`
     query SearchSlugs {
-      allContentfulTranslations(filter: { for: { eq: "Application" } }) {
+      translations: allContentfulTranslations(
+        filter: { for: { eq: "Application" } }
+      ) {
         nodes {
           node_locale
           translations {
@@ -63,9 +65,8 @@ exports.createPages = async ({ actions, graphql }) => {
     locales.map((locale) => [
       locale,
       `/${
-        allContentfulTranslations.nodes.find(
-          (node) => node.node_locale === locale
-        ).translations.search.slug
+        translations.nodes.find((node) => node.node_locale === locale)
+          .translations.search.slug
       }/`,
     ])
   );
@@ -108,10 +109,10 @@ exports.createPages = async ({ actions, graphql }) => {
   }
 
   const {
-    data: { allContentfulRecipe },
+    data: { recipes },
   } = await graphql(`
     query Recipes {
-      allContentfulRecipe {
+      recipes: allContentfulRecipe {
         nodes {
           slug
           node_locale
@@ -122,13 +123,13 @@ exports.createPages = async ({ actions, graphql }) => {
     }
   `);
   const recipePageTemplate = path.resolve('src/templates/recipe.jsx');
-  createLocalizedPagesFromNodes(allContentfulRecipe.nodes, recipePageTemplate);
+  createLocalizedPagesFromNodes(recipes.nodes, recipePageTemplate);
 
   const {
-    data: { allContentfulRecipeCourseTags },
+    data: { recipeCourseTags },
   } = await graphql(`
     query RecipeCourseTags {
-      allContentfulRecipeCourseTags {
+      recipeCourseTags: allContentfulRecipeCourseTags {
         nodes {
           slug
           node_locale
@@ -142,7 +143,7 @@ exports.createPages = async ({ actions, graphql }) => {
     'src/templates/recipe-course.jsx'
   );
   createLocalizedPagesFromNodes(
-    allContentfulRecipeCourseTags.nodes,
+    recipeCourseTags.nodes,
     recipeCoursePageTemplate
   );
 };

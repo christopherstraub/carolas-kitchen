@@ -5,10 +5,10 @@ import { useStaticQuery, graphql } from 'gatsby';
  * @returns {Object} Translations in specified locale.
  */
 export default function useAppTranslations(locale) {
-  const { allContentfulTranslations } = useStaticQuery(
+  const { translations } = useStaticQuery(
     graphql`
       query AppTranslations {
-        allContentfulTranslations {
+        translations: allContentfulTranslations {
           nodes {
             node_locale
             translations {
@@ -86,7 +86,6 @@ export default function useAppTranslations(locale) {
     `
   );
 
-  return allContentfulTranslations.nodes.find(
-    (node) => node.node_locale === locale
-  ).translations;
+  return translations.nodes.find((node) => node.node_locale === locale)
+    .translations;
 }

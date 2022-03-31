@@ -5,10 +5,10 @@ import { useStaticQuery, graphql } from 'gatsby';
  * @returns {Object} Recipes in specified locale.
  */
 export default function useRecipes(locale) {
-  const { allContentfulRecipe } = useStaticQuery(
+  const { recipes } = useStaticQuery(
     graphql`
       query Recipes {
-        allContentfulRecipe {
+        recipes: allContentfulRecipe {
           nodes {
             node_locale
             title
@@ -44,7 +44,7 @@ export default function useRecipes(locale) {
     `
   );
 
-  return allContentfulRecipe.nodes
+  return recipes.nodes
     .filter((node) => node.node_locale === locale)
     .map((node) => {
       const courseTags = node.courseTags ?? [];

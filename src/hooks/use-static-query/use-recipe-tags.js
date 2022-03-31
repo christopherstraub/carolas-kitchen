@@ -7,14 +7,14 @@ import useAppTranslations from './use-app-translations';
  */
 export default function useRecipeTags(locale) {
   const {
-    allContentfulRecipeCourseTags,
-    allContentfulRecipeSpecialConsiderationTags,
-    allContentfulRecipeSeasonTags,
-    allContentfulRecipeIngredientTags,
+    recipeCourseTags,
+    recipeSpecialConsiderationTags,
+    recipeSeasonTags,
+    recipeIngredientTags,
   } = useStaticQuery(
     graphql`
       query RecipeTags {
-        allContentfulRecipeCourseTags {
+        recipeCourseTags: allContentfulRecipeCourseTags {
           nodes {
             title
             node_locale
@@ -22,7 +22,7 @@ export default function useRecipeTags(locale) {
             type
           }
         }
-        allContentfulRecipeSpecialConsiderationTags {
+        recipeSpecialConsiderationTags: allContentfulRecipeSpecialConsiderationTags {
           nodes {
             title
             node_locale
@@ -30,7 +30,7 @@ export default function useRecipeTags(locale) {
             type
           }
         }
-        allContentfulRecipeSeasonTags {
+        recipeSeasonTags: allContentfulRecipeSeasonTags {
           nodes {
             title
             node_locale
@@ -38,7 +38,7 @@ export default function useRecipeTags(locale) {
             type
           }
         }
-        allContentfulRecipeIngredientTags {
+        recipeIngredientTags: allContentfulRecipeIngredientTags {
           title
           node_locale
           id
@@ -55,17 +55,16 @@ export default function useRecipeTags(locale) {
     ingredient: tIngredient,
   } = useAppTranslations(locale).recipeTags;
 
-  const courseTags = allContentfulRecipeCourseTags.nodes.filter(
+  const courseTags = recipeCourseTags.nodes.filter(
     (node) => node.node_locale === locale
   );
-  const specialConsiderationTags =
-    allContentfulRecipeSpecialConsiderationTags.nodes.filter(
-      (node) => node.node_locale === locale
-    );
-  const seasonTags = allContentfulRecipeSeasonTags.nodes.filter(
+  const specialConsiderationTags = recipeSpecialConsiderationTags.nodes.filter(
     (node) => node.node_locale === locale
   );
-  const ingredientTags = allContentfulRecipeIngredientTags.filter(
+  const seasonTags = recipeSeasonTags.nodes.filter(
+    (node) => node.node_locale === locale
+  );
+  const ingredientTags = recipeIngredientTags.filter(
     (tag) => tag.node_locale === locale
   );
 

@@ -3,9 +3,9 @@ import { graphql, Link } from 'gatsby';
 import { getLocalizedPathFromSlug } from '../i18n';
 
 export default function RecipeCoursePage({ data }) {
-  const { title, node_locale: locale } = data.contentfulRecipeCourseTags;
+  const { title, node_locale: locale } = data.recipeCourseTag;
 
-  const recipes = data.allContentfulRecipe.nodes;
+  const recipes = data.recipes.nodes;
 
   return (
     <main>
@@ -25,12 +25,12 @@ export default function RecipeCoursePage({ data }) {
 
 export const query = graphql`
   query RecipeCourseTagLinks($id: String!) {
-    contentfulRecipeCourseTags(id: { eq: $id }) {
+    recipeCourseTag: contentfulRecipeCourseTags(id: { eq: $id }) {
       title
       slug
       node_locale
     }
-    allContentfulRecipe(
+    recipes: allContentfulRecipe(
       filter: { courseTags: { elemMatch: { id: { eq: $id } } } }
     ) {
       nodes {
