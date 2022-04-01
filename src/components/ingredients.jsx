@@ -162,9 +162,10 @@ export default function Ingredients({
     ])
   );
 
+  const scaleFactor = servingsValue / initialServingsValue;
   const html = getScaledIngredientsHtml(
     ingredients.childMarkdownRemark.html,
-    servingsValue / initialServingsValue,
+    scaleFactor,
     scaleWhitelists
   );
 
@@ -180,8 +181,12 @@ export default function Ingredients({
       <h2>{tTitle}</h2>
       <h3>
         {yieldAmount
-          ? `${tMakes} ${yieldAmount.replace('-', ` ${tTo} `)}`
-          : `${servings.replace('-', ` ${tTo} `)} ${tServings}`}
+          ? `${tMakes} ${yieldAmount
+              .replaceAll(/\d+/g, (number) => number * scaleFactor)
+              .replace('-', ` ${tTo} `)}`
+          : `${servings
+              .replaceAll(/\d+/g, (number) => number * scaleFactor)
+              .replace('-', ` ${tTo} `)} ${tServings}`}
       </h3>
       <ol>
         <li>
