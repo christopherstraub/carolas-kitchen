@@ -33,7 +33,7 @@ module.exports = {
         short_name: "Carola's Kitchen",
         start_url: '/',
         background_color: 'white',
-        theme_color: '#009926',
+        theme_color: 'white',
         display: 'standalone',
       },
     },
