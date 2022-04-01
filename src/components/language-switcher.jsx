@@ -8,7 +8,7 @@ export default function LanguageSwitcher({ locale, path, otherLocalePath }) {
   return (
     <ul>
       {locales.map((l) => (
-        <li>
+        <li key={l}>
           <Link
             to={l === locale ? path : otherLocalePath}
             className={styles.link}
