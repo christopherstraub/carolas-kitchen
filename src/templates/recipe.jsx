@@ -22,7 +22,7 @@ const getServingsValue = (servings) => {
   return Number(servings.match(servingsRegex)[2]);
 };
 
-export default function RecipePageTemplate({ data }) {
+export default function RecipePageTemplate({ data, location: { pathname } }) {
   const {
     title,
     slug,
@@ -73,7 +73,7 @@ export default function RecipePageTemplate({ data }) {
           <a
             href={`mailto:?subject=${title}&body=${
               useSiteMetadata().siteUrl
-            }/${slug}`}
+            }${pathname}`}
           >
             email
           </a>

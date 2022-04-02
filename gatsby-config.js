@@ -4,8 +4,8 @@ require('dotenv').config({
 
 module.exports = {
   siteMetadata: {
-    siteUrl: 'https://carolaskitchen.com/',
     title: "Carola's Kitchen",
+    siteUrl: 'https://carolaskitchen.com',
   },
   // In Gatsby v5 the default mode will be 'always'.
   trailingSlash: 'always',

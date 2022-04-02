@@ -6,8 +6,8 @@ export default function useSiteMetadata() {
       query SiteMetadata {
         site {
           siteMetadata {
-            siteUrl
             title
+            siteUrl
           }
         }
       }
