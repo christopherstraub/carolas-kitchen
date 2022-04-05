@@ -40,7 +40,8 @@ function singularize(string) {
 function getScaledIngredientsHtml(
   ingredientsHtml,
   scaleFactor,
-  scaleWhitelistKeys
+  scaleWhitelistKeys,
+  tTo
 ) {
   /**
    * Regular expression capturing groups:
@@ -84,20 +85,32 @@ function getScaledIngredientsHtml(
   /**
    * Regular expression capturing groups:
    * [0] A mixed fraction, decimal numeral, or fraction preceding one or two
-   * words. Only matches fractions using fraction symbols.
+   * words. Only matches fractions using fraction symbol notation (will match
+   * "2½" but not "2 1/2").
    * E.g., "2 cups", "2½ cups", "1.3 tablespoons", or "¼ teaspoon".
    * [1] Whole number either alone or as part of a mixed fraction, or
    * decimal numeral.
    * E.g., "2" in either "2 teaspoons", "2½ teaspoons", or "2.3 teaspoons".
    * [2] Fraction symbol in mixed fraction or decimal.
    * E.g., "½" in "2½ teaspoons" or ".3" in "2.3 teaspoons".
-   * [3] Two words.
+   * [3] Three words.
+   * E.g., "large ripe avocados" in "3 large ripe avocados".
+   * [4] Two words.
    * E.g., "Medjool dates" in "6 Medjool dates".
-   * [4] Word.
+   * [5] Word.
    * E.g., "cup" in "½ cup".
    */
   const ingredientMeasurementsRegex =
     /(?:(?:(\d+)([½⅓⅔¼¾⅛⅜⅝⅞⅕⅖⅗⅘]|\.\d)?)|[½⅓⅔¼¾⅛⅜⅝⅞⅕⅖⅗⅘]) ((([A-zÀ-ú-]+)(?: [A-zÀ-ú-]+)?)(?: [A-zÀ-ú-]+)?)/g;
+
+  /**
+   * Regular expression capturing groups:
+   * [0] A range of either numbers or fraction symbols.
+   * E.g., "1-2" in "1-2 cups" or "½-2" in 1½-2 cups".
+   * [1] The en dash or hyphen.
+   * E.g., "-" in "1-2 cups" or "1½-2 cups".
+   */
+  const rangesRegex = /(?:\d|[½⅓⅔¼¾⅛⅜⅝⅞⅕⅖⅗⅘])(–|-)(?:\d|[½⅓⅔¼¾⅛⅜⅝⅞⅕⅖⅗⅘])/g;
 
   return ingredientsHtml
     .replaceAll(fractionSymbolsRegex, (match, wholeNumber, fractionSymbol) =>
@@ -144,7 +157,8 @@ function getScaledIngredientsHtml(
 
         return match;
       }
-    );
+    )
+    .replaceAll(rangesRegex, (match, dash) => match.replace(dash, ` ${tTo} `));
 }
 
 export default function Ingredients({
@@ -157,6 +171,13 @@ export default function Ingredients({
   setServingsValue,
   locale,
 }) {
+  const {
+    title: tTitle,
+    makes: tMakes,
+    to: tTo,
+    servings: tServings,
+  } = useAppTranslations(locale).ingredients;
+
   const scaleWhitelistKeys = useMemo(
     () =>
       Object.fromEntries(
@@ -164,20 +185,13 @@ export default function Ingredients({
       ),
     []
   );
-
   const scaleFactor = servingsValue / initialServingsValue;
   const html = getScaledIngredientsHtml(
     ingredientsHtml,
     scaleFactor,
-    scaleWhitelistKeys
+    scaleWhitelistKeys,
+    tTo
   );
-
-  const {
-    title: tTitle,
-    makes: tMakes,
-    to: tTo,
-    servings: tServings,
-  } = useAppTranslations(locale).ingredients;
 
   return (
     <section>
