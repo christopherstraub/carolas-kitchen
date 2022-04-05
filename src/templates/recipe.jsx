@@ -12,12 +12,12 @@ import NutritionFactsLabel from '../components/nutrition-facts-label';
 const getServingsValue = (servings) => {
   /**
    * Regular expression capturing groups:
-   * [0] A whole number or a hyphenated range of whole numbers.
+   * [0] A whole number or a range of whole numbers.
    * [1] First value of the range if a range is supplied.
-   * [2] Second value of the range if a range is supplied,
-   * or the single value otherwise.
+   * [2] Second value of the range if a range is supplied or the single value
+   * otherwise.
    */
-  const servingsRegex = /^(?:(\d+)-)?(\d+)$/;
+  const servingsRegex = /^(?:(\d+)(?:–|-))?(\d+)$/;
 
   // The second group is always the one we want.
   return Number(servings.match(servingsRegex)[2]);
