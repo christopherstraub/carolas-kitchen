@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import useAppTranslations from '../hooks/use-static-query/use-app-translations';
 
 export default function CloseIcon({ locale, title }) {
@@ -31,3 +32,9 @@ export default function CloseIcon({ locale, title }) {
     </svg>
   );
 }
+
+CloseIcon.propTypes = {
+  locale: PropTypes.string.isRequired,
+  title: PropTypes.string,
+};
+CloseIcon.defaultProps = { title: null };

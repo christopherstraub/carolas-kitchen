@@ -16,31 +16,31 @@ export default function useRecipeTags(locale) {
       query RecipeTags {
         recipeCourseTags: allContentfulRecipeCourseTag {
           nodes {
-            title
             node_locale
+            title
             id
             type
           }
         }
         recipeSpecialConsiderationTags: allContentfulRecipeSpecialConsiderationTag {
           nodes {
-            title
             node_locale
+            title
             id
             type
           }
         }
         recipeSeasonTags: allContentfulRecipeSeasonTag {
           nodes {
-            title
             node_locale
+            title
             id
             type
           }
         }
         recipeIngredientTags: allContentfulRecipeIngredientTag {
-          title
           node_locale
+          title
           id
           type
         }
@@ -55,35 +55,35 @@ export default function useRecipeTags(locale) {
     ingredient: tIngredient,
   } = useAppTranslations(locale).recipeTags;
 
-  const courseTags = recipeCourseTags.nodes.filter(
-    (node) => node.node_locale === locale
-  );
-  const specialConsiderationTags = recipeSpecialConsiderationTags.nodes.filter(
-    (node) => node.node_locale === locale
-  );
-  const seasonTags = recipeSeasonTags.nodes.filter(
-    (node) => node.node_locale === locale
-  );
-  const ingredientTags = recipeIngredientTags.filter(
-    (tag) => tag.node_locale === locale
-  );
+  const courseTags = recipeCourseTags.nodes
+    .filter((node) => node.node_locale === locale)
+    .map(({ title, id, type }) => ({ title, id, type }));
+  const specialConsiderationTags = recipeSpecialConsiderationTags.nodes
+    .filter((node) => node.node_locale === locale)
+    .map(({ title, id, type }) => ({ title, id, type }));
+  const seasonTags = recipeSeasonTags.nodes
+    .filter((node) => node.node_locale === locale)
+    .map(({ title, id, type }) => ({ title, id, type }));
+  const ingredientTags = recipeIngredientTags
+    .filter((tag) => tag.node_locale === locale)
+    .map(({ title, id, type }) => ({ title, id, type }));
 
   return {
     course: {
       title: tCourse,
-      options: courseTags,
+      tags: courseTags,
     },
     specialConsideration: {
       title: tSpecialConsideration,
-      options: specialConsiderationTags,
+      tags: specialConsiderationTags,
     },
     season: {
       title: tSeason,
-      options: seasonTags,
+      tags: seasonTags,
     },
     ingredient: {
       title: tIngredient,
-      options: ingredientTags,
+      tags: ingredientTags,
     },
   };
 }

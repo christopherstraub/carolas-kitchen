@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import unitedStates from '../images/united-states-flag.svg';
 import spain from '../images/spain-flag.svg';
 
@@ -12,3 +13,7 @@ export default function FlagIcon({ locale }) {
 
   return <img src={src} alt={title} title={title} width="38" height="20" />;
 }
+
+FlagIcon.propTypes = {
+  locale: PropTypes.string.isRequired,
+};

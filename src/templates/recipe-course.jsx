@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { graphql, Link } from 'gatsby';
 import { getLocalizedPathFromSlug } from '../i18n';
 
@@ -27,7 +28,6 @@ export const query = graphql`
   query RecipeCourseTagLinks($id: String!) {
     recipeCourseTag: contentfulRecipeCourseTag(id: { eq: $id }) {
       title
-      slug
       node_locale
     }
     recipes: allContentfulRecipe(
@@ -40,3 +40,20 @@ export const query = graphql`
     }
   }
 `;
+
+RecipeCoursePage.propTypes = {
+  data: PropTypes.shape({
+    recipeCourseTag: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      node_locale: PropTypes.string.isRequired,
+    }).isRequired,
+    recipes: PropTypes.shape({
+      nodes: PropTypes.arrayOf(
+        PropTypes.shape({
+          title: PropTypes.string.isRequired,
+          slug: PropTypes.string.isRequired,
+        })
+      ).isRequired,
+    }),
+  }).isRequired,
+};
