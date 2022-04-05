@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { graphql, Link } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import { getLocalizedPathFromSlug } from '../i18n';
@@ -22,10 +23,12 @@ const getServingsValue = (servings) => {
   return Number(servings.match(servingsRegex)[2]);
 };
 
-export default function RecipePageTemplate({ data, location: { pathname } }) {
+export default function RecipePageTemplate({
+  data: { recipe },
+  location: { pathname },
+}) {
   const {
     title,
-    slug,
     node_locale: locale,
     publishDate,
     courseTags,
@@ -35,7 +38,7 @@ export default function RecipePageTemplate({ data, location: { pathname } }) {
     ingredients,
     preparation,
     nutritionFacts,
-  } = data.recipe;
+  } = recipe;
 
   const dateString = new Date(publishDate).toLocaleDateString(locale, {
     year: 'numeric',
@@ -83,7 +86,8 @@ export default function RecipePageTemplate({ data, location: { pathname } }) {
         </li>
       </ul>
       <Ingredients
-        ingredients={ingredients}
+        ingredientsHtml={ingredients.childMarkdownRemark.html}
+        scaleWhitelists={ingredients.scaleWhitelists}
         servings={servings}
         yieldAmount={yieldAmount}
         initialServingsValue={initialServingsValue}
@@ -116,7 +120,6 @@ export const query = graphql`
   query Recipe($id: String!) {
     recipe: contentfulRecipe(id: { eq: $id }) {
       title
-      slug
       node_locale
       publishDate
       courseTags {
@@ -143,17 +146,60 @@ export const query = graphql`
         }
       }
       nutritionFacts {
-        measures {
-          name
-          value
-          id
-        }
-        defaultMeasureId
         nutrients {
-          amount
           id
+          amount
         }
       }
     }
   }
 `;
+
+RecipePageTemplate.propTypes = {
+  data: PropTypes.shape({
+    recipe: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      node_locale: PropTypes.string.isRequired,
+      publishDate: PropTypes.string.isRequired,
+      courseTags: PropTypes.arrayOf(
+        PropTypes.shape({
+          title: PropTypes.string.isRequired,
+          slug: PropTypes.string.isRequired,
+        })
+      ),
+      heroImage: PropTypes.shape({
+        // eslint-disable-next-line react/forbid-prop-types
+        gatsbyImageData: PropTypes.object,
+      }),
+      servings: PropTypes.string.isRequired,
+      yieldAmount: PropTypes.string,
+      ingredients: PropTypes.shape({
+        childMarkdownRemark: PropTypes.shape({
+          html: PropTypes.string,
+        }),
+        scaleWhitelists: PropTypes.arrayOf(
+          PropTypes.shape({
+            key: PropTypes.string.isRequired,
+            whitelist: PropTypes.arrayOf(PropTypes.string),
+          })
+        ).isRequired,
+      }),
+      preparation: PropTypes.shape({
+        childMarkdownRemark: PropTypes.shape({
+          html: PropTypes.string,
+        }),
+      }),
+      nutritionFacts: PropTypes.shape({
+        nutrients: PropTypes.arrayOf(
+          PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            amount: PropTypes.number.isRequired,
+          })
+        ),
+      }),
+    }),
+  }).isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
+};

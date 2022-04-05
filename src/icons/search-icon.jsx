@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import useAppTranslations from '../hooks/use-static-query/use-app-translations';
 
 export default function SearchIcon({ locale, title }) {
@@ -25,3 +26,9 @@ export default function SearchIcon({ locale, title }) {
     </svg>
   );
 }
+
+SearchIcon.propTypes = {
+  locale: PropTypes.string.isRequired,
+  title: PropTypes.string,
+};
+SearchIcon.defaultProps = { title: null };

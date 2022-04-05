@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { graphql, Link } from 'gatsby';
 import { getLocalizedPathFromSlug } from '../i18n';
 import useSiteMetadata from '../hooks/use-static-query/use-site-metadata';
@@ -38,3 +39,19 @@ export const query = graphql`
     }
   }
 `;
+
+IndexPageTemplate.propTypes = {
+  data: PropTypes.shape({
+    recipeCourseTags: PropTypes.shape({
+      nodes: PropTypes.arrayOf(
+        PropTypes.shape({
+          title: PropTypes.string.isRequired,
+          slug: PropTypes.string.isRequired,
+        })
+      ),
+    }),
+  }).isRequired,
+  pageContext: PropTypes.shape({
+    locale: PropTypes.string.isRequired,
+  }).isRequired,
+};

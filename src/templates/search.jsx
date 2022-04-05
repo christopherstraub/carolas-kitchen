@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
 import { getLocalizedPathFromSlug } from '../i18n';
 import useAppTranslations from '../hooks/use-static-query/use-app-translations';
@@ -115,3 +116,9 @@ export default function SearchPageTemplate({ pageContext }) {
     </main>
   );
 }
+
+SearchPageTemplate.propTypes = {
+  pageContext: PropTypes.shape({
+    locale: PropTypes.string.isRequired,
+  }).isRequired,
+};

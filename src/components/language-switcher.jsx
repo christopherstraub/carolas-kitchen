@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
 import { locales } from '../i18n';
 import FlagIcon from '../icons/flag-icon';
@@ -21,3 +22,9 @@ export default function LanguageSwitcher({ locale, path, otherLocalePath }) {
     </ul>
   );
 }
+
+LanguageSwitcher.propTypes = {
+  locale: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
+  otherLocalePath: PropTypes.string.isRequired,
+};

@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function FilterTagGroup({
   title,
-  options,
+  tags,
   filterTags,
   addFilterTag,
   removeFilterTag,
@@ -11,13 +12,13 @@ export default function FilterTagGroup({
     <details>
       <summary>{title}</summary>
       <ul>
-        {options.map((tag) => (
+        {tags.map((tag) => (
           <li key={tag.id}>
             <label htmlFor={tag.id}>{tag.title}</label>
             <input
               type="checkbox"
               id={tag.id}
-              checked={filterTags.some((filter) => filter.id === tag.id)}
+              checked={filterTags.some(({ id }) => id === tag.id)}
               onChange={(event) =>
                 event.target.checked
                   ? addFilterTag({
@@ -34,3 +35,23 @@ export default function FilterTagGroup({
     </details>
   );
 }
+
+FilterTagGroup.propTypes = {
+  title: PropTypes.string.isRequired,
+  tags: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  filterTags: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  addFilterTag: PropTypes.func.isRequired,
+  removeFilterTag: PropTypes.func.isRequired,
+};

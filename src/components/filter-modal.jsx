@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import useAppTranslations from '../hooks/use-static-query/use-app-translations';
 import useRecipeTags from '../hooks/use-static-query/use-recipe-tags';
 import FilterTagGroup from './filter-tag-group';
@@ -12,7 +13,7 @@ export default function FilterModal({
   removeFilterTag,
   locale,
 }) {
-  const tags = useRecipeTags(locale);
+  const recipeTags = useRecipeTags(locale);
 
   const {
     filterModal: { filterBy: tFilterBy, clearAll: tClearAll },
@@ -45,29 +46,29 @@ export default function FilterModal({
         </button>
       )}
       <FilterTagGroup
-        title={tags.course.title}
-        options={tags.course.options}
+        title={recipeTags.course.title}
+        tags={recipeTags.course.tags}
         filterTags={filterTags}
         addFilterTag={addFilterTag}
         removeFilterTag={removeFilterTag}
       />
       <FilterTagGroup
-        title={tags.specialConsideration.title}
-        options={tags.specialConsideration.options}
+        title={recipeTags.specialConsideration.title}
+        tags={recipeTags.specialConsideration.tags}
         filterTags={filterTags}
         addFilterTag={addFilterTag}
         removeFilterTag={removeFilterTag}
       />
       <FilterTagGroup
-        title={tags.season.title}
-        options={tags.season.options}
+        title={recipeTags.season.title}
+        tags={recipeTags.season.tags}
         filterTags={filterTags}
         addFilterTag={addFilterTag}
         removeFilterTag={removeFilterTag}
       />
       <FilterTagGroup
-        title={tags.ingredient.title}
-        options={tags.ingredient.options}
+        title={recipeTags.ingredient.title}
+        tags={recipeTags.ingredient.tags}
         filterTags={filterTags}
         addFilterTag={addFilterTag}
         removeFilterTag={removeFilterTag}
@@ -75,3 +76,18 @@ export default function FilterModal({
     </div>
   );
 }
+
+FilterModal.propTypes = {
+  toggleShowFilterModal: PropTypes.func.isRequired,
+  filterTags: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  setFilterTags: PropTypes.func.isRequired,
+  addFilterTag: PropTypes.func.isRequired,
+  removeFilterTag: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired,
+};
