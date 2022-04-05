@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
 import { getLocalizedPath, getLocalizedPathFromSlug } from '../i18n';
 import useAppTranslations from '../hooks/use-static-query/use-app-translations';
@@ -29,3 +30,9 @@ export default function Header({ locale, path, otherLocalePath }) {
     </header>
   );
 }
+
+Header.propTypes = {
+  locale: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
+  otherLocalePath: PropTypes.string.isRequired,
+};

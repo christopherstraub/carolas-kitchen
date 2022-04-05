@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import useAppTranslations from '../hooks/use-static-query/use-app-translations';
 
-export default function BurgerMenuIcon({ locale, title }) {
+export default function BurgerMenuIcon({ locale }) {
   const { title: tTitle } = useAppTranslations(locale).icons.burgerMenu;
 
   return (
@@ -11,7 +12,7 @@ export default function BurgerMenuIcon({ locale, title }) {
       height="10"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <title>{title ?? tTitle}</title>
+      <title>{tTitle}</title>
       <line
         x1="1"
         y1="1"
@@ -42,3 +43,7 @@ export default function BurgerMenuIcon({ locale, title }) {
     </svg>
   );
 }
+
+BurgerMenuIcon.propTypes = {
+  locale: PropTypes.string.isRequired,
+};

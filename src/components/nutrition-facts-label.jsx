@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import round from '../utils/numbers';
 import useAppTranslations from '../hooks/use-static-query/use-app-translations';
 import * as styles from './nutrition-facts-label.module.scss';
@@ -325,3 +326,15 @@ export default function NutritionFactsLabel({
     </section>
   );
 }
+
+NutritionFactsLabel.propTypes = {
+  nutrients: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      amount: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+  initialServingsValue: PropTypes.number.isRequired,
+  servingsValue: PropTypes.number.isRequired,
+  locale: PropTypes.string.isRequired,
+};

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
 import fmtQty from 'format-quantity';
 import round from '../utils/numbers';
 import useAppTranslations from '../hooks/use-static-query/use-app-translations';
@@ -39,7 +40,7 @@ function singularize(string) {
 function getScaledIngredientsHtml(
   ingredientsHtml,
   scaleFactor,
-  scaleWhitelists
+  scaleWhitelistKeys
 ) {
   /**
    * Regular expression capturing groups:
@@ -126,17 +127,17 @@ function getScaledIngredientsHtml(
     .replaceAll(
       ingredientMeasurementsRegex,
       (match, wholeNumber, fraction, threeWords, twoWords, word) => {
-        if (scaleWhitelists.threeWords.join().includes(threeWords))
+        if (scaleWhitelistKeys.threeWords.join().includes(threeWords))
           return shouldBePluralized(wholeNumber, fraction)
             ? match.replace(threeWords, pluralize(threeWords))
             : match.replace(threeWords, singularize(threeWords));
 
-        if (scaleWhitelists.twoWords.join().includes(twoWords))
+        if (scaleWhitelistKeys.twoWords.join().includes(twoWords))
           return shouldBePluralized(wholeNumber, fraction)
             ? match.replace(twoWords, pluralize(twoWords))
             : match.replace(twoWords, singularize(twoWords));
 
-        if (scaleWhitelists.oneWord.join().includes(word))
+        if (scaleWhitelistKeys.oneWord.join().includes(word))
           return shouldBePluralized(wholeNumber, fraction)
             ? match.replace(word, pluralize(word))
             : match.replace(word, singularize(word));
@@ -147,7 +148,8 @@ function getScaledIngredientsHtml(
 }
 
 export default function Ingredients({
-  ingredients,
+  ingredientsHtml,
+  scaleWhitelists,
   servings,
   yieldAmount,
   initialServingsValue,
@@ -155,18 +157,19 @@ export default function Ingredients({
   setServingsValue,
   locale,
 }) {
-  const scaleWhitelists = Object.fromEntries(
-    ingredients.scaleWhitelists.map((node) => [
-      [node.key],
-      node.whitelist ?? [],
-    ])
+  const scaleWhitelistKeys = useMemo(
+    () =>
+      Object.fromEntries(
+        scaleWhitelists.map((node) => [[node.key], node.whitelist ?? []])
+      ),
+    []
   );
 
   const scaleFactor = servingsValue / initialServingsValue;
   const html = getScaledIngredientsHtml(
-    ingredients.childMarkdownRemark.html,
+    ingredientsHtml,
     scaleFactor,
-    scaleWhitelists
+    scaleWhitelistKeys
   );
 
   const {
@@ -223,6 +226,7 @@ export default function Ingredients({
         </li>
       </ol>
       <div
+        // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{
           __html: html,
         }}
@@ -230,3 +234,22 @@ export default function Ingredients({
     </section>
   );
 }
+
+Ingredients.propTypes = {
+  ingredientsHtml: PropTypes.string.isRequired,
+  scaleWhitelists: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      whitelist: PropTypes.arrayOf(PropTypes.string),
+    })
+  ).isRequired,
+  servings: PropTypes.string.isRequired,
+  yieldAmount: PropTypes.string,
+  initialServingsValue: PropTypes.number.isRequired,
+  servingsValue: PropTypes.number.isRequired,
+  setServingsValue: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired,
+};
+Ingredients.defaultProps = {
+  yieldAmount: null,
+};

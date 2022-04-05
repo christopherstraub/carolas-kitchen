@@ -17,8 +17,6 @@
   },
   "plugins": ["react", "prettier"],
   "rules": {
-    "react/prop-types": "off",
-    "react/no-danger": "off",
     "dot-notation": "off",
     "prettier/prettier": [
       "error",
