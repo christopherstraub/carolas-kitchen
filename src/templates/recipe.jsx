@@ -55,7 +55,7 @@ export default function RecipePageTemplate({
     useAppTranslations(locale).nutritionFacts;
 
   return (
-    <main>
+    <article>
       <header>
         <ul>
           {courseTags.map((tag) => (
@@ -112,7 +112,7 @@ export default function RecipePageTemplate({
           />
         </details>
       )}
-    </main>
+    </article>
   );
 }
 

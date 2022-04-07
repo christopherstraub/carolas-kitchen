@@ -9,7 +9,7 @@ export default function RecipeCoursePage({ data }) {
   const recipes = data.recipes.nodes;
 
   return (
-    <main>
+    <>
       <h1>{title}</h1>
       <ul>
         {recipes.map((recipe) => (
@@ -20,7 +20,7 @@ export default function RecipeCoursePage({ data }) {
           </li>
         ))}
       </ul>
-    </main>
+    </>
   );
 }
 

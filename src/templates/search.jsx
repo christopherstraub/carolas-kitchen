@@ -66,7 +66,7 @@ export default function SearchPageTemplate({ pageContext }) {
   } = useAppTranslations(locale).search;
 
   return (
-    <main>
+    <>
       <input type="text" />
       <button type="button" id="search">
         <SearchIcon locale={locale} />
@@ -113,7 +113,7 @@ export default function SearchPageTemplate({ pageContext }) {
       ) : (
         <p>{tNoMatches}</p>
       )}
-    </main>
+    </>
   );
 }
 

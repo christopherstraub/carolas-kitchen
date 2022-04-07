@@ -14,7 +14,7 @@ export default function Layout({ children, location, pageContext }) {
         path={location.pathname}
         otherLocalePath={otherLocalePath}
       />
-      {children}
+      <main>{children}</main>
     </>
   );
 }

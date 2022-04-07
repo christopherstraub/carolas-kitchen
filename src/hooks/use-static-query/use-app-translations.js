@@ -58,9 +58,8 @@ export default function useAppTranslations(locale) {
                 filterBy
                 clearAll
               }
-              notFound {
-                main
-              }
+              notFound
+
               recipeTags {
                 course
                 specialConsideration
