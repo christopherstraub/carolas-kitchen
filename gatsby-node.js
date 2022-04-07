@@ -5,6 +5,25 @@ const {
   getLocalizedPathFromSlug,
 } = require('./src/i18n');
 
+exports.onCreatePage = async ({ page, actions }) => {
+  const { createPage, deletePage } = actions;
+
+  const localized404PathRegex = /^\/[a-z]{2}\/404\/$/;
+  if (page.path.match(localized404PathRegex)) {
+    const locale = page.path.split('/')[1];
+
+    deletePage(page);
+    createPage({
+      ...page,
+      matchPath: `/${locale}/*`,
+      context: { onNotFoundPage: true },
+    });
+  } else if (page.path.endsWith('/404/')) {
+    deletePage(page);
+    createPage({ ...page, context: { onNotFoundPage: true } });
+  }
+};
+
 exports.createPages = async ({ actions, graphql }) => {
   const { createRedirect, createPage } = actions;
   createRedirect({

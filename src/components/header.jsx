@@ -5,10 +5,16 @@ import { getLocalizedPath, getLocalizedPathFromSlug } from '../i18n';
 import useAppTranslations from '../hooks/use-static-query/use-app-translations';
 import useSiteMetadata from '../hooks/use-static-query/use-site-metadata';
 import LanguageSwitcher from './language-switcher';
+import LanguageSwitcherNotFoundPage from './language-switcher-404-page';
 import BurgerMenuIcon from '../icons/burger-menu-icon';
 import SearchIcon from '../icons/search-icon';
 
-export default function Header({ locale, path, otherLocalePath }) {
+export default function Header({
+  locale,
+  path,
+  otherLocalePath,
+  onNotFoundPage,
+}) {
   const { slug: tSearchSlug } = useAppTranslations(locale).search;
 
   return (
@@ -19,11 +25,16 @@ export default function Header({ locale, path, otherLocalePath }) {
           {useSiteMetadata().title}
         </Link>
       </span>
-      <LanguageSwitcher
-        locale={locale}
-        path={path}
-        otherLocalePath={otherLocalePath}
-      />
+      {!onNotFoundPage ? (
+        <LanguageSwitcher
+          locale={locale}
+          path={path}
+          otherLocalePath={otherLocalePath}
+        />
+      ) : (
+        <LanguageSwitcherNotFoundPage locale={locale} />
+      )}
+
       <Link to={getLocalizedPathFromSlug(tSearchSlug, locale)}>
         <SearchIcon locale={locale} />
       </Link>
@@ -34,5 +45,7 @@ export default function Header({ locale, path, otherLocalePath }) {
 Header.propTypes = {
   locale: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
-  otherLocalePath: PropTypes.string.isRequired,
+  otherLocalePath: PropTypes.string,
+  onNotFoundPage: PropTypes.bool,
 };
+Header.defaultProps = { otherLocalePath: null, onNotFoundPage: false };
