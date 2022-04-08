@@ -59,7 +59,7 @@ exports.createPages = async ({ actions, graphql }) => {
   const indexPagePaths = Object.fromEntries(
     locales.map((locale) => [locale, '/'])
   );
-  const indexTemplate = path.resolve('src/templates/index.jsx');
+  const indexTemplate = path.resolve('src/templates/index.js');
   createLocalizedPagesFromPaths(indexPagePaths, indexTemplate);
 
   const {
@@ -89,7 +89,7 @@ exports.createPages = async ({ actions, graphql }) => {
       }/`,
     ])
   );
-  const searchTemplate = path.resolve('src/templates/search.jsx');
+  const searchTemplate = path.resolve('src/templates/search.js');
   createLocalizedPagesFromPaths(searchPagePaths, searchTemplate);
 
   /**
@@ -141,7 +141,7 @@ exports.createPages = async ({ actions, graphql }) => {
       }
     }
   `);
-  const recipeTemplate = path.resolve('src/templates/recipe.jsx');
+  const recipeTemplate = path.resolve('src/templates/recipe.js');
   createLocalizedPagesFromNodes(recipes.nodes, recipeTemplate);
 
   const {
@@ -158,7 +158,7 @@ exports.createPages = async ({ actions, graphql }) => {
       }
     }
   `);
-  const recipeCourseTemplate = path.resolve('src/templates/recipe-course.jsx');
+  const recipeCourseTemplate = path.resolve('src/templates/recipe-course.js');
   createLocalizedPagesFromNodes(recipeCourseTags.nodes, recipeCourseTemplate);
 };
 
