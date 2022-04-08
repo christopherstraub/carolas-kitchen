@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
 import { getLocalizedPathFromSlug } from '../i18n';

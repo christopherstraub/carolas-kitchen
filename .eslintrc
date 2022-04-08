@@ -4,18 +4,15 @@
     "es2021": true
   },
   "extends": [
-    "plugin:react/recommended",
     "airbnb",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
     "plugin:prettier/recommended"
   ],
   "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
     "ecmaVersion": 2022,
     "sourceType": "module"
   },
-  "plugins": ["react"],
   "rules": {
     "dot-notation": "off",
     "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],

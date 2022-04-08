@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { getLocaleFromPath } from '../i18n';
 import Header from './header';

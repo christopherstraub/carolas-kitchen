@@ -9,6 +9,7 @@ module.exports = {
   },
   // In Gatsby v5 the default mode will be 'always'.
   trailingSlash: 'always',
+  jsxRuntime: 'automatic',
   plugins: [
     'gatsby-plugin-sass',
     'gatsby-transformer-remark',

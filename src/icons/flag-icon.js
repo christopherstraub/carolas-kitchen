@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import unitedStates from '../images/united-states-flag.svg';
 import spain from '../images/spain-flag.svg';

@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import useAppTranslations from '../hooks/use-static-query/use-app-translations';
 
