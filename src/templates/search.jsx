@@ -42,7 +42,7 @@ function getFilteredRecipes(recipes, filterTags) {
     );
 }
 
-export default function SearchPageTemplate({ pageContext }) {
+export default function SearchTemplate({ pageContext }) {
   const { locale } = pageContext;
 
   const [showFilterModal, toggleShowFilterModal] = useToggle();
@@ -117,7 +117,7 @@ export default function SearchPageTemplate({ pageContext }) {
   );
 }
 
-SearchPageTemplate.propTypes = {
+SearchTemplate.propTypes = {
   pageContext: PropTypes.shape({
     locale: PropTypes.string.isRequired,
   }).isRequired,

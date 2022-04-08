@@ -23,7 +23,7 @@ const getServingsValue = (servings) => {
   return Number(servings.match(servingsRegex)[2]);
 };
 
-export default function RecipePageTemplate({
+export default function RecipeTemplate({
   data: { recipe },
   location: { pathname },
 }) {
@@ -155,7 +155,7 @@ export const query = graphql`
   }
 `;
 
-RecipePageTemplate.propTypes = {
+RecipeTemplate.propTypes = {
   data: PropTypes.shape({
     recipe: PropTypes.shape({
       title: PropTypes.string.isRequired,

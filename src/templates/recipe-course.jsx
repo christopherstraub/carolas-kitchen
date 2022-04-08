@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { graphql, Link } from 'gatsby';
 import { getLocalizedPathFromSlug } from '../i18n';
 
-export default function RecipeCoursePage({ data }) {
+export default function RecipeCourseTemplate({ data }) {
   const { title, node_locale: locale } = data.recipeCourseTag;
 
   const recipes = data.recipes.nodes;
@@ -41,7 +41,7 @@ export const query = graphql`
   }
 `;
 
-RecipeCoursePage.propTypes = {
+RecipeCourseTemplate.propTypes = {
   data: PropTypes.shape({
     recipeCourseTag: PropTypes.shape({
       title: PropTypes.string.isRequired,

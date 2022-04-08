@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { graphql, Link } from 'gatsby';
 import { getLocalizedPathFromSlug } from '../i18n';
 
-export default function IndexPageTemplate({ data, pageContext }) {
+export default function IndexTemplate({ data, pageContext }) {
   const courseTags = data.recipeCourseTags.nodes;
 
   const { locale } = pageContext;
@@ -34,7 +34,7 @@ export const query = graphql`
   }
 `;
 
-IndexPageTemplate.propTypes = {
+IndexTemplate.propTypes = {
   data: PropTypes.shape({
     recipeCourseTags: PropTypes.shape({
       nodes: PropTypes.arrayOf(
