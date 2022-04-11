@@ -1,14 +1,19 @@
 import PropTypes from 'prop-types';
 import { graphql, Link } from 'gatsby';
 import { getLocalizedPathFromSlug } from '../i18n';
+import SEO from '../components/seo';
 
-export default function RecipeCourseTemplate({ data }) {
+export default function RecipeCourseTemplate({
+  data,
+  pageContext: { otherLocalePath },
+}) {
   const { title, node_locale: locale } = data.recipeCourseTag;
 
   const recipes = data.recipes.nodes;
 
   return (
     <>
+      <SEO locale={locale} alternatePathname={otherLocalePath} title={title} />
       <h1>{title}</h1>
       <ul>
         {recipes.map((recipe) => (
@@ -54,5 +59,8 @@ RecipeCourseTemplate.propTypes = {
         })
       ).isRequired,
     }),
+  }).isRequired,
+  pageContext: PropTypes.shape({
+    otherLocalePath: PropTypes.string.isRequired,
   }).isRequired,
 };

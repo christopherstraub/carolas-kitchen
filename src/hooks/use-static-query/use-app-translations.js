@@ -45,6 +45,7 @@ export default function useAppTranslations(locale) {
                 footnote
               }
               search {
+                title
                 slug
                 filter
                 results
