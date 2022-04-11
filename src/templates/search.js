@@ -6,6 +6,7 @@ import useAppTranslations from '../hooks/use-static-query/use-app-translations';
 import useToggle from '../hooks/use-toggle';
 import useFilterTags from '../hooks/use-filter-tags';
 import useRecipes from '../hooks/use-static-query/use-recipes';
+import SEO from '../components/seo';
 import FilterModal from '../components/filter-modal';
 import SearchIcon from '../icons/search-icon';
 import FilterIcon from '../icons/filter-icon';
@@ -42,9 +43,9 @@ function getFilteredRecipes(recipes, filterTags) {
     );
 }
 
-export default function SearchTemplate({ pageContext }) {
-  const { locale } = pageContext;
-
+export default function SearchTemplate({
+  pageContext: { locale, otherLocalePath },
+}) {
   const [showFilterModal, toggleShowFilterModal] = useToggle();
   const [filterTags, setFilterTags, addFilterTag, removeFilterTag] =
     useFilterTags();
@@ -56,6 +57,7 @@ export default function SearchTemplate({ pageContext }) {
   );
 
   const {
+    title: tTitle,
     filter: tFilter,
     results: tResults,
     result: tResult,
@@ -67,6 +69,7 @@ export default function SearchTemplate({ pageContext }) {
 
   return (
     <>
+      <SEO locale={locale} alternatePathname={otherLocalePath} title={tTitle} />
       <input type="text" />
       <button type="button" id="search">
         <SearchIcon locale={locale} />
@@ -120,5 +123,6 @@ export default function SearchTemplate({ pageContext }) {
 SearchTemplate.propTypes = {
   pageContext: PropTypes.shape({
     locale: PropTypes.string.isRequired,
+    otherLocalePath: PropTypes.string.isRequired,
   }).isRequired,
 };
