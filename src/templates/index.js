@@ -1,22 +1,32 @@
 import PropTypes from 'prop-types';
 import { graphql, Link } from 'gatsby';
 import { getLocalizedPathFromSlug } from '../i18n';
+import SEO from '../components/seo';
 
-export default function IndexTemplate({ data, pageContext }) {
+export default function IndexTemplate({
+  data,
+  location: { pathname },
+  pageContext: { locale, otherLocalePath },
+}) {
   const courseTags = data.recipeCourseTags.nodes;
 
-  const { locale } = pageContext;
-
   return (
-    <ul>
-      {courseTags.map((tag) => (
-        <li key={tag.slug}>
-          <Link to={getLocalizedPathFromSlug(tag.slug, locale)}>
-            {tag.title}
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <>
+      <SEO
+        locale={locale}
+        pathname={pathname}
+        alternatePathname={otherLocalePath}
+      />
+      <ul>
+        {courseTags.map((tag) => (
+          <li key={tag.slug}>
+            <Link to={getLocalizedPathFromSlug(tag.slug, locale)}>
+              {tag.title}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
 
@@ -44,7 +54,11 @@ IndexTemplate.propTypes = {
       ),
     }),
   }).isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
   pageContext: PropTypes.shape({
     locale: PropTypes.string.isRequired,
+    otherLocalePath: PropTypes.string.isRequired,
   }).isRequired,
 };

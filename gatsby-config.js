@@ -4,8 +4,14 @@ require('dotenv').config({
 
 module.exports = {
   siteMetadata: {
-    title: "Carola's Kitchen",
     siteUrl: 'https://carolaskitchen.com',
+    title: "Carola's Kitchen",
+    localeDescriptions: {
+      'en-US': `Recipes with simple and natural ingredients! We hope you'll enjoy cooking delicious, fresh and seasonal dishes with us.`,
+      'es': '¡Recetas con ingredientes simples y naturales! Nosotros deseamos que disfrutes al cocinar platos deliciosos, frescos y de estación.',
+    },
+    author: 'Carola',
+    image: '/default-og-image.jpg',
   },
   // In Gatsby v5 the default mode will be 'always'.
   trailingSlash: 'always',
