@@ -5,7 +5,7 @@ import SEO from '../components/seo';
 
 export default function RecipeCourseTemplate({
   data,
-  pageContext: { otherLocalePath },
+  pageContext: { alternateLocalePath },
 }) {
   const { title, node_locale: locale } = data.recipeCourseTag;
 
@@ -13,7 +13,11 @@ export default function RecipeCourseTemplate({
 
   return (
     <>
-      <SEO locale={locale} alternatePathname={otherLocalePath} title={title} />
+      <SEO
+        locale={locale}
+        alternatePathname={alternateLocalePath}
+        title={title}
+      />
       <h1>{title}</h1>
       <ul>
         {recipes.map((recipe) => (
@@ -61,6 +65,6 @@ RecipeCourseTemplate.propTypes = {
     }),
   }).isRequired,
   pageContext: PropTypes.shape({
-    otherLocalePath: PropTypes.string.isRequired,
+    alternateLocalePath: PropTypes.string.isRequired,
   }).isRequired,
 };

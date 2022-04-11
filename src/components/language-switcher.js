@@ -4,13 +4,17 @@ import { locales } from '../i18n';
 import FlagIcon from '../icons/flag-icon';
 import * as styles from './language-switcher.module.scss';
 
-export default function LanguageSwitcher({ locale, path, otherLocalePath }) {
+export default function LanguageSwitcher({
+  locale,
+  path,
+  alternateLocalePath,
+}) {
   return (
     <ul>
       {locales.map((l) => (
         <li key={l}>
           <Link
-            to={l === locale ? path : otherLocalePath}
+            to={l === locale ? path : alternateLocalePath}
             className={styles.link}
             activeClassName={styles.active}
           >
@@ -25,5 +29,5 @@ export default function LanguageSwitcher({ locale, path, otherLocalePath }) {
 LanguageSwitcher.propTypes = {
   locale: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
-  otherLocalePath: PropTypes.string.isRequired,
+  alternateLocalePath: PropTypes.string.isRequired,
 };

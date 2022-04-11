@@ -44,7 +44,7 @@ function getFilteredRecipes(recipes, filterTags) {
 }
 
 export default function SearchTemplate({
-  pageContext: { locale, otherLocalePath },
+  pageContext: { locale, alternateLocalePath },
 }) {
   const [showFilterModal, toggleShowFilterModal] = useToggle();
   const [filterTags, setFilterTags, addFilterTag, removeFilterTag] =
@@ -69,7 +69,11 @@ export default function SearchTemplate({
 
   return (
     <>
-      <SEO locale={locale} alternatePathname={otherLocalePath} title={tTitle} />
+      <SEO
+        locale={locale}
+        alternatePathname={alternateLocalePath}
+        title={tTitle}
+      />
       <input type="text" />
       <button type="button" id="search">
         <SearchIcon locale={locale} />
@@ -123,6 +127,6 @@ export default function SearchTemplate({
 SearchTemplate.propTypes = {
   pageContext: PropTypes.shape({
     locale: PropTypes.string.isRequired,
-    otherLocalePath: PropTypes.string.isRequired,
+    alternateLocalePath: PropTypes.string.isRequired,
   }).isRequired,
 };

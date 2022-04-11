@@ -5,13 +5,13 @@ import SEO from '../components/seo';
 
 export default function IndexTemplate({
   data,
-  pageContext: { locale, otherLocalePath },
+  pageContext: { locale, alternateLocalePath },
 }) {
   const courseTags = data.recipeCourseTags.nodes;
 
   return (
     <>
-      <SEO locale={locale} alternatePathname={otherLocalePath} />
+      <SEO locale={locale} alternatePathname={alternateLocalePath} />
       <ul>
         {courseTags.map((tag) => (
           <li key={tag.slug}>
@@ -51,6 +51,6 @@ IndexTemplate.propTypes = {
   }).isRequired,
   pageContext: PropTypes.shape({
     locale: PropTypes.string.isRequired,
-    otherLocalePath: PropTypes.string.isRequired,
+    alternateLocalePath: PropTypes.string.isRequired,
   }).isRequired,
 };

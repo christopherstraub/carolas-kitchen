@@ -41,15 +41,15 @@ exports.createPages = async ({ actions, graphql }) => {
    */
   function createLocalizedPagesFromPaths(localePaths, template) {
     locales.forEach((locale) => {
-      const otherLocale = locales.find((l) => l !== locale);
+      const alternateLocale = locales.find((l) => l !== locale);
       createPage({
         path: getLocalizedPath(localePaths[locale], locale),
         component: template,
         context: {
           locale,
-          otherLocalePath: getLocalizedPath(
-            localePaths[otherLocale],
-            otherLocale
+          alternateLocalePath: getLocalizedPath(
+            localePaths[alternateLocale],
+            alternateLocale
           ),
         },
       });
@@ -109,18 +109,19 @@ exports.createPages = async ({ actions, graphql }) => {
         id,
         contentful_id: contentfulId,
       } = node;
-      const { node_locale: otherLocale, slug: otherLocaleSlug } = nodes.find(
-        (n) => n.node_locale !== locale && n.contentful_id === contentfulId
-      );
+      const { node_locale: alternateLocale, slug: alternateLocaleSlug } =
+        nodes.find(
+          (n) => n.node_locale !== locale && n.contentful_id === contentfulId
+        );
 
       createPage({
         path: getLocalizedPathFromSlug(slug, locale),
         component: template,
         context: {
           id,
-          otherLocalePath: getLocalizedPathFromSlug(
-            otherLocaleSlug,
-            otherLocale
+          alternateLocalePath: getLocalizedPathFromSlug(
+            alternateLocaleSlug,
+            alternateLocale
           ),
         },
       });

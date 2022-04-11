@@ -27,7 +27,7 @@ const getServingsValue = (servings) => {
 export default function RecipeTemplate({
   data: { recipe },
   location: { pathname },
-  pageContext: { otherLocalePath },
+  pageContext: { alternateLocalePath },
 }) {
   const {
     title,
@@ -60,7 +60,7 @@ export default function RecipeTemplate({
     <>
       <SEO
         locale={locale}
-        alternatePathname={otherLocalePath}
+        alternatePathname={alternateLocalePath}
         title={title}
         image={heroImage?.url}
         article
@@ -217,6 +217,6 @@ RecipeTemplate.propTypes = {
     pathname: PropTypes.string.isRequired,
   }).isRequired,
   pageContext: PropTypes.shape({
-    otherLocalePath: PropTypes.string.isRequired,
+    alternateLocalePath: PropTypes.string.isRequired,
   }).isRequired,
 };

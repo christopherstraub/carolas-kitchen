@@ -5,14 +5,14 @@ import Header from './header';
 export default function Layout({ children, location, pageContext }) {
   const locale = getLocaleFromPath(location.pathname);
   const { pathname } = location;
-  const { otherLocalePath, onNotFoundPage } = pageContext;
+  const { alternateLocalePath, onNotFoundPage } = pageContext;
 
   return (
     <>
       <Header
         locale={locale}
         path={pathname}
-        otherLocalePath={otherLocalePath}
+        alternateLocalePath={alternateLocalePath}
         onNotFoundPage={onNotFoundPage}
       />
       <main>{children}</main>
@@ -25,7 +25,7 @@ Layout.propTypes = {
   location: PropTypes.shape({ pathname: PropTypes.string.isRequired })
     .isRequired,
   pageContext: PropTypes.shape({
-    otherLocalePath: PropTypes.string,
+    alternateLocalePath: PropTypes.string,
     onNotFoundPage: PropTypes.bool,
   }).isRequired,
 };

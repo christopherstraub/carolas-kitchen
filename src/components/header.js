@@ -11,7 +11,7 @@ import SearchIcon from '../icons/search-icon';
 export default function Header({
   locale,
   path,
-  otherLocalePath,
+  alternateLocalePath,
   onNotFoundPage,
 }) {
   const { slug: tSearchSlug } = useAppTranslations(locale).search;
@@ -28,7 +28,7 @@ export default function Header({
         <LanguageSwitcher
           locale={locale}
           path={path}
-          otherLocalePath={otherLocalePath}
+          alternateLocalePath={alternateLocalePath}
         />
       ) : (
         <LanguageSwitcherNotFoundPage locale={locale} />
@@ -44,7 +44,7 @@ export default function Header({
 Header.propTypes = {
   locale: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
-  otherLocalePath: PropTypes.string,
+  alternateLocalePath: PropTypes.string,
   onNotFoundPage: PropTypes.bool,
 };
-Header.defaultProps = { otherLocalePath: null, onNotFoundPage: false };
+Header.defaultProps = { alternateLocalePath: null, onNotFoundPage: false };
