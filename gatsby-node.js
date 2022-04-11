@@ -27,9 +27,9 @@ exports.onCreatePage = async ({ page, actions }) => {
 exports.createPages = async ({ actions, graphql }) => {
   const { createRedirect, createPage } = actions;
   createRedirect({
-    fromPath: 'https://carolaskitchen.netlify.app/*',
+    fromPath: 'https://carolastable.netlify.app/*',
     isPermanent: false,
-    toPath: 'https://www.carolaskitchen.com/:splat',
+    toPath: 'https://www.carolastable.com/:splat',
     force: true,
   });
 

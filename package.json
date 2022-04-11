@@ -1,5 +1,5 @@
 {
-  "name": "carolas-kitchen",
+  "name": "carolas-table",
   "version": "1.0.0",
   "private": true,
   "author": "Christopher Straub (https://christopherstraub.me/)",
@@ -46,9 +46,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/christopherstraub/carolas-kitchen.git"
+    "url": "https://github.com/christopherstraub/carolas-table.git"
   },
   "bugs": {
-    "url": "https://github.com/christopherstraub/carolas-kitchen/issues"
+    "url": "https://github.com/christopherstraub/carolas-table/issues"
   }
 }
