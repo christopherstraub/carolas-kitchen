@@ -97,7 +97,7 @@ export default function RecipeTemplate({
           </li>
         </ul>
         <Ingredients
-          ingredientsHtml={ingredients.childMarkdownRemark.html}
+          html={ingredients.childMarkdownRemark.html}
           scaleWhitelists={ingredients.scaleWhitelists}
           servings={servings}
           yieldAmount={yieldAmount}
@@ -107,7 +107,7 @@ export default function RecipeTemplate({
           locale={locale}
         />
         <Preparation
-          preparationHtml={preparation.childMarkdownRemark.html}
+          html={preparation.childMarkdownRemark.html}
           locale={locale}
         />
         {nutritionFacts && (

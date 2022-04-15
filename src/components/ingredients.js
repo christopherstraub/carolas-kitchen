@@ -37,12 +37,7 @@ function singularize(string) {
   return string.endsWith('s') ? string.slice(0, -1) : string;
 }
 
-function getScaledIngredientsHtml(
-  ingredientsHtml,
-  scaleFactor,
-  scaleWhitelistKeys,
-  tTo
-) {
+function getScaledIngredientsHtml(html, scaleFactor, scaleWhitelistKeys, tTo) {
   /**
    * Regular expression capturing groups:
    * [0] A fraction or mixed fraction using fraction symbols.
@@ -112,7 +107,7 @@ function getScaledIngredientsHtml(
    */
   const rangesRegex = /(?:\d|[½⅓⅔¼¾⅛⅜⅝⅞⅕⅖⅗⅘])(–|-)(?:\d|[½⅓⅔¼¾⅛⅜⅝⅞⅕⅖⅗⅘])/g;
 
-  return ingredientsHtml
+  return html
     .replaceAll(fractionSymbolsRegex, (match, wholeNumber, fractionSymbol) =>
       wholeNumber === undefined
         ? FRACTIONS_STRINGS[fractionSymbol]
@@ -162,7 +157,7 @@ function getScaledIngredientsHtml(
 }
 
 export default function Ingredients({
-  ingredientsHtml,
+  html,
   scaleWhitelists,
   servings,
   yieldAmount,
@@ -186,8 +181,8 @@ export default function Ingredients({
     []
   );
   const scaleFactor = servingsValue / initialServingsValue;
-  const html = getScaledIngredientsHtml(
-    ingredientsHtml,
+  const scaledHtml = getScaledIngredientsHtml(
+    html,
     scaleFactor,
     scaleWhitelistKeys,
     tTo
@@ -242,7 +237,7 @@ export default function Ingredients({
       <div
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{
-          __html: html,
+          __html: scaledHtml,
         }}
       />
     </section>
@@ -250,7 +245,7 @@ export default function Ingredients({
 }
 
 Ingredients.propTypes = {
-  ingredientsHtml: PropTypes.string.isRequired,
+  html: PropTypes.string.isRequired,
   scaleWhitelists: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,

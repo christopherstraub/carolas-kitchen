@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import useAppTranslations from '../hooks/use-static-query/use-app-translations';
 
-export default function Preparation({ preparationHtml, locale }) {
+export default function Preparation({ html, locale }) {
   const { title: tTitle } = useAppTranslations(locale).preparation;
 
   return (
@@ -10,7 +10,7 @@ export default function Preparation({ preparationHtml, locale }) {
       <div
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{
-          __html: preparationHtml,
+          __html: html,
         }}
       />
     </section>
@@ -18,6 +18,6 @@ export default function Preparation({ preparationHtml, locale }) {
 }
 
 Preparation.propTypes = {
-  preparationHtml: PropTypes.string.isRequired,
+  html: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
 };
