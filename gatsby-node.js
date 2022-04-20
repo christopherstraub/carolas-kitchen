@@ -146,6 +146,23 @@ exports.createPages = async ({ actions, graphql }) => {
   createLocalizedPagesFromNodes(recipes.nodes, recipeTemplate);
 
   const {
+    data: { pages },
+  } = await graphql(`
+    query Pages {
+      pages: allContentfulPage {
+        nodes {
+          slug
+          node_locale
+          id
+          contentful_id
+        }
+      }
+    }
+  `);
+  const pageTemplate = path.resolve('src/templates/page.js');
+  createLocalizedPagesFromNodes(pages.nodes, pageTemplate);
+
+  const {
     data: { recipeCourseTags },
   } = await graphql(`
     query RecipeCourseTags {
