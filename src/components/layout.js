@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { getLocaleFromPath } from '../i18n';
 import Header from './header';
+import Footer from './footer';
 
 export default function Layout({ children, location, pageContext }) {
   const locale = getLocaleFromPath(location.pathname);
@@ -16,6 +17,12 @@ export default function Layout({ children, location, pageContext }) {
         onNotFoundPage={onNotFoundPage}
       />
       <main>{children}</main>
+      <Footer
+        locale={locale}
+        path={pathname}
+        alternateLocalePath={alternateLocalePath}
+        onNotFoundPage={onNotFoundPage}
+      />
     </>
   );
 }

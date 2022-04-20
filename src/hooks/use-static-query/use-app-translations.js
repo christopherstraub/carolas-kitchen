@@ -77,6 +77,20 @@ export default function useAppTranslations(locale) {
                   title
                 }
               }
+              footer {
+                home
+                recipes
+                about
+                blog
+                search
+                language
+                legal
+                termsOfUse
+                privacyPolicy
+                cookieSettings
+                allRightsReserved
+                websiteDevelopedBy
+              }
             }
           }
         }
