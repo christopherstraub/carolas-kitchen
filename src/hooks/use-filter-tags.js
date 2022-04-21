@@ -4,7 +4,6 @@ export default function useFilterTags() {
   const [filterTags, setFilterTags] = useState([]);
 
   /**
-   *
    * @param {{title: string, id: string, type: string}} filterTag
    */
   function addFilterTag(filterTag) {
@@ -12,7 +11,6 @@ export default function useFilterTags() {
   }
 
   /**
-   *
    * @param {id: string} id The id of the filter tag to remove.
    */
   function removeFilterTag(id) {

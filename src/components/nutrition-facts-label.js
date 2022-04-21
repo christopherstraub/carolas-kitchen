@@ -104,7 +104,6 @@ const NUTRIENTS = {
 };
 
 /**
- *
  * @param {number} id The id of the nutrient to get.
  * @param {number} conversionFactor The conversion factor (if the unit of the
  * value received does not coincide with the unit that should be displayed).
@@ -120,7 +119,6 @@ function getNutrientValue(id, conversionFactor, nutrients, servings) {
 }
 
 /**
- *
  * @param {number} nutrientValue The value of the nutrient.
  * @param {number} dailyValue The daily value of the nutrient.
  * @returns {string} The daily value percentage string.
@@ -132,7 +130,6 @@ function getNutrientDailyValuePct(nutrientValue, dailyValue) {
 }
 
 /**
- *
  * @param {Object[]} nutrients The nutrient data being received.
  * @param {number} servings The servings per recipe.
  * @returns {Object} The nutrient amounts and daily value percentages to be

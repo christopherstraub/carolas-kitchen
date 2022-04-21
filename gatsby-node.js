@@ -36,7 +36,6 @@ exports.createPages = async ({ actions, graphql }) => {
   });
 
   /**
-   *
    * @param {Object.<string, string>} localePaths Object with locale keys and
    * unprefixed path values.
    * @param {string} template
@@ -95,7 +94,6 @@ exports.createPages = async ({ actions, graphql }) => {
   createLocalizedPagesFromPaths(searchPagePaths, searchTemplate);
 
   /**
-   *
    * @param {Object[]} nodes
    * @param {string} nodes[].slug
    * @param {string} nodes[].node_locale
