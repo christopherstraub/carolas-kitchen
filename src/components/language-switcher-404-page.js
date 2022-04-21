@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
-import { locales, getLocalizedPath } from '../i18n';
+import { getLocales, getLocalizedPath } from '../i18n';
 import FlagIcon from '../icons/flag-icon';
 import * as styles from './language-switcher.module.scss';
 
@@ -12,7 +12,7 @@ const localeLinkTitles = {
 export default function LanguageSwitcherNotFoundPage({ locale }) {
   return (
     <ul>
-      {locales.map((l) => (
+      {getLocales().map((l) => (
         <li key={l}>
           <Link
             to={getLocalizedPath('/', l)}

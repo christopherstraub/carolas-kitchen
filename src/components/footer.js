@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
 import slugify from 'slugify';
 import {
-  locales,
-  localeLanguages,
+  getLocales,
+  getLocaleLanguage,
   getLocalizedPath,
   getLocalizedPathFromSlug,
 } from '../i18n';
@@ -17,9 +17,6 @@ export default function Footer({
   alternateLocalePath,
   onNotFoundPage,
 }) {
-  // List of locales with current locale first.
-  const orderedLocales = [locale].concat(locales.filter((l) => l !== locale));
-
   const { title } = useSiteMetadata();
 
   const {
@@ -68,7 +65,7 @@ export default function Footer({
       <section>
         <h2>{tLanguage}</h2>
         <ul>
-          {orderedLocales.map((l) => (
+          {getLocales(locale).map((l) => (
             <li key={l}>
               <Link
                 to={
@@ -87,7 +84,7 @@ export default function Footer({
                   l === locale ? { className: styles.active } : {}
                 }
               >
-                {localeLanguages[l]}
+                {getLocaleLanguage(l)}
               </Link>
             </li>
           ))}

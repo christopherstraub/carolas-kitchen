@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { useLocation } from '@gatsbyjs/reach-router';
-import { locales } from '../i18n';
+import { getLocales } from '../i18n';
 import useSiteMetadata from '../hooks/use-static-query/use-site-metadata';
 
 export default function SEO({
@@ -20,6 +20,8 @@ export default function SEO({
     author,
     image: siteImage,
   } = useSiteMetadata();
+
+  const locales = getLocales();
 
   const { pathname } = useLocation();
 

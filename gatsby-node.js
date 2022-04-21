@@ -1,9 +1,11 @@
 const path = require('path');
 const {
-  locales,
+  getLocales,
   getLocalizedPath,
   getLocalizedPathFromSlug,
 } = require('./src/i18n');
+
+const locales = getLocales();
 
 exports.onCreatePage = async ({ page, actions }) => {
   const { createPage, deletePage } = actions;
