@@ -74,7 +74,7 @@ export default function SearchTemplate({
         alternatePathname={alternateLocalePath}
         title={tTitle}
       />
-      <input type="text" />
+      <input type="search" />
       <button type="button" id="search">
         <SearchIcon locale={locale} />
       </button>
