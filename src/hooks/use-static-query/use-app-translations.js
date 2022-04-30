@@ -91,6 +91,13 @@ export default function useAppTranslations(locale) {
                 allRightsReserved
                 websiteDevelopedBy
               }
+              cookieSettings {
+                title
+                performance
+                performanceDescription
+                finish
+                preferencesSaved
+              }
             }
           }
         }

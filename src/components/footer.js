@@ -7,8 +7,10 @@ import {
   getLocalizedPath,
   getLocalizedPathFromSlug,
 } from '../i18n';
+import useToggle from '../hooks/use-toggle';
 import useSiteMetadata from '../hooks/use-static-query/use-site-metadata';
 import useAppTranslations from '../hooks/use-static-query/use-app-translations';
+import CookieSettingsModal from './cookie-settings-modal';
 import * as styles from './footer.module.scss';
 
 export default function Footer({
@@ -17,8 +19,9 @@ export default function Footer({
   alternateLocalePath,
   onNotFoundPage,
 }) {
-  const { title } = useSiteMetadata();
+  const [showCookieSettings, toggleShowCookieSettings] = useToggle();
 
+  const { title: siteTitle } = useSiteMetadata();
   const {
     home: tHome,
     recipes: tRecipes,
@@ -37,7 +40,7 @@ export default function Footer({
   return (
     <footer>
       <section>
-        <h2>{title.toUpperCase()}</h2>
+        <h2>{siteTitle.toUpperCase()}</h2>
         <ul>
           <li>
             <Link
@@ -107,18 +110,26 @@ export default function Footer({
             </li>
           ))}
           <li>
-            <button type="button">{tCookieSettings}</button>
+            <button type="button" onClick={toggleShowCookieSettings}>
+              {tCookieSettings}
+            </button>
           </li>
         </ul>
       </section>
       <section>
-        <h2>{title}</h2>
-        <p>{`© ${new Date().getFullYear()} ${title}. ${tAllRightsReserved}.`}</p>
+        <h2>{siteTitle}</h2>
+        <p>{`© ${new Date().getFullYear()} ${siteTitle}. ${tAllRightsReserved}.`}</p>
         <p>
           {tWebsiteDevelopedBy}{' '}
           <a href="https://christopherstraub.me/">Christopher Straub</a>.
         </p>
       </section>
+      {showCookieSettings && (
+        <CookieSettingsModal
+          locale={locale}
+          toggleShowCookieSettings={toggleShowCookieSettings}
+        />
+      )}
     </footer>
   );
 }
