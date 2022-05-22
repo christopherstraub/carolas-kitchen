@@ -95,8 +95,7 @@ export default function useAppTranslations(locale) {
                 title
                 performance
                 performanceDescription
-                finish
-                preferencesSaved
+                save
               }
             }
           }

@@ -8,8 +8,6 @@ export default function CookieSettingsModal({
   locale,
   toggleShowCookieSettings,
 }) {
-  const [preferencesSaved, setPreferencesSaved] = useState(false);
-
   const disableString = `ga-disable-${process.env.GATSBY_GA_MEASUREMENT_ID}`;
 
   const [gaDisable, setGaDisable] = useState(
@@ -21,22 +19,24 @@ export default function CookieSettingsModal({
   function gaOptout() {
     document.cookie = `${disableString}=true;expires=Thu, 31 Dec 2099 23:59:59 UTC;path=/`;
     window[disableString] = true;
-    setGaDisable(true);
-    setPreferencesSaved(true);
   }
   function gaOptin() {
     document.cookie = `${disableString}=false;expires=Thu, 31 Dec 2099 23:59:59 UTC;path=/`;
     window[disableString] = undefined;
-    setGaDisable(false);
-    setPreferencesSaved(true);
+  }
+
+  function saveAndExit() {
+    if (gaDisable) gaOptout();
+    else gaOptin();
+
+    toggleShowCookieSettings();
   }
 
   const {
     title: tTitle,
     performance: tPerformance,
     performanceDescription: tPerformanceDescription,
-    finish: tFinish,
-    preferencesSaved: tPreferencesSaved,
+    save: tSave,
   } = useAppTranslations(locale).cookieSettings;
 
   return (
@@ -54,17 +54,16 @@ export default function CookieSettingsModal({
             id="analytics"
             checked={!gaDisable}
             onChange={(event) =>
-              event.target.checked ? gaOptin() : gaOptout()
+              event.target.checked ? setGaDisable(false) : setGaDisable(true)
             }
           />
           <h3>{tPerformance}</h3>
           <p>{tPerformanceDescription}</p>
         </label>
         <div>
-          <button type="button" onClick={toggleShowCookieSettings}>
-            {tFinish}
+          <button type="button" onClick={saveAndExit}>
+            {tSave}
           </button>
-          {preferencesSaved && <p>{tPreferencesSaved}</p>}
         </div>
       </div>
       <div />
